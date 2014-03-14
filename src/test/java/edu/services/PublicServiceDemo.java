@@ -96,6 +96,10 @@ public class PublicServiceDemo {
         infoRequest.setReceivedByPublicService(true);
         InformationResponsible informationResponsibleServant =
                 new InformationResponsible(publicService, "Karpenko","Petro","Ivanovych");
+        informationResponsibleServant.setInformationForReply("The plan of improvements for 2014 is next... Sincerely, InformationResponsible."); //TODO Remove stubs
+        System.out.println("informationResponsibleServant " + informationResponsibleServant
+                + "was assigned to the infoRequest and prepared the Response: "
+                + informationResponsibleServant.getInformationForReply());
 
         infoRequest.setIncomingDocResponsible(informationResponsibleServant);
         infoRequest.setNextDocumentStatus();

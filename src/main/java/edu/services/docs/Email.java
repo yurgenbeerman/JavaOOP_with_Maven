@@ -5,6 +5,8 @@ import java.util.GregorianCalendar;
 
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
+ *
+ * Most of setters must check if isFinalized "if (! isEmailSent)"
  */
 public final class Email extends Text {
     private String emailFromAddress;
@@ -28,7 +30,6 @@ public final class Email extends Text {
         setText(emailText);
     }
 
-    /* IMPORTANT! all setters must check if isFinalized "if (! isEmailSent)" */
     public void sendEmail() {
         //TODO implement email sending
         this.emailSentDate = new GregorianCalendar();

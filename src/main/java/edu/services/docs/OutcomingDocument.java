@@ -9,6 +9,8 @@ import java.util.GregorianCalendar;
 
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
+ *
+ * Most of doc field setters (modifier methods) body must be enclosed by "if (!isFinalized) {}" !
  */
 
 public class OutcomingDocument extends OrganizationDocument {
@@ -17,6 +19,8 @@ public class OutcomingDocument extends OrganizationDocument {
     private Email docSentEmail;
     private Address docSentAddress;
     private GregorianCalendar docSentAddressDate;
+    private boolean isEmailed = false;
+    private boolean isSentViaPost = false;
 
     public String isValid() {
         return super.isValid();
@@ -24,13 +28,14 @@ public class OutcomingDocument extends OrganizationDocument {
 
     public void setDocSentEmail(Email email) {
         this.docSentEmail = email;
+        isEmailed = true;
     }
 
     public GregorianCalendar getDocSentEmailDate() {
         if (null != docSentEmail) {
             return docSentEmail.getEmailSentDate();
         } else {
-            return null;
+            throw IllegalStateException(DocDefaults.DOC_NOT_SENT_VIA_EMAIL);
         }
     }
 
@@ -38,7 +43,7 @@ public class OutcomingDocument extends OrganizationDocument {
         if (null != docSentEmail) {
             return docSentEmail.getEmailToAddresses();
         } else {
-            return null;
+            throw IllegalStateException(DocDefaults.DOC_NOT_SENT_VIA_EMAIL);
         }
     }
 
@@ -63,8 +68,8 @@ public class OutcomingDocument extends OrganizationDocument {
     }
 
     public void publishToRequester(Requester requester) {
-        this.isFinalized = true;
         requester.addResponse(this);
+        this.isFinalized = true;
     }
 
     public long getInitiatingDocId() {
@@ -75,11 +80,12 @@ public class OutcomingDocument extends OrganizationDocument {
         return initiatingDocument;
     }
 
-    /* IMPORTANT! Each doc field setter (modifier method) body must be enclosed by "if (!isFinalized) {}" ! */
     public void setInitiatingDocument(OrganizationDocument initiatingDocument) {
         if (!isFinalized) {
             this.initiatingDocument = initiatingDocument;
             this.initiatingDocId = initiatingDocument.getDocumentId();
+        } else {
+            throw IllegalStateException(DocDefaults.DOC_IS_FINALIZED);
         }
     }
 
@@ -95,5 +101,21 @@ public class OutcomingDocument extends OrganizationDocument {
         String result =
                         "\n    initiatingDocument Number: " + getInitiatingDocumentNumber();
         return super.toString() + result;
+    }
+
+    public boolean isSentViaPost() {
+        return isSentViaPost;
+    }
+
+    public void setSentViaPost(boolean isSentViaPost) {
+        this.isSentViaPost = isSentViaPost;
+    }
+
+    public boolean isEmailed() {
+        return isEmailed;
+    }
+
+    public void setEmailed(boolean isEmailed) {
+        this.isEmailed = isEmailed;
     }
 }

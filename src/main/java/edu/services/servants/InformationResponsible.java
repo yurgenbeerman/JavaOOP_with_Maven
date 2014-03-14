@@ -1,12 +1,13 @@
 package edu.services.servants;
 
+import edu.services.docs.DocDefaults;
 import edu.services.orgs.PublicService;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
  */
 public class InformationResponsible extends PublicServant {
-    String informationForReply = "The plan of improvements for 2014 is next... Sincerely, InformationResponsible.";
+    String informationForReply;
 
     public InformationResponsible(PublicService organization, String surname, String name, String secondName) {
         super(organization, surname, name, secondName);
@@ -16,11 +17,15 @@ public class InformationResponsible extends PublicServant {
         return informationForReply;
     }
 
+    public void setInformationForReply(String info) {
+        this.informationForReply = new String(info);
+    }
+
     public String getInformationResponsibleName() {
-        return this.getFullNameString();
+        return super.toString();
     }
 
     public String toString() {
-        return this.getFullNameString();
+        return super.toString();
     }
 }

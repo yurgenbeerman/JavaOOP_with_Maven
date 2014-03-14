@@ -12,7 +12,7 @@ import java.util.GregorianCalendar;
 public class OrganizationDocument extends Text {
     private static long lastDocumentId;
 
-    protected DocumentLifecycle documentLifecycle;
+    private DocumentLifecycle documentLifecycle;
     private long documentId;
     private String documentName;
     private long documentAuthorId;
