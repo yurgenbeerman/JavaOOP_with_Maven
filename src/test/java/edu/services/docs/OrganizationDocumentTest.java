@@ -7,7 +7,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by Lena on 13.03.14.
  */
-public class OrganizationDocumentTest extends TestCase {
+public class OrganizationDocumentTest {
     public void testGetDocumentCreationDate() throws Exception {
         //TODO improve
         OrganizationDocument doc = new OrganizationDocument();

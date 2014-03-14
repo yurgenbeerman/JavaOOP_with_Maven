@@ -31,7 +31,7 @@ public class DocumentLifecycle extends ArrayList<String> {
         if (finalStatusIndex != currentStatusIndex){
             return currentStatusIndex + 1;
         } else {
-            return currentStatusIndex;
+            return -1;
         }
     }
 
@@ -42,18 +42,22 @@ public class DocumentLifecycle extends ArrayList<String> {
     public void setStartStatusIndex(int startStatusIndex) {
         if ((!isLifecycleInUse) && (!isFinalized)) {
             this.startStatusIndex = startStatusIndex;
+        } else {
+            throw new IllegalStateException(DocDefaults.LIFECYCLE_IN_USE_OR_FINALIZED);
         }
     }
 
     public void setFinalStatusIndex(int finalStatusIndex) {
         if ((!isLifecycleInUse) && (!isFinalized)) {
             this.finalStatusIndex = finalStatusIndex;
+        } else {
+            throw new IllegalStateException(DocDefaults.LIFECYCLE_IN_USE_OR_FINALIZED);
         }
     }
 
 
 
-    public boolean isLifecycleInUse() {
+    public boolean isInUse() {
         return isLifecycleInUse;
     }
 
@@ -73,6 +77,8 @@ public class DocumentLifecycle extends ArrayList<String> {
     public void trimToSize() {
         if ((!isLifecycleInUse) && (!isFinalized)) {
             super.trimToSize();
+        } else {
+            throw new IllegalStateException(DocDefaults.LIFECYCLE_IN_USE_OR_FINALIZED);
         }
     }
 
@@ -80,13 +86,17 @@ public class DocumentLifecycle extends ArrayList<String> {
     public String set(int index, String element) {
         if ((!isLifecycleInUse) && (!isFinalized)) {
             return super.set(index, element);
-        } else return null;
+        } else {
+            throw new IllegalStateException(DocDefaults.LIFECYCLE_IN_USE_OR_FINALIZED);
+        }
     }
 
     @Override
     protected void removeRange(int fromIndex, int toIndex) {
         if ((!isLifecycleInUse) && (!isFinalized)) {
             super.removeRange(fromIndex, toIndex);
+        } else {
+            throw new IllegalStateException(DocDefaults.LIFECYCLE_IN_USE_OR_FINALIZED);
         }
     }
 
@@ -94,6 +104,8 @@ public class DocumentLifecycle extends ArrayList<String> {
     public void ensureCapacity(int minCapacity) {
         if ((!isLifecycleInUse) && (!isFinalized)) {
             super.ensureCapacity(minCapacity);
+        } else {
+            throw new IllegalStateException(DocDefaults.LIFECYCLE_IN_USE_OR_FINALIZED);
         }
     }
 

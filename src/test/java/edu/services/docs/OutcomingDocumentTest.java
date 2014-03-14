@@ -8,7 +8,7 @@ import org.junit.Test;
  */
 
 
-public class OutcomingDocumentTest extends TestCase {
+public class OutcomingDocumentTest {
     @Test
     public void testGetInitiatingDocId() throws Exception {
 

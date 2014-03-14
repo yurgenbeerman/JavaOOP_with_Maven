@@ -35,7 +35,7 @@ public class OutcomingDocument extends OrganizationDocument {
         if (null != docSentEmail) {
             return docSentEmail.getEmailSentDate();
         } else {
-            throw IllegalStateException(DocDefaults.DOC_NOT_SENT_VIA_EMAIL);
+            throw new IllegalStateException(DocDefaults.DOC_NOT_SENT_VIA_EMAIL);
         }
     }
 
@@ -43,7 +43,7 @@ public class OutcomingDocument extends OrganizationDocument {
         if (null != docSentEmail) {
             return docSentEmail.getEmailToAddresses();
         } else {
-            throw IllegalStateException(DocDefaults.DOC_NOT_SENT_VIA_EMAIL);
+            throw new IllegalStateException(DocDefaults.DOC_NOT_SENT_VIA_EMAIL);
         }
     }
 
@@ -85,7 +85,7 @@ public class OutcomingDocument extends OrganizationDocument {
             this.initiatingDocument = initiatingDocument;
             this.initiatingDocId = initiatingDocument.getDocumentId();
         } else {
-            throw IllegalStateException(DocDefaults.DOC_IS_FINALIZED);
+            throw new IllegalStateException(DocDefaults.DOC_IS_FINALIZED);
         }
     }
 

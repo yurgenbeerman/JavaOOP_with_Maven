@@ -9,7 +9,7 @@ import java.util.GregorianCalendar;
 /**
  * Created by Lena on 12.03.14.
  */
-public class EmailTest extends TestCase {
+public class EmailTest {
     Email email;
 
     @Before
