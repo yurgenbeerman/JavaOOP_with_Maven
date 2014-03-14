@@ -8,9 +8,7 @@ import edu.services.servants.PublicServant;
  * Created by yurii.pyvovarenko on 3/4/14.
  */
 public class IncomingDocument extends OrganizationDocument {
-    private long reactionDocumentId;
     private OrganizationDocument reactionDocument;
-    private long incomingDocResponsibleId;
     private PublicServant incomingDocResponsible;
     private boolean isReceivedByPublicService;
 
@@ -37,12 +35,7 @@ public class IncomingDocument extends OrganizationDocument {
     public void setIncomingDocResponsible(PublicServant incomingDocResponsible) {
         if (! isFinalized) {
             this.incomingDocResponsible = incomingDocResponsible;
-            this.incomingDocResponsibleId = incomingDocResponsible.getPublicServantId();
         }
-    }
-
-    public long getReactionDocumentId() {
-        return reactionDocumentId;
     }
 
     public OrganizationDocument getReactionDocument() {
@@ -52,7 +45,6 @@ public class IncomingDocument extends OrganizationDocument {
     public void setReactionDocument(OrganizationDocument reactionDocument) {
         if (! isFinalized) {
             this.reactionDocument = reactionDocument;
-            reactionDocumentId = reactionDocument.getDocumentId();
         }
     }
 
