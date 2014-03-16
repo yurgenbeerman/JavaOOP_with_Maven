@@ -3,7 +3,6 @@ package edu.services.docs;
 import edu.utils.PublicRequestsUtils;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
@@ -20,7 +19,7 @@ public class DocumentStatus {
     public DocumentStatus(DocumentLifecycle documentLifecycle) {
         if (null != documentLifecycle) {
             this.documentLifecycle = documentLifecycle;
-            this.documentLifecycle.setLifecycleInUse(true);
+            this.documentLifecycle.setInUse(true);
             currentStatusIndex = this.documentLifecycle.getStartStatusIndex();
             previousStatusIndex = this.documentLifecycle.getStartStatusIndex();
             documentStatusesHistory = new ArrayList<String>();

@@ -17,7 +17,7 @@ public class DocumentType {
         setDocTypeName(docTypeName);
         setDocTypeShortName(docTypeShortName);
         setDocumentLifecycle(documentLifecycle);
-        documentLifecycle.setLifecycleInUse(true);
+        documentLifecycle.setInUse(true);
     }
 
     public String getDocTypeName() {

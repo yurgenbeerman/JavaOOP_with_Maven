@@ -1,8 +1,8 @@
 package edu.services.docs;
 
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
+import static org.junit.Assert.*;
 
 /**
  * Created by Lena on 13.03.14.
@@ -17,33 +17,42 @@ public class DocumentLifecycleTest {
         infoRequestLifecycle.setFinalized(true);
     }
 
-    @Test
-    public void shouldThrowExceptionWhenLifecycleInUseAndTryingToSetSomething() throws IllegalStateException {
+    @Test (expected = IllegalStateException.class)
+    public void shouldExceptionWhenInUseAndTryingToSetSomething() {
         //given
 
         //when
 
         //then
-        infoRequestLifecycle.setFinalStatusIndex(9);
+        infoRequestLifecycle.setFinalStatusIndex(9);  //BUG
     }
 
     @Test
-    public void shouldIndicateIsLifecycleInUse() throws Exception {
+    public void shouldReturnTrueWhenIsInUse() throws Exception {
         //given
 
         //when
+        infoRequestLifecycle.setInUse(true);
 
         //then
         org.junit.Assert.assertTrue(infoRequestLifecycle.isInUse());
     }
 
     @Test
-    public void testIsFinalized() throws Exception {
-        org.junit.Assert.assertTrue(infoRequestLifecycle.isInUse());
+    public void shouldReturnTrueWhenIsFinalized() throws Exception {
+        //when
+        infoRequestLifecycle.setFinalized(true);
+
+        //then
+        assertTrue(infoRequestLifecycle.isFinalized());
     }
 
     @Test
-    public void testSetFinalized() throws Exception {
-        org.junit.Assert.assertTrue(infoRequestLifecycle.isInUse());
+    public void shouldReturnFalseWhenNotFinalized() throws Exception {
+        //when
+        infoRequestLifecycle.setFinalized(false);
+
+        //then
+        assertFalse(infoRequestLifecycle.isFinalized());
     }
 }

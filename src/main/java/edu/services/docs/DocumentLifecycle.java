@@ -59,7 +59,7 @@ public class DocumentLifecycle extends ArrayList<String> {
         return isLifecycleInUse;
     }
 
-    public void setLifecycleInUse(boolean isListInUse) {
+    public void setInUse(boolean isListInUse) {
         this.isLifecycleInUse = isListInUse;
     }
 
