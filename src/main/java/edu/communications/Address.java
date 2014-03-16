@@ -63,4 +63,17 @@ public class Address {
     public String getRegion() {
         return this.region;
     }
+
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+        if (! (other instanceof Address) )
+            return false;
+        Address otherAddress = (Address) other;
+        return toString().equals(otherAddress.toString());
+    }
+
+    public int hashCode() {
+        return toString().hashCode();
+    }
 }

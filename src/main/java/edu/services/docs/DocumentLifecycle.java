@@ -55,8 +55,6 @@ public class DocumentLifecycle extends ArrayList<String> {
         }
     }
 
-
-
     public boolean isInUse() {
         return isLifecycleInUse;
     }

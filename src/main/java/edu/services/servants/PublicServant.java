@@ -23,4 +23,24 @@ public class PublicServant extends Citizen {
     public String toString() {
         return this.getFullNameString();
     }
+
+    //equals(), hashCode
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+        if (! (other instanceof PublicServant) )
+            return false;
+        PublicServant otherPublicServant = (PublicServant) other;
+        return (
+                    (publicServantId == otherPublicServant.publicServantId) &&
+                    (orgId == otherPublicServant.orgId) &&
+                    super.equals(otherPublicServant)
+                );
+    }
+
+    public int hashCode() {
+        return (super.hashCode() +
+                ((Long) publicServantId).toString().hashCode() +
+                ((Long) orgId).toString().hashCode());
+    }
 }
