@@ -131,6 +131,21 @@ public class Citizen implements Requester, Emailable {
     }
 
     public String toString() {
-        return this.getFullName().getName();
+        return this.getClass().getName() + ": " + this.getFullName().getName();
+    }
+
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+        if (! (other instanceof Citizen) )
+            return false;
+        Citizen otherCitizen = (Citizen) other;
+        return (fullName == null) ?
+                (otherCitizen.fullName == null) :
+        (fullName.equals(otherCitizen.fullName) && officialId.equals(otherCitizen.officialId));
+    }
+
+    public int hashCode() {
+        return (officialId.hashCode() + fullName.hashCode());
     }
 }
