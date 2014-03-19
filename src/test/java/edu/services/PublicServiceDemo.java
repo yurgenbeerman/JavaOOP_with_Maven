@@ -5,10 +5,10 @@ import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
 import edu.services.orgs.PublicService;
+import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
+import edu.services.servants.PublicServant;
 import edu.utils.PublicRequestsUtils;
-
-import java.util.GregorianCalendar;
 
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
@@ -72,54 +72,79 @@ public class PublicServiceDemo {
             System.exit(1);
         }
 
-        InformationRequest infoRequest =
+        InformationRequest infoRequest0 =
                 new InformationRequest(infoRequestDocType, requester, publicService);
-        infoRequest.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
-        infoRequest.setAddressForReply(requester.getAddressString());
-        infoRequest.setEmailForReply(requester.getEmailAddress());
+        infoRequest0.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
 
-        if (infoRequest != null) {
-            requester.addRequest(infoRequest);
-            if (infoRequest.isValid().equals(DocDefaults.VALID)) {
+
+        if (infoRequest0 != null) {
+            requester.addRequest(infoRequest0);
+            if (infoRequest0.isValid().equals(DocDefaults.VALID)) {
                 System.out.println("requester: " + requester.getFullNameString());
                 System.out.println("    requesterId: " + requester.getId());
                 System.out.println("\npublicService: " + publicService.getOrgName() + "\n");
-                System.out.println(infoRequest.toString());
+                System.out.println(infoRequest0.toString());
             } else {
-                System.out.println(infoRequest.isValid());
+                System.out.println(infoRequest0.isValid());
             }
         } else {
             System.out.println("infoRequest is NULL");
         }
 
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_1");
+
         /* The user can modify the Request data until it isReceivedByPublicService */
-        infoRequest.setReceivedByPublicService(true);
+        infoRequest0.setReceivedByPublicService(true);
         InformationResponsible informationResponsibleServant =
                 new InformationResponsible(publicService, "Karpenko","Petro","Ivanovych");
-        informationResponsibleServant.setInformationForReply("The plan of improvements for 2014 is next... Sincerely, InformationResponsible."); //TODO Remove stubs
+        informationResponsibleServant.setInformationForReply(
+                "The plan of improvements for 2014 is next... Sincerely, InformationResponsible."); //TODO Remove stubs
+
+
+
+        PublicServant publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
+        PublicServant publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
+        PublicServant publicServant2 = new InformationResponsible(infoRequestsDep, "Karpenko2", "Petro2", "Ivanovych2");
+
+        //TODO implement TasksDispatcher tasksDispatcher = new TaskDispatcherByType(unprocessedIncomingDocsQueue, PublicServantsList);
+        publicServant0.addDocumentToProcess(infoRequest0);
+        publicServant1.addDocumentToProcess(infoRequest0);
+        publicServant0.addDocumentToProcess(infoRequest0);
+        publicServant1.addDocumentToProcess(infoRequest0);
+//        publicServant2.addDocumentToProcess(thanks0);
+//        publicServant2.addDocumentToProcess(claims0);
+        //TODO dispatch all docs to all servants
+        //  create executed tasks map
+        //TODO execute all tasks by all servants =
+        //  create outcoming doc
+        //      and assign replies to it
+        //      and set dependent docsIds to incoming and outcoming docs
+        //      and publish outcoming doc
+        //      and send it via email and via post
+        //      and remove incoming doc from the unprocessedIncomingDocsQueue
+
+
+        infoRequest0.setIncomingDocResponsible(informationResponsibleServant);
         System.out.println("informationResponsibleServant " + informationResponsibleServant
                 + "was assigned to the infoRequest and prepared the Response: "
                 + informationResponsibleServant.getInformationForReply());
 
-        infoRequest.setIncomingDocResponsible(informationResponsibleServant);
-        infoRequest.setNextDocumentStatus();
-
-        printStatusAndAssignee(infoRequest, infoRequest.getIncomingDocResponsibleName());
+        printStatusAndAssignee(infoRequest0, infoRequest0.getIncomingDocResponsibleName());
 
 
         OutcomingDocument outcomingDocument =
                 new OutcomingDocument(outcomingDocType, informationResponsibleServant, publicService);
         outcomingDocument.setText(informationResponsibleServant.getInformationForReply());
-        infoRequest.setReactionDocument(outcomingDocument);
-        outcomingDocument.setInitiatingDocument(infoRequest);
+        infoRequest0.setReactionDocument(outcomingDocument);
+        outcomingDocument.setInitiatingDocument(infoRequest0);
         outcomingDocument.setNextDocumentStatus();
 
         outcomingDocument.publishToRequester(requester);
         outcomingDocument.setNextDocumentStatus();
-        infoRequest.setNextDocumentStatus();
-        infoRequest.setFinalized(true);
+        infoRequest0.setNextDocumentStatus();
+        infoRequest0.setFinalized(true);
 
-        printStatusAndAssignee(infoRequest, infoRequest.getAuthorName());
+        printStatusAndAssignee(infoRequest0, infoRequest0.getAuthorName());
 
         Email email = new Email(publicService.getEmailAddress(), requester.getEmailAddress(),
                 informationResponsibleServant.getInformationForReply());
@@ -136,7 +161,7 @@ public class PublicServiceDemo {
         outcomingDocument.setFinalized(true);
         //TODO: must set outcomingDocument.status to the last one "Sent" -- find out why it doesn't work!
 
-        System.out.println("\ninfoRequest statuses history: " + infoRequest.getStatusesHistoryString());
+        System.out.println("\ninfoRequest statuses history: " + infoRequest0.getStatusesHistoryString());
         System.out.println("\ncitizen sent the next requests:\n   " + requester.getRequestsString());
         System.out.println("\ncitizen got the next responses:\n   " + requester.getResponsesString());
 

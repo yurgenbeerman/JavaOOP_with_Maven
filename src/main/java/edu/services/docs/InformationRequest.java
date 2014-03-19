@@ -12,11 +12,13 @@ public final class InformationRequest extends IncomingDocument {
     private String emailForReply;
     private InformationResponsible informationResponsible;
 
-    public InformationRequest(DocumentType documentType, Requester author, PublicService publicService) {
-        super(documentType, author, publicService);
+    public InformationRequest(DocumentType documentType, Requester requester, PublicService publicService) {
+        super(documentType, requester, publicService);
         informationResponsible = (InformationResponsible) super.getIncomingDocResponsible();
         documentType.setDocTypeInUse(true);
         setDocumentName(documentType.getDocTypeName() + " #" + this.getDocumentId());
+        this.setAddressForReply(requester.getAddressString());
+        this.setEmailForReply(requester.getEmailAddress());
     }
 
     public String isValid() {

@@ -1,7 +1,11 @@
 package edu.services.servants;
 
 import edu.clients.Citizen;
+import edu.services.docs.OrganizationDocument;
 import edu.services.orgs.PublicService;
+import edu.services.orgs.PublicServiceDepartment;
+
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
@@ -9,15 +13,18 @@ import edu.services.orgs.PublicService;
 public class PublicServant extends Citizen {
     private static long lastPublicServantId;
     private long publicServantId;
-    private long orgId;
+    private PublicServiceDepartment department;
+    private PriorityBlockingQueue<OrganizationDocument> documentsToProcess;
 
-    public PublicServant(PublicService organization, String surname, String name, String secondName) {
+
+    public PublicServant(PublicServiceDepartment department, String surname, String name, String secondName) {
         super(surname, name, secondName);
 
         this.publicServantId = PublicServant.lastPublicServantId;
         PublicServant.lastPublicServantId++;
 
-        this.orgId = organization.getOrgId();
+        this.department = department;
+        department.addPublicServant(this);
     }
 
     public String toString() {
@@ -33,7 +40,7 @@ public class PublicServant extends Citizen {
         PublicServant otherPublicServant = (PublicServant) other;
         return (
                     (publicServantId == otherPublicServant.publicServantId) &&
-                    (orgId == otherPublicServant.orgId) &&
+                    (department == otherPublicServant.department) &&
                     super.equals(otherPublicServant)
                 );
     }
@@ -41,6 +48,10 @@ public class PublicServant extends Citizen {
     public int hashCode() {
         return (super.hashCode() +
                 ((Long) publicServantId).toString().hashCode() +
-                ((Long) orgId).toString().hashCode());
+                department.toString().hashCode());
+    }
+
+    public void addDocumentToProcess(OrganizationDocument document) {
+        documentsToProcess.add(document);
     }
 }

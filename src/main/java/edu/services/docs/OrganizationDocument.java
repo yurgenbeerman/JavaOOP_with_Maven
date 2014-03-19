@@ -51,7 +51,6 @@ public class OrganizationDocument extends Text {
         this.documentStatus = new DocumentStatus(documentType.getDocumentLifecycle());
         this.setDocumentCreationDate(documentStatus.getZeroStatusDate());
         this.setDocumentAuthorId(author.getId());
-
     }
 
     public String isValid() {

@@ -2,6 +2,7 @@ package edu.services.servants;
 
 import edu.services.docs.DocDefaults;
 import edu.services.orgs.PublicService;
+import edu.services.orgs.PublicServiceDepartment;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
@@ -9,8 +10,8 @@ import edu.services.orgs.PublicService;
 public class InformationResponsible extends PublicServant {
     String informationForReply;
 
-    public InformationResponsible(PublicService organization, String surname, String name, String secondName) {
-        super(organization, surname, name, secondName);
+    public InformationResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
+        super(department, surname, name, secondName);
     }
 
     public String getInformationForReply() {

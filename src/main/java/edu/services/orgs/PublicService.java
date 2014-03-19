@@ -2,15 +2,15 @@ package edu.services.orgs;
 
 import edu.communications.Address;
 import edu.communications.Emailable;
-import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
 
 import java.util.GregorianCalendar;
+import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
  */
-public class PublicService implements Emailable {
+public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment> implements Emailable {
     private static long lastOrgId;
 
     private long orgId;
@@ -87,4 +87,8 @@ public class PublicService implements Emailable {
                 "\n    parentOrgId: " + this.getParentOrgId() +
                 "\n    hierarchyLevel: " + this.getHierarchyLevel();
     }
+
+
+
+
 }

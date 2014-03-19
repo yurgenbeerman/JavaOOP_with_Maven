@@ -35,6 +35,7 @@ public class IncomingDocument extends OrganizationDocument {
     public void setIncomingDocResponsible(PublicServant incomingDocResponsible) {
         if (! isFinalized) {
             this.incomingDocResponsible = incomingDocResponsible;
+            setNextDocumentStatus();
         }
     }
 
