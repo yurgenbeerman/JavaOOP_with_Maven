@@ -13,29 +13,15 @@ import org.junit.Test;
 
 
 public class OutcomingDocumentTest extends DocsTestsBasics {
-
-
-    /*
-        IncomingDocument incomingDoc;
+    IncomingDocument incomingDoc;
     OutcomingDocument outcomingDoc;
 
     @Before
     public void createDocsForTests() {
-        Requester requester = new Citizen("Petrenko","Taras","Ivanovych");
-        DocumentLifecycle infoRequestLifecycle = new DocumentLifecycle({"Created"});
-        PublicService publicService = new PublicService("Improvements service");
-        incomingDoc = new InformationRequest(infoRequestLifecycle,requester,);
-        outcomingDoc = new OutcomingDocument(infoRequestLifecycle,requester,null);
+        incomingDoc = new InformationRequest(infoRequestDocType,requester,publicService);
+        outcomingDoc = new OutcomingDocument(infoRequestDocType,informationResponsibleServant,publicService);
     }
 
-    DocumentLifecycle infoRequestLifecycle
-
-    @Before
-    public void createLinearLifecycleFinalized() {
-        DocumentLifecycle infoRequestLifecycle = new DocumentLifecycle({"Created"});
-        infoRequestLifecycle.setFinalized(true);
-    }
-    */
     @Test
     public void shouldGetInitiatingDocIdAppropriateValue() throws Exception {
         //given

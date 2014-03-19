@@ -5,16 +5,17 @@ import org.junit.Test;
 /**
  * Created by yurii.pyvovarenko on 13.03.14.
  */
-public class OrganizationDocumentTest {
+public class OrganizationDocumentTest extends DocsTestsBasics {
 
     @Test
     public void shouldGetDocumentCreationDate() throws Exception {
         //given
-        OrganizationDocument doc = new OrganizationDocument(null,null,null);
+        OrganizationDocument doc = new OrganizationDocument(infoRequestDocType,informationResponsibleServant,publicService);
 
         //when
 
         //then
-        org.junit.Assert.assertNotNull("getDocumentCreationDate = ", doc.getDocumentCreationDate());
+        org.junit.Assert.assertNotNull("doc.getDocumentCreationDate() = " + doc.getDocumentCreationDate(),
+                doc.getDocumentCreationDate());
     }
 }
