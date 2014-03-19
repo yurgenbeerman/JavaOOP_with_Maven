@@ -54,4 +54,10 @@ public class PublicServant extends Citizen {
     public void addDocumentToProcess(OrganizationDocument document) {
         documentsToProcess.add(document);
     }
+
+    public int compareTo(PublicServant other) {
+        if ( this.getId() == other.getId() )
+            return 0;
+        return ( this.getId() > other.getId() ) ? 1 : -1;
+    }
 }

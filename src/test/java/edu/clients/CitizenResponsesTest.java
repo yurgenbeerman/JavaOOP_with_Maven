@@ -3,6 +3,7 @@ package edu.clients;
 import edu.services.docs.DocumentLifecycle;
 import edu.services.docs.DocumentType;
 import edu.services.docs.OutcomingDocument;
+import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
 import org.junit.Before;
 import org.junit.Test;
@@ -21,9 +22,9 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
         DocumentLifecycle outcomingDocLifecycle = new DocumentLifecycle(outcomingDocLifecycleString);
         DocumentType outcomingDocType = new DocumentType("Outcoming_Document", "Out_",outcomingDocLifecycle);
         outcomingDocType.setFinalized(true);
-
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
         InformationResponsible informationResponsibleServant =
-                new InformationResponsible(publicService, "Karpenko","Petro","Ivanovych");
+                new InformationResponsible(infoRequestsDep, "Karpenko","Petro","Ivanovych");
 
         outcomingDocument =
                 new OutcomingDocument(outcomingDocType, informationResponsibleServant, publicService);

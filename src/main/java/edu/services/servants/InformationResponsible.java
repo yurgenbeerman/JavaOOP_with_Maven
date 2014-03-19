@@ -29,4 +29,22 @@ public class InformationResponsible extends PublicServant {
     public String toString() {
         return super.toString();
     }
+
+    public boolean equals(Object other) {
+        if (other == this)
+            return true;
+        if (! (other instanceof InformationResponsible) )
+            return false;
+        return super.equals(other);
+    }
+
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public int compareTo(PublicServant other) {
+        return super.compareTo(other);
+    }
+
+
 }

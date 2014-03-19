@@ -10,6 +10,11 @@ import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
 import edu.utils.PublicRequestsUtils;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
  *
@@ -75,6 +80,10 @@ public class PublicServiceDemo {
         InformationRequest infoRequest0 =
                 new InformationRequest(infoRequestDocType, requester, publicService);
         infoRequest0.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
+        infoRequest0.setIfSendReplyToPostAddress(true);
+        infoRequest0.setAddressForReply(requester.getAddressString());
+        infoRequest0.setIfSendReplyToEmail(true);
+        infoRequest0.setEmailForReply(requester.getEmailAddress());
 
 
         if (infoRequest0 != null) {
@@ -91,12 +100,13 @@ public class PublicServiceDemo {
             System.out.println("infoRequest is NULL");
         }
 
-        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_1");
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
+        PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
 
         /* The user can modify the Request data until it isReceivedByPublicService */
         infoRequest0.setReceivedByPublicService(true);
         InformationResponsible informationResponsibleServant =
-                new InformationResponsible(publicService, "Karpenko","Petro","Ivanovych");
+                new InformationResponsible(infoRequestsDep, "Karpenko","Petro","Ivanovych");
         informationResponsibleServant.setInformationForReply(
                 "The plan of improvements for 2014 is next... Sincerely, InformationResponsible."); //TODO Remove stubs
 
@@ -113,6 +123,12 @@ public class PublicServiceDemo {
         publicServant1.addDocumentToProcess(infoRequest0);
 //        publicServant2.addDocumentToProcess(thanks0);
 //        publicServant2.addDocumentToProcess(claims0);
+
+        Map<String, PublicServiceDepartment> docsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
+        docsDispatchingTable.put("InformationRequest", infoRequestsDep);
+        docsDispatchingTable.put("Claim", thanksAndClaimsDep);
+        docsDispatchingTable.put("Thank", thanksAndClaimsDep);
+
         //TODO dispatch all docs to all servants
         //  create executed tasks map
         //TODO execute all tasks by all servants =
@@ -146,17 +162,21 @@ public class PublicServiceDemo {
 
         printStatusAndAssignee(infoRequest0, infoRequest0.getAuthorName());
 
-        Email email = new Email(publicService.getEmailAddress(), requester.getEmailAddress(),
-                informationResponsibleServant.getInformationForReply());
-        email.sendEmail();
-        outcomingDocument.setDocSentEmail(email);
-        System.out.println("\nThe Response (Outcoming Doc) was sent to Email: " + outcomingDocument.getDocSentEmailAddress() +
-                " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentEmailDate()));
 
-        publicService.sendDocumentToAddress(outcomingDocument, requester.getAddress());
-        System.out.println("\nThe Response (Outcoming Doc) was sent to Address: " + outcomingDocument.getDocSentAddress() +
-                " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentAddressDate()));
+        if (infoRequest0.isIfSendReplyToEmail()) {
+            Email email = new Email(publicService.getEmailAddress(), requester.getEmailAddress(),
+                    informationResponsibleServant.getInformationForReply());
+            email.sendEmail();
+            outcomingDocument.setDocSentEmail(email);
+            System.out.println("\nThe Response (Outcoming Doc) was sent to Email: " + outcomingDocument.getDocSentEmailAddress() +
+                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentEmailDate()));
+        }
 
+        if (infoRequest0.isIfSendReplyToPostAddress()) {
+            publicService.sendDocumentToAddress(outcomingDocument, requester.getAddress());
+            System.out.println("\nThe Response (Outcoming Doc) was sent to Address: " + outcomingDocument.getDocSentAddress() +
+                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentAddressDate()));
+        }
         outcomingDocument.setNextDocumentStatus();
         outcomingDocument.setFinalized(true);
         //TODO: must set outcomingDocument.status to the last one "Sent" -- find out why it doesn't work!

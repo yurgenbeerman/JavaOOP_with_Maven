@@ -85,7 +85,11 @@ public class Citizen implements Requester, Emailable {
     }
 
     public String getAddressString() {
-        return address.toString();
+        if ( null != address) {
+            return address.toString();
+        } else {
+            throw new IllegalStateException(ClientsDefaults.NO_ADDRESS);
+        }
     }
 
     public void setAddress(Address address) {
@@ -149,5 +153,15 @@ public class Citizen implements Requester, Emailable {
     private static synchronized void setCitizenId(Citizen citizen) {
         citizen.citizenId = nextCitizenId;
         Citizen.nextCitizenId++;
+    }
+
+    public long getCitizenId() {
+        return this.citizenId;
+    }
+
+    public int compareTo(Citizen other) {
+        if ( this.getCitizenId() == other.getCitizenId() )
+            return 0;
+        return ( this.getCitizenId() > other.getCitizenId() ) ? 1 : -1;
     }
 }

@@ -14,5 +14,6 @@ public class CitizenTestsBasics {
     public void initCitizenAndPublicService() {
         citizen = new Citizen("surname", "name", "secondName");
         publicService = new PublicService("Improvements service");
+
     }
 }

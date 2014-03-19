@@ -1,23 +1,36 @@
 package edu.services.execution;
 
 import edu.services.docs.OrganizationDocument;
-import edu.services.servants.PublicServant;
-
-import java.security.InvalidParameterException;
-import java.util.Collection;
-import java.util.List;
-import java.util.Queue;
+import edu.services.orgs.PublicService;
+import edu.services.orgs.PublicServiceDepartment;
+import java.util.Map;
 
 /**
  * Created by yurii.pyvovarenko on 19.03.14.
  */
-public class TaskDispatcherByTopics implements TasksDispatcher {
-    Queue<OrganizationDocument> documents;
-    List<PublicServant> servants;
-    OrganizationDocument document;
-    PublicServant servant;
+public class DepartmentsTasksDispatcher {
+//    Queue<OrganizationDocument> documents;
+//    List<PublicServant> servants;
+//    OrganizationDocument document;
+//    PublicServant servant;
 
-    public TaskDispatcherByTopics(Queue<OrganizationDocument> documents, List<PublicServant> servants) {
+    private PublicService publicService;
+    private Map<String, PublicServiceDepartment> docsDispatchingTable;
+
+    public DepartmentsTasksDispatcher(PublicService publicService) {
+        this.publicService = publicService;
+    }
+
+    public void setDocsDispatchingTable(Map<String, PublicServiceDepartment> docsDispatchingTable) {
+        this.docsDispatchingTable = docsDispatchingTable;
+    }
+
+    public void addDocumentToProcess(OrganizationDocument document) {
+        PublicServiceDepartment department = docsDispatchingTable.get(document.getClass().getName());
+        department.addDocToProcess(document);
+    }
+
+/*
         this.documents = documents;
         this.servants = servants;
     }
@@ -45,4 +58,5 @@ public class TaskDispatcherByTopics implements TasksDispatcher {
 
         }
     }
+    */
 }

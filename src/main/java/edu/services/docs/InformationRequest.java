@@ -10,6 +10,8 @@ import edu.services.servants.InformationResponsible;
 public final class InformationRequest extends IncomingDocument {
     private String addressForReply;
     private String emailForReply;
+    private boolean ifSendReplyToPostAddress;
+    private boolean ifSendReplyToEmail;
     private InformationResponsible informationResponsible;
 
     public InformationRequest(DocumentType documentType, Requester requester, PublicService publicService) {
@@ -17,8 +19,6 @@ public final class InformationRequest extends IncomingDocument {
         informationResponsible = (InformationResponsible) super.getIncomingDocResponsible();
         documentType.setDocTypeInUse(true);
         setDocumentName(documentType.getDocTypeName() + " #" + this.getDocumentId());
-        this.setAddressForReply(requester.getAddressString());
-        this.setEmailForReply(requester.getEmailAddress());
     }
 
     public String isValid() {
@@ -51,6 +51,22 @@ public final class InformationRequest extends IncomingDocument {
 
     public void setInformationResponsible(InformationResponsible informationResponsible) {
         this.informationResponsible = informationResponsible;
+    }
+
+    public boolean isIfSendReplyToPostAddress() {
+        return ifSendReplyToPostAddress;
+    }
+
+    public void setIfSendReplyToPostAddress(boolean ifSendReplyToPostAddress) {
+        this.ifSendReplyToPostAddress = ifSendReplyToPostAddress;
+    }
+
+    public boolean isIfSendReplyToEmail() {
+        return ifSendReplyToEmail;
+    }
+
+    public void setIfSendReplyToEmail(boolean ifSendReplyToEmail) {
+        this.ifSendReplyToEmail = ifSendReplyToEmail;
     }
 
     public String getInformationResponsibleName() {

@@ -2,9 +2,13 @@ package edu.services.orgs;
 
 import edu.communications.Address;
 import edu.communications.Emailable;
+import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
+import edu.services.execution.DepartmentsTasksDispatcher;
 
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.PriorityBlockingQueue;
 
 /**
@@ -19,11 +23,13 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
     private int hierarchyLevel;
     private long parentOrgId;
     private String emailAddress;
+    private DepartmentsTasksDispatcher departmentsTasksDispatcher;
 
     public PublicService(String orgName) {
         this.orgId = PublicService.lastOrgId;
         PublicService.lastOrgId++;
         setOrgName(orgName);
+        DepartmentsTasksDispatcher departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
     }
 
     public String getEmailAddress() {
@@ -88,7 +94,12 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
                 "\n    hierarchyLevel: " + this.getHierarchyLevel();
     }
 
+    public void createDocsDispatcher(Map<String, PublicServiceDepartment> docsDispatchingTable) {
+        departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
+        departmentsTasksDispatcher.setDocsDispatchingTable(docsDispatchingTable);
+    }
 
-
-
+    public void addDocomentToProcess(OrganizationDocument document) {
+        departmentsTasksDispatcher.addDocumentToProcess(document);
+    }
 }
