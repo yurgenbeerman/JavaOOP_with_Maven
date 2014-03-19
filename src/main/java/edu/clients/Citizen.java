@@ -14,9 +14,6 @@ import java.util.ArrayList;
  * Also it has data to approve to Organization, that this is real citizen (officialId field = INN).
  */
 public class Citizen implements Requester, Emailable {
-
-    private static long lastCitizenId;
-
     private long citizenId;
     private FullName fullName;
     private String emailAddress;
@@ -25,15 +22,15 @@ public class Citizen implements Requester, Emailable {
     private ArrayList<OutcomingDocument> responses;
     private String officialId;
 
+    private static long nextCitizenId;
+
     public Citizen() {
-        this.citizenId = Citizen.lastCitizenId;
-        Citizen.lastCitizenId++;
+        setCitizenId(this);
     }
 
     public Citizen(String surname, String name, String secondName) {
         this.fullName = new FullName(surname, name, secondName);
-        this.citizenId = Citizen.lastCitizenId;
-        Citizen.lastCitizenId++;
+        setCitizenId(this);
         this.requests = new ArrayList<IncomingDocument>();
     }
 
@@ -147,5 +144,10 @@ public class Citizen implements Requester, Emailable {
 
     public int hashCode() {
         return (officialId.hashCode() + fullName.hashCode());
+    }
+
+    private static synchronized void setCitizenId(Citizen citizen) {
+        citizen.citizenId = nextCitizenId;
+        Citizen.nextCitizenId++;
     }
 }
