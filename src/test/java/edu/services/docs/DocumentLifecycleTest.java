@@ -5,7 +5,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 /**
- * Created by Lena on 13.03.14.
+ * Created by yurii.pyvovarenko on 13.03.14.
  */
 public class DocumentLifecycleTest {
     DocumentLifecycle infoRequestLifecycle;

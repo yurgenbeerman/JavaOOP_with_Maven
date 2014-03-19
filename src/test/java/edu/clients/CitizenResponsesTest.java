@@ -30,7 +30,7 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void GetResponsesTest() throws Exception {
+    public void shouldGetResponses() throws Exception {
         //given
 
         //when
@@ -41,7 +41,7 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void ResponseTextTest() throws Exception {
+    public void shouldResponseText() throws Exception {
         //given
 
         //when
@@ -55,7 +55,7 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void testGetResponsesString() throws Exception {
+    public void shouldGetResponsesString() throws Exception {
         //given
         outcomingDocument.setText("responce text");
 
@@ -70,7 +70,7 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
 
 
     @Test
-    public void testAddResponse() throws Exception {
+    public void shouldAddResponse() throws Exception {
         //given
         citizen.addResponse(outcomingDocument);
         int result = citizen.getResponses().size();

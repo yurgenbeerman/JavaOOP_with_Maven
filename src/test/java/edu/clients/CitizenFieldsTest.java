@@ -127,7 +127,7 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testSetAddress() throws Exception {
+    public void shouldSetAddress() throws Exception {
         //when
         Address citizenAddress = new Address();
         citizen.setAddress(citizenAddress);
@@ -137,14 +137,14 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testGetOfficialId_whenNull() throws Exception {
+    public void shoundGetOfficialIdWhenNull() throws Exception {
         //when
         //then
         org.junit.Assert.assertNull(citizen.getOfficialId());
     }
 
     @Test
-    public void testGetOfficialId() throws Exception {
+    public void shouldGetOfficialId() throws Exception {
         //when
         citizen.setOfficialId("1234567890");
 
@@ -153,7 +153,7 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testGetName() throws Exception {
+    public void shouldGetName() throws Exception {
         //when
         citizen = new Citizen("Petrenko","Taras","Ivanovych");
 
@@ -162,7 +162,7 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testGetName_whenNull() throws Exception {
+    public void ShouldGetNameWhenItIsNull() throws Exception {
         //when
 
         //then
@@ -170,7 +170,7 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testSetOfficialId() throws Exception {
+    public void shouldSetOfficialId() throws Exception {
         //when
         citizen.setOfficialId("");
 
@@ -179,14 +179,14 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testSetOfficialId_whenNotDefined() throws Exception {
+    public void shouldGetOfficialIdWhenItNotDefined() throws Exception {
         //when
         //then
         org.junit.Assert.assertNull(citizen.getOfficialId());
     }
 
     @Test
-    public void testToString() throws Exception {
+    public void shouldToString() throws Exception {
         //when
         citizen = new Citizen("","Tag","");
 
@@ -195,7 +195,7 @@ public class CitizenFieldsTest {
     }
 
     @Test
-    public void testToString_whenNoNameDefined() throws Exception {
+    public void shouldToStringWhenNoNameDefined() throws Exception {
         //when
         //then
         org.junit.Assert.assertNull(citizen.getOfficialId());

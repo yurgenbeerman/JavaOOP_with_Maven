@@ -1,16 +1,20 @@
 package edu.services.docs;
 
-import junit.framework.TestCase;
-
-import java.util.GregorianCalendar;
+import org.junit.Test;
 
 /**
- * Created by Lena on 13.03.14.
+ * Created by yurii.pyvovarenko on 13.03.14.
  */
 public class OrganizationDocumentTest {
-    public void testGetDocumentCreationDate() throws Exception {
-        //TODO improve
-        OrganizationDocument doc = new OrganizationDocument();
-        GregorianCalendar cd = doc.getDocumentCreationDate();
+
+    @Test
+    public void shouldGetDocumentCreationDate() throws Exception {
+        //given
+        OrganizationDocument doc = new OrganizationDocument(null,null,null);
+
+        //when
+
+        //then
+        org.junit.Assert.assertNotNull("getDocumentCreationDate = ", doc.getDocumentCreationDate());
     }
 }

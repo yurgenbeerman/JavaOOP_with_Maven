@@ -6,7 +6,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Created by Lena on 12.03.14.
+ * Created by yurii.pyvovarenko on 12.03.14.
  */
 public class AddressTest {
     String apartment;
@@ -25,7 +25,7 @@ public class AddressTest {
     }
 
     @Test
-    public void testToString() throws Exception {
+    public void shouldToString() throws Exception {
         //given
 
         //when
@@ -58,7 +58,7 @@ public class AddressTest {
     }
 
     @Test
-    public void setRegionTest() throws Exception {
+    public void shouldSetRegionTest() throws Exception {
         //given
         region = "Kyivska obl.";
 
@@ -70,7 +70,7 @@ public class AddressTest {
     }
 
     @Test
-    public void setCityArea() throws Exception {
+    public void shouldSetCityArea() throws Exception {
         //given
         cityArea = "Shevchenkivski";
 

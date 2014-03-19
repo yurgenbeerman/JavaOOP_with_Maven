@@ -7,7 +7,7 @@ import org.junit.Test;
 import java.util.GregorianCalendar;
 
 /**
- * Created by Lena on 12.03.14.
+ * Created by yurii.pyvovarenko on 12.03.14.
  */
 public class EmailTest {
     Email email;
@@ -18,7 +18,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testEmailSentDate_whenSendEmail() throws Exception {
+    public void shouldEmailSentDateWhenSendEmail() throws Exception {
         //given
         GregorianCalendar dateBeforeSending = new GregorianCalendar();
 
@@ -35,7 +35,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testIsFinalized_whenSendEmail() throws Exception {
+    public void shouldIsFinalizedWhenSendEmail() throws Exception {
         //given
 
         //when
@@ -46,7 +46,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testSetEmailCCAddresses() throws Exception {
+    public void shouldSetEmailCCAddresses() throws Exception {
         //when
         email.setEmailCCAddresses("cc@address");
 
@@ -55,7 +55,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testSetEmailBCCAddresses() throws Exception {
+    public void shouldSetEmailBCCAddresses() throws Exception {
         //when
         email.setEmailBCCAddresses("bcc@address");
 
@@ -63,18 +63,34 @@ public class EmailTest {
         org.junit.Assert.assertNotNull(email.getEmailBCCAddresses());
     }
 
-    public void testGetEmailSentDate() throws Exception {
+    @Test
+    public void shouldGetEmailSentDateAfterSending() throws Exception {
+        //when
+        email.sendEmail();
 
+        //then
+        org.junit.Assert.assertNotNull(email.getEmailSentDate());
     }
 
     @Test
     public void testSetFinalized() throws Exception {
+        //when
+        email.setFinalized(true);
 
+        //then
+        org.junit.Assert.assertTrue(email.isFinalized());
     }
 
 
     @Test
-    public void testGetEmailFromAddress_whenSetFinalized() throws Exception {
-        String e = email.getEmailFromAddress();
+    public void testGetEmailFromAddressWhenSetFinalized() throws Exception {
+        //given
+        email.setEmailFromAddress("fromFROM");
+
+        //when
+        email.setFinalized(true);
+
+        //then
+        org.junit.Assert.assertEquals("fromFROM", email.getEmailFromAddress());
     }
 }

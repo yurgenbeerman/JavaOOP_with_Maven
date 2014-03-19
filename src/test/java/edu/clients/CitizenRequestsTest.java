@@ -28,7 +28,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
 
 
     @Test
-    public void shouldBeOneRequest_whenFirstAddRequest() throws Exception {
+    public void shouldBeOneRequestWhenFirstAddRequest() throws Exception {
         //given
 
         //when
@@ -39,7 +39,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void shouldIncreaseRequestsNumber_whenAddRequest() throws Exception {
+    public void shouldIncreaseRequestsNumberWhenAddRequest() throws Exception {
         //given
         citizen.addRequest(infoRequest);
         int result = citizen.getRequests().size();
@@ -54,7 +54,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void shouldBeNotEmptyString_whenGetRequestsString() throws Exception {
+    public void shouldBeNotEmptyStringWhenGetRequestsString() throws Exception {
         //given
 
         //when
@@ -66,7 +66,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
 
     @Test
 
-    public void shouldNotFail_whenGetRequestsString_and_NoRequestsAdded() throws java.lang.IndexOutOfBoundsException {
+    public void shouldNotFailWhenGetRequestsStringAndNoRequestsAdded() throws java.lang.IndexOutOfBoundsException {
         //given
 
         //when
@@ -76,7 +76,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void RequestTextTest() throws Exception {
+    public void shouldGetNotEmptyStringWhenGetTextOfRequest() throws Exception {
         //given
 
         //when
@@ -90,7 +90,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void getRequestsStringTest() throws Exception {
+    public void shouldGetNotEmptyStringWhenGetRequestsString() throws Exception {
         //given
 
         //when
@@ -103,7 +103,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void testGetCitizenId() throws Exception {
+    public void shouldGetCitizenId() throws Exception {
         //given
 
         //when

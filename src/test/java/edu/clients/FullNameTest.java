@@ -20,7 +20,7 @@ public class FullNameTest {
     }
 
     @Test
-    public void shouldToString_whenEmptyValues() throws Exception {
+    public void shouldToStringWhenEmptyValues() throws Exception {
         //given
 
         //when
@@ -33,7 +33,7 @@ public class FullNameTest {
     }
 
     @Test
-    public void FullNameConstructorTest() throws Exception {
+    public void shouldFullNameConstructor() throws Exception {
         //when
         FullName fn = new FullName("Surn ame", "na me", "second Name");
 

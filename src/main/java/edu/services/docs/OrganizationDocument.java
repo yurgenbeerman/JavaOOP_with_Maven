@@ -4,6 +4,7 @@ import edu.clients.Requester;
 import edu.services.orgs.PublicService;
 import static edu.services.docs.DocDefaults.*;
 
+import java.security.InvalidParameterException;
 import java.util.GregorianCalendar;
 
 /**
@@ -31,9 +32,21 @@ public class OrganizationDocument extends Text {
 
     public OrganizationDocument(DocumentType documentType, Requester author, PublicService publicService) {
         this();
-        this.author = author;
-        this.orgId = publicService.getOrgId();
-        this.documentType = documentType;
+        if (documentType != null) {
+            this.documentType = documentType;
+        } else {
+            throw new InvalidParameterException("documentType");
+        }
+        if (author != null) {
+            this.author = author;
+        } else {
+            throw new InvalidParameterException("author");
+        }
+        if (publicService != null) {
+            this.orgId = publicService.getOrgId();
+        } else {
+            throw new InvalidParameterException("publicService");
+        }
         this.documentNumber = documentType.getDocTypeShortName() + this.documentId;
         this.documentStatus = new DocumentStatus(documentType.getDocumentLifecycle());
         this.setDocumentCreationDate(documentStatus.getZeroStatusDate());
