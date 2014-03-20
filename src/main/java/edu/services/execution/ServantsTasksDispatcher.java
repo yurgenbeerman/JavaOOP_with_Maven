@@ -1,5 +1,6 @@
 package edu.services.execution;
 
+import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.PublicServant;
@@ -22,7 +23,7 @@ public class ServantsTasksDispatcher {
         this.docsToServantsDispatchingTable = docsToServantsDispatchingTable;
     }
 
-    public void addDocumentToProcess(OrganizationDocument document) {
+    public void addDocumentToProcess(IncomingDocument document) {
         if ( this.docsToServantsDispatchingTable != null ) {
             if (0 != this.docsToServantsDispatchingTable.size()) {
                 PublicServant servant =

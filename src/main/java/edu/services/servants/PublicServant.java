@@ -1,6 +1,7 @@
 package edu.services.servants;
 
 import edu.clients.Citizen;
+import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
 import edu.services.execution.ExecutionEnvironment;
@@ -72,9 +73,10 @@ public class PublicServant extends Citizen {
         return environment;
     }
 
-    public void addDocumentToProcess(OrganizationDocument document) {
+    public void addDocumentToProcess(IncomingDocument document) {
         documentsToProcess.add(document);
         document.setNextDocumentStatus();
+        document.setIncomingDocResponsible(this);
     }
 
     public PublicServiceDepartment getDepartment() {

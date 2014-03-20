@@ -1,5 +1,6 @@
 package edu.services.execution;
 
+import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
@@ -18,7 +19,7 @@ public class DepartmentsTasksDispatcher {
         publicService.setDepartmentsTasksDispatcher(this);
     }
 
-    public void addDocumentToProcess(OrganizationDocument document) {
+    public void addDocumentToProcess(IncomingDocument document) {
         if ( this.docsToDepartmentsDispatchingTable != null ) {
             if (0 != this.docsToDepartmentsDispatchingTable.size()) {
                 PublicServiceDepartment department = this.docsToDepartmentsDispatchingTable

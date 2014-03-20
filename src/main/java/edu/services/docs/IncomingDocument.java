@@ -45,9 +45,8 @@ public class IncomingDocument extends OrganizationDocument {
     }
 
     public void setReactionDocument(OrganizationDocument reactionDocument) {
-        if (! isFinalized) {
+        if (! isFinalized)
             this.reactionDocument = reactionDocument;
-        }
     }
 
     public boolean isReceivedByPublicService() {

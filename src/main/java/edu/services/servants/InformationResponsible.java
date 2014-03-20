@@ -50,6 +50,7 @@ public class InformationResponsible extends PublicServant {
 
     public void addDocumentToProcess(InformationRequest document) {
         document.setIncomingDocResponsible(this);
+        document.setInformationResponsible(this);
         super.addDocumentToProcess(document);
         processDocument(document);
     }
@@ -57,6 +58,13 @@ public class InformationResponsible extends PublicServant {
     public void processDocument(InformationRequest document) {
         OutcomingDocument outcomingDocument =
                 this.createOutcomingDocument(document);
+        document.setReactionDocument(outcomingDocument);
+
+        /* TODO:
+            reactionDocument Number: NONE
+            InformationResponsible: NONE
+         */
+
 
         outcomingDocument.publishToRequester(document.getAuthor());
         outcomingDocument.setNextDocumentStatus();
@@ -87,17 +95,23 @@ public class InformationResponsible extends PublicServant {
     }
 
     private OutcomingDocument createOutcomingDocument(IncomingDocument initiatingDocument) {
-        OutcomingDocument outcomingDocument =
-                new OutcomingDocument(
-                        getEnvironment().getOutcomingDocType(),
-                        this,
-                        getDepartment().getPublicService()
-                );
-        outcomingDocument.setText(this.getInformationForReply());
-        initiatingDocument.setReactionDocument(outcomingDocument);
-        outcomingDocument.setInitiatingDocument(initiatingDocument);
-        outcomingDocument.setNextDocumentStatus();
-        outcomingDocument.setDocumentName(ExecutionDefaults.OUTCOMING_DOC_NAME);
-        return outcomingDocument;
+        if (getEnvironment() != null ) {
+            if (getDepartment() != null ) {
+                OutcomingDocument outcomingDocument =
+                        new OutcomingDocument(
+                                getEnvironment().getOutcomingDocType(),
+                                this,
+                                getDepartment().getPublicService()
+                        );
+                outcomingDocument.setText(this.getInformationForReply());
+                initiatingDocument.setReactionDocument(outcomingDocument);
+                outcomingDocument.setInitiatingDocument(initiatingDocument);
+                outcomingDocument.setNextDocumentStatus();
+                outcomingDocument.setDocumentName(ExecutionDefaults.OUTCOMING_DOC_NAME);
+                return outcomingDocument;
+            } else
+                throw new IllegalStateException(ExecutionDefaults.DEPARTMENT_IS_NULL);
+        } else
+            throw new IllegalStateException(ExecutionDefaults.ENVIRONMENT_IS_NULL);
     }
 }

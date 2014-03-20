@@ -16,7 +16,6 @@ public final class InformationRequest extends IncomingDocument {
 
     public InformationRequest(DocumentType documentType, Requester requester, PublicService publicService) {
         super(documentType, requester, publicService);
-        informationResponsible = (InformationResponsible) super.getIncomingDocResponsible();
         documentType.setDocTypeInUse(true);
         setDocumentName(documentType.getDocTypeName() + " #" + this.getDocumentId());
         requester.addRequest(this);

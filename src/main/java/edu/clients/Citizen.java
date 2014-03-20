@@ -123,8 +123,10 @@ public class Citizen implements Requester, Emailable {
 
     public String getResponsesString() {
         String result = "";
-        for (int i = 0; i < getResponses().size(); i++) {
-            result += getResponses().get(i);
+        if ( getResponses() != null ) {
+            for (int i = 0; i < getResponses().size(); i++) {
+                result += getResponses().get(i);
+            }
         }
         return result;
     }

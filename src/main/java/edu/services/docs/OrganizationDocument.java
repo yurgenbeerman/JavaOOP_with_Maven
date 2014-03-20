@@ -201,11 +201,11 @@ public class OrganizationDocument extends Text {
     }
 
     public String toString() {
-        return documentType.getDocTypeName() + ": " +
+        return  "\n " + documentType.getDocTypeName() + ": " +
+                "\n    DocumentNumber: " + this.getDocumentNumber() +
                 "\n    author: " + this.getAuthorName() +
                 "\n    text: " + this.getText() +
                 "\n    orgId: " + this.getOrgId() +
-                "\n    DocumentNumber: " + this.getDocumentNumber() +
                 "\n    DocumentStatusesHistory: " + this.getStatusesHistoryString();
     }
 

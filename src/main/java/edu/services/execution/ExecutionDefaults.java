@@ -18,6 +18,9 @@ public class ExecutionDefaults {
 
     public static final String OUTCOMING_DOC_NAME = "Response to Information request";
 
+    public static final String ENVIRONMENT_IS_NULL = "ENVIRONMENT_IS_NULL";
+    public static final String DEPARTMENT_IS_NULL = "DEPARTMENT_IS_NULL";
+
     public static boolean isRequesterOfficialIdValid(Requester requester) {
         if (( requester.getOfficialId() != null) && (requester.getOfficialId() != "")) {
             if ( requester.getOfficialId().length() != ExecutionDefaults.REQUESTER_OFFICIAL_ID_LENGTH ) {

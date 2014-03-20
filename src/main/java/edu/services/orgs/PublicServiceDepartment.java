@@ -2,6 +2,7 @@ package edu.services.orgs;
 
 import edu.communications.Address;
 import edu.communications.Emailable;
+import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
 import edu.services.execution.ExecutionDefaults;
@@ -55,7 +56,7 @@ public class PublicServiceDepartment implements Emailable {
         return servants;
     }
 
-    public void addDocToProcess(OrganizationDocument document) {
+    public void addDocToProcess(IncomingDocument document) {
         servantsTasksDispatcher.addDocumentToProcess(document);
         document.setCurrentPublicServiceDepartment(this);
     }

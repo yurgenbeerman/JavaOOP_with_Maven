@@ -2,6 +2,7 @@ package edu.services.orgs;
 
 import edu.communications.Address;
 import edu.communications.Emailable;
+import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
 import edu.services.execution.DepartmentsTasksDispatcher;
@@ -97,7 +98,7 @@ public class PublicService implements Emailable {
                 "\n    hierarchyLevel: " + this.getHierarchyLevel();
     }
 
-    public void addDocumentToProcess(OrganizationDocument document) {
+    public void addDocumentToProcess(IncomingDocument document) {
         this.departmentsTasksDispatcher.addDocumentToProcess(document);
     }
 
