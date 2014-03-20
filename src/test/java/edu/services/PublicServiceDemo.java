@@ -68,8 +68,8 @@ public class PublicServiceDemo {
         return outcomingDocument;
     }
 
-    public static PublicService createValidPublicService() {
-        PublicService publicService = createPublicService();
+    public static PublicService createValidPublicService(ExecutionEnvironment testEnvironment) {
+        PublicService publicService = createPublicService(testEnvironment);
         Address pubServiceAddress = createPubServiceAddress();
         publicService.setAddress(pubServiceAddress);
         return publicService;
@@ -91,7 +91,7 @@ public class PublicServiceDemo {
     }
 
     public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
-        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(testEnvironment.getRequester()) )
+        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester) )
             throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
         InformationRequest informationRequest =
                 new InformationRequest(infoRequestDocType, requester, publicService);
@@ -103,7 +103,7 @@ public class PublicServiceDemo {
         return informationRequest;
     }
 
-    public static PublicService createPublicService() {
+    public static PublicService createPublicService(ExecutionEnvironment testEnvironment) {
         PublicService publicService = new PublicService("Improvements service", testEnvironment);
         publicService.setHierarchyLevel(1);
         publicService.setParentOrgId((long)0);
@@ -180,7 +180,7 @@ public class PublicServiceDemo {
         statusNumber++;
     }
 
-    static void setupEnvironment(ExecutionEnvironment environment) {
+    public static void setupEnvironment(ExecutionEnvironment environment) {
         DocumentType infoRequestDocType = createInfoRequestDocType();
         environment.setInfoRequestDocType(infoRequestDocType);
 
@@ -190,14 +190,16 @@ public class PublicServiceDemo {
         Requester requester = createValidCitizenRequester();
         environment.setRequester(requester);
 
-        PublicService publicService = createValidPublicService();
-        environment.setRequester(requester);
+        PublicService publicService = createValidPublicService(environment);
+        environment.setPublicService(publicService);
 
 
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(
                 publicService,
                 "infoRequestsDep_0"
         );
+        environment.setInfoRequestsDepartment(infoRequestsDep);
+
         PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(
                 publicService,
                 "ThanksAndClaimsDep_1"

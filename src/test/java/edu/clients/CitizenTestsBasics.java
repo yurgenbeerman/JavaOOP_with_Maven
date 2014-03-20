@@ -2,6 +2,7 @@ package edu.clients;
 
 import edu.services.PublicServiceDemo;
 import edu.services.docs.DocumentType;
+import edu.services.execution.ExecutionEnvironment;
 import edu.services.orgs.PublicService;
 import org.junit.Assert;
 import org.junit.Before;
@@ -17,7 +18,9 @@ public class CitizenTestsBasics {
     @Before
     public void initCitizenAndPublicService() {
         citizen = (Citizen) PublicServiceDemo.createValidCitizenRequester();
-        publicService = PublicServiceDemo.createValidPublicService();
+        ExecutionEnvironment testEnvironment = new ExecutionEnvironment();
+        PublicServiceDemo.setupEnvironment(testEnvironment);
+        publicService = testEnvironment.getPublicService();
     }
 
     @Test
