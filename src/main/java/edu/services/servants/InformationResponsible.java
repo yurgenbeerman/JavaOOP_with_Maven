@@ -2,7 +2,6 @@ package edu.services.servants;
 
 import edu.services.docs.*;
 import edu.services.execution.ExecutionDefaults;
-import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.utils.PublicRequestsUtils;
 
@@ -53,7 +52,6 @@ public class InformationResponsible extends PublicServant {
         document.setIncomingDocResponsible(this);
         document.setIncomingDocResponsible(this);
         ((InformationRequest) document).setInformationResponsible(this);
-        //TODO? document.setNextDocumentStatus();
 
         processDocument(((InformationRequest) document));
     }
@@ -62,39 +60,22 @@ public class InformationResponsible extends PublicServant {
         OutcomingDocument outcomingDocument =
                 this.createOutcomingDocument(document);
         document.setReactionDocument(outcomingDocument);
-
-        /* TODO:
-            reactionDocument Number: NONE
-            InformationResponsible: NONE
-         */
-
-
-        outcomingDocument.publishToRequester(document.getAuthor());
-        outcomingDocument.setNextDocumentStatus();
-        // TODO? document.setNextDocumentStatus();
         document.setFinalized(true);
+        outcomingDocument.setNextDocumentStatus();
 
-        if (document.isIfSendReplyToEmail()) {
+        if (document.isToSendReplyToEmail()) {
             Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
                     this.getInformationForReply());
             email.sendEmail();
             outcomingDocument.setDocSentEmail(email);
-            System.out.println("\nThe Response (Outcoming Doc) was sent to Email: " + outcomingDocument.getDocSentEmailAddress() +
-                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentEmailDate()));
         }
-
-        if (document.isIfSendReplyToPostAddress()) {
+        if (document.isToSendReplyToPostAddress()) {
             getDepartment().sendDocumentToAddress(outcomingDocument, document.getAuthor().getAddress());
-            System.out.println("\nThe Response (Outcoming Doc) was sent to Address: " + outcomingDocument.getDocSentAddress() +
-                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentAddressDate()));
         }
-
         outcomingDocument.setNextDocumentStatus();
-        outcomingDocument.setFinalized(true);
-        //TODO: must set outcomingDocument.status to the last one "Sent" -- find out why it doesn't work!
 
+        outcomingDocument.publishToRequester(document.getAuthor());
         getDocumentsToProcess().remove(document);
-        document.setNextDocumentStatus();
     }
 
     private OutcomingDocument createOutcomingDocument(IncomingDocument initiatingDocument) {
@@ -109,7 +90,6 @@ public class InformationResponsible extends PublicServant {
                 outcomingDocument.setText(this.getInformationForReply());
                 initiatingDocument.setReactionDocument(outcomingDocument);
                 outcomingDocument.setInitiatingDocument(initiatingDocument);
-                outcomingDocument.setNextDocumentStatus();
                 outcomingDocument.setDocumentName(ExecutionDefaults.OUTCOMING_DOC_NAME);
                 return outcomingDocument;
             } else

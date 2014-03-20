@@ -10,7 +10,6 @@ import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
 import edu.services.servants.ThanksAndClaimsResponsible;
-import edu.utils.PublicRequestsUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -95,9 +94,9 @@ public class PublicServiceDemo {
         InformationRequest informationRequest =
                 new InformationRequest(infoRequestDocType, requester, publicService);
         informationRequest.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
-        informationRequest.setIfSendReplyToPostAddress(true);
+        informationRequest.setToSendReplyToPostAddress(true);
         informationRequest.setAddressForReply(requester.getAddressString());
-        informationRequest.setIfSendReplyToEmail(true);
+        informationRequest.setToSendReplyToEmail(true);
         informationRequest.setEmailForReply(requester.getEmailAddress());
         return informationRequest;
     }

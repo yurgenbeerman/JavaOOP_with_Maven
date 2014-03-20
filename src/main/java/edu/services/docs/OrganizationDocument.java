@@ -169,7 +169,8 @@ public class OrganizationDocument extends Text {
     public void setNextDocumentStatus() {
         if (! isFinalized) {
             this.documentStatus.setNextDocumentStatus();
-        }
+        } else
+            throw new IllegalStateException(DocDefaults.DOC_IS_FINALIZED);
     }
 
     public void setPreviousDocumentStatus() {

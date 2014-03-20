@@ -53,19 +53,19 @@ public final class InformationRequest extends IncomingDocument {
         this.informationResponsible = informationResponsible;
     }
 
-    public boolean isIfSendReplyToPostAddress() {
+    public boolean isToSendReplyToPostAddress() {
         return ifSendReplyToPostAddress;
     }
 
-    public void setIfSendReplyToPostAddress(boolean ifSendReplyToPostAddress) {
+    public void setToSendReplyToPostAddress(boolean ifSendReplyToPostAddress) {
         this.ifSendReplyToPostAddress = ifSendReplyToPostAddress;
     }
 
-    public boolean isIfSendReplyToEmail() {
+    public boolean isToSendReplyToEmail() {
         return ifSendReplyToEmail;
     }
 
-    public void setIfSendReplyToEmail(boolean ifSendReplyToEmail) {
+    public void setToSendReplyToEmail(boolean ifSendReplyToEmail) {
         this.ifSendReplyToEmail = ifSendReplyToEmail;
     }
 
