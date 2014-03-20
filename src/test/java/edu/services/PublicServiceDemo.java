@@ -5,6 +5,7 @@ import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
 import edu.services.execution.ExecutionDefaults;
+import edu.services.execution.ServantsLoadBalanser;
 import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
@@ -64,15 +65,14 @@ public class PublicServiceDemo {
         PublicServant publicServant2 = new InformationResponsible(infoRequestsDep, "Karpenko2", "Petro2", "Ivanovych2");
         ServantsLoadBalanser servantsLoadBalanser = new ServantsLoadBalanser(publicServant0,publicServant1);
 
-        Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>;
+        Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>();
         infoRequestsDepDispatchingTable.put("InformationRequest", servantsLoadBalanser);
+        infoRequestsDepServantsTasksDispatcher.setdocsToServantsDispatchingTable(infoRequestsDepDispatchingTable);
 
-        ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
-        ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
-
-        Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>;
+        Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>();
         thanksAndClaimsDepDispatchingTable.put("Claim", publicServant2);
         thanksAndClaimsDepDispatchingTable.put("Thank", publicServant2);
+        thanksAndClaimsDepServantsTasksDispatcher.setdocsToServantsDispatchingTable(thanksAndClaimsDepDispatchingTable);
 
 
         //TODO implement TasksDispatcher tasksDispatcher = new TaskDispatcherByType(unprocessedIncomingDocsQueue, PublicServantsList);

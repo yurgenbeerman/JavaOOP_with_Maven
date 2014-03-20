@@ -32,7 +32,7 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
         this.orgId = PublicService.lastOrgId;
         PublicService.lastOrgId++;
         setOrgName(orgName);
-        DepartmentsTasksDispatcher departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
+        departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
     }
 
     public String getEmailAddress() {
@@ -95,11 +95,6 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
                 "\n    orgId: " + this.getOrgId() +
                 "\n    parentOrgId: " + this.getParentOrgId() +
                 "\n    hierarchyLevel: " + this.getHierarchyLevel();
-    }
-
-    public void createDocsDispatcher(Map<String, PublicServiceDepartment> docsDispatchingTable) {
-        departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
-        departmentsTasksDispatcher.setdocsToServantsDispatchingTable(docsDispatchingTable);
     }
 
     public void addDocomentToProcess(OrganizationDocument document) {

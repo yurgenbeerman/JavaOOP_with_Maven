@@ -3,6 +3,7 @@ package edu.services.orgs;
 import edu.communications.Emailable;
 import edu.services.docs.OrganizationDocument;
 import edu.services.execution.ExecutionDefaults;
+import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.servants.PublicServant;
 
 import java.util.Map;
@@ -20,6 +21,7 @@ public class PublicServiceDepartment implements Emailable {
     private String name;
     private Map<PublicServiceDepartment,String> docsDispatchingTable;
     private String emailAddress;
+    private ServantsTasksDispatcher servantsTasksDispatcher;
 
     public PublicServiceDepartment() {
         this.setDepartmentId(this);
@@ -30,6 +32,7 @@ public class PublicServiceDepartment implements Emailable {
         this.publicService = publicService;
         this.name = name;
         servants = new ArrayBlockingQueue<PublicServant>(ExecutionDefaults.MAX_SERVANTS_PER_DEP);
+        servantsTasksDispatcher = new ServantsTasksDispatcher(this);
     }
 
     public String getEmailAddress() {
@@ -49,7 +52,7 @@ public class PublicServiceDepartment implements Emailable {
     }
 
     public void addDocToProcess(OrganizationDocument document) {
-        //TODO .addDocToProcess(OrganizationDocument document);
+        servantsTasksDispatcher.addDocumentToProcess(document);
         document.setCurrentPublicServiceDepartment(this);
     }
 
