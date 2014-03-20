@@ -4,6 +4,7 @@ import edu.clients.Citizen;
 import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
+import edu.services.execution.ExecutionDefaults;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
@@ -26,64 +27,24 @@ public class PublicServiceDemo {
         System.out.println("------------- PublicServiceDemo ------------- ");
 
         /* INITIALIZATION start */
-        DocumentLifecycle infoRequestLifecycle =
-                createLinearLifecycleFinalized("Created", "Assigned", "Replied");
-        DocumentType infoRequestDocType = new DocumentType("Information_Request", "InfoReq_",infoRequestLifecycle);
-        infoRequestDocType.setFinalized(true);
+        DocumentType infoRequestDocType = createInfoRequestDocType();
 
-        DocumentLifecycle outcomingDocLifecycle =
-                createLinearLifecycleFinalized("Created", "Passed_for_sending", "Sent");
-        DocumentType outcomingDocType = new DocumentType("Outcoming_Document", "Out_",outcomingDocLifecycle);
-        outcomingDocType.setFinalized(true);
+        DocumentType outcomingDocType = createOutcomingDocType();
 
-        Requester requester = new Citizen("Petrenko","Taras","Ivanovych");
-        requester.setEmailAddress("citizen@gmail.com");
-        requester.setOfficialId("1234567890");
-        Address citizenAddress = new Address();
-        citizenAddress.setCountry("Ukraine");
-        citizenAddress.setRegion("Kyivska obl.");
-        citizenAddress.setCity("Kyiv");
-        citizenAddress.setCityArea("Shevchenkivski");
-        citizenAddress.setStreet("Khreshchatyk");
-        citizenAddress.setBuilding("1A");
-        citizenAddress.setApartment("123H");
-        citizenAddress.setZipCode("01001");
+        Requester requester = createRequesterCitizen();
+        Address citizenAddress = createCitizenAddress();
         requester.setAddress(citizenAddress);
 
-        PublicService publicService = new PublicService("Improvements service");
-        publicService.setHierarchyLevel(1);
-        publicService.setParentOrgId((long)0);
-        publicService.setOrgId((long)0);
-        publicService.setEmailAddress("contact@improvements.service.com");
-        Address pubServiceAddress = new Address();
-        pubServiceAddress.setCountry("Ukraine");
-        pubServiceAddress.setRegion("Kyivska obl.");
-        pubServiceAddress.setCity("Kyiv");
-        pubServiceAddress.setCityArea("Shevchenkivski");
-        pubServiceAddress.setStreet("Saksaganskogo");
-        pubServiceAddress.setBuilding("104");
-        pubServiceAddress.setZipCode("01002");
+        PublicService publicService = createPublicService();
+        Address pubServiceAddress = createPubServiceAddress();
         publicService.setAddress(pubServiceAddress);
         /* INITIALIZATION end */
 
         /* Assume a user (Citizen wants to create s Request */
-        if (( requester.getOfficialId() != null) && (requester.getOfficialId() != "")) {
-            if ( requester.getOfficialId().length() != 10 ) {
-                System.out.println("RequesterOfficialId is wrong: " + requester.getOfficialId() + ". We can not allow to create a request. You still may email to us.");
-                System.exit(2);
-            }
-        } else {
-            System.out.println("There's no RequesterOfficialId: " + requester.getOfficialId() + ". We can not allow to create a request. You still may email to us.");
-            System.exit(1);
-        }
+        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester) )
+            throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
 
-        InformationRequest infoRequest0 =
-                new InformationRequest(infoRequestDocType, requester, publicService);
-        infoRequest0.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
-        infoRequest0.setIfSendReplyToPostAddress(true);
-        infoRequest0.setAddressForReply(requester.getAddressString());
-        infoRequest0.setIfSendReplyToEmail(true);
-        infoRequest0.setEmailForReply(requester.getEmailAddress());
+        InformationRequest infoRequest0 = getInformationRequest(infoRequestDocType, requester, publicService);
 
 
         if (infoRequest0 != null) {
@@ -185,6 +146,74 @@ public class PublicServiceDemo {
         System.out.println("\ncitizen sent the next requests:\n   " + requester.getRequestsString());
         System.out.println("\ncitizen got the next responses:\n   " + requester.getResponsesString());
 
+    }
+
+    private static InformationRequest getInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
+        InformationRequest infoRequest0 =
+                new InformationRequest(infoRequestDocType, requester, publicService);
+        infoRequest0.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
+        infoRequest0.setIfSendReplyToPostAddress(true);
+        infoRequest0.setAddressForReply(requester.getAddressString());
+        infoRequest0.setIfSendReplyToEmail(true);
+        infoRequest0.setEmailForReply(requester.getEmailAddress());
+        return infoRequest0;
+    }
+
+    private static PublicService createPublicService() {
+        PublicService publicService = new PublicService("Improvements service");
+        publicService.setHierarchyLevel(1);
+        publicService.setParentOrgId((long)0);
+        publicService.setOrgId((long)0);
+        publicService.setEmailAddress("contact@improvements.service.com");
+        return publicService;
+    }
+
+    private static Address createPubServiceAddress() {
+        Address pubServiceAddress = new Address();
+        pubServiceAddress.setCountry("Ukraine");
+        pubServiceAddress.setRegion("Kyivska obl.");
+        pubServiceAddress.setCity("Kyiv");
+        pubServiceAddress.setCityArea("Shevchenkivski");
+        pubServiceAddress.setStreet("Saksaganskogo");
+        pubServiceAddress.setBuilding("104");
+        pubServiceAddress.setZipCode("01002");
+        return pubServiceAddress;
+    }
+
+    private static Requester createRequesterCitizen() {
+        Requester requester = new Citizen("Petrenko","Taras","Ivanovych");
+        requester.setEmailAddress("citizen@gmail.com");
+        requester.setOfficialId("1234567890");
+        return requester;
+    }
+
+    private static Address createCitizenAddress() {
+        Address citizenAddress = new Address();
+        citizenAddress.setCountry("Ukraine");
+        citizenAddress.setRegion("Kyivska obl.");
+        citizenAddress.setCity("Kyiv");
+        citizenAddress.setCityArea("Shevchenkivski");
+        citizenAddress.setStreet("Khreshchatyk");
+        citizenAddress.setBuilding("1A");
+        citizenAddress.setApartment("123H");
+        citizenAddress.setZipCode("01001");
+        return citizenAddress;
+    }
+
+    private static DocumentType createOutcomingDocType() {
+        DocumentLifecycle outcomingDocLifecycle =
+                createLinearLifecycleFinalized("Created", "Passed_for_sending", "Sent");
+        DocumentType outcomingDocType = new DocumentType("Outcoming_Document", "Out_",outcomingDocLifecycle);
+        outcomingDocType.setFinalized(true);
+        return outcomingDocType;
+    }
+
+    private static DocumentType createInfoRequestDocType() {
+        DocumentLifecycle infoRequestLifecycle =
+                createLinearLifecycleFinalized("Created", "Assigned", "Replied");
+        DocumentType infoRequestDocType = new DocumentType("Information_Request", "InfoReq_",infoRequestLifecycle);
+        infoRequestDocType.setFinalized(true);
+        return infoRequestDocType;
     }
 
     private static DocumentLifecycle createLinearLifecycleFinalized(String... orgDocStatusesStrings) {
