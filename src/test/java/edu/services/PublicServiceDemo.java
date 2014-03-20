@@ -4,8 +4,9 @@ import edu.clients.Citizen;
 import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
+import edu.services.execution.DepartmentsTasksDispatcher;
 import edu.services.execution.ExecutionDefaults;
-import edu.services.execution.ServantsLoadBalanser;
+import edu.services.execution.ServantsLoadBalancer;
 import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
@@ -15,6 +16,7 @@ import edu.services.servants.ThanksAndClaimsResponsible;
 import edu.utils.PublicRequestsUtils;
 
 import java.util.HashMap;
+import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 
 /**
@@ -55,7 +57,8 @@ public class PublicServiceDemo {
         docsToDepartmentsDispatchingTable.put("edu.services.docs.InformationRequest", infoRequestsDep);
         docsToDepartmentsDispatchingTable.put("edu.services.docs.Claim", thanksAndClaimsDep);
         docsToDepartmentsDispatchingTable.put("edu.services.docs.Thank", thanksAndClaimsDep);
-        publicService.setDocsToDepartmentsDispatchingTable(docsToDepartmentsDispatchingTable);
+        DepartmentsTasksDispatcher departmentsTasksDispatcher = new DepartmentsTasksDispatcher(publicService);
+        departmentsTasksDispatcher.setDocsToDepartmentsDispatchingTable(docsToDepartmentsDispatchingTable);
 
         ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
         ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
@@ -66,15 +69,18 @@ public class PublicServiceDemo {
                 "The plan of improvements for 2014 is next... Sincerely, publicServant0."); //TODO Remove stubs
         publicServant1.setInformationForReply(
                 "The plan of improvements for 2014 is next... Sincerely, publicServant1."); //TODO Remove stubs
-        ServantsLoadBalanser servantsLoadBalanser = new ServantsLoadBalanser(publicServant0,publicServant1);
+
+        ServantsLoadBalancer servantsLoadBalancer = new ServantsLoadBalancer();
+        servantsLoadBalancer.addServant(publicServant0);
+        servantsLoadBalancer.addServant(publicServant1);
 
         ThanksAndClaimsResponsible publicServant2 = new ThanksAndClaimsResponsible(thanksAndClaimsDep, "Karpenko2", "Petro2", "Ivanovych2");
         publicServant2.setInformationForReply(
                 "Thank you for information! Sincerely, publicServant2."); //TODO Remove stubs
 
         Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>();
-        infoRequestsDepDispatchingTable.put("edu.services.docs.InformationRequest", servantsLoadBalanser);
-        assert (infoRequestsDepDispatchingTable != null);
+        infoRequestsDepDispatchingTable.put("edu.services.docs.InformationRequest", servantsLoadBalancer);
+
         infoRequestsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(infoRequestsDepDispatchingTable);
 
         Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>();

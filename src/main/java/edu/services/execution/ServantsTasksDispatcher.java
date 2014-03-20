@@ -1,7 +1,6 @@
 package edu.services.execution;
 
 import edu.services.docs.OrganizationDocument;
-import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.PublicServant;
 
@@ -16,19 +15,20 @@ public class ServantsTasksDispatcher {
 
     public ServantsTasksDispatcher(PublicServiceDepartment department) {
         this.department = department;
+        department.setServantsTasksDispatcher(this);
     }
 
     public void setDocsToServantsDispatchingTable(Map<String, PublicServant> docsToServantsDispatchingTable) {
         this.docsToServantsDispatchingTable = docsToServantsDispatchingTable;
-        System.out.println("1 " + docsToServantsDispatchingTable);
+        System.out.println("1 " + this.docsToServantsDispatchingTable);
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
-        System.out.println("2 " + docsToServantsDispatchingTable);
-        if ( docsToServantsDispatchingTable != null ) {
-            if (0 != docsToServantsDispatchingTable.size()) {
+        System.out.println("2 " + this.docsToServantsDispatchingTable);
+        if ( this.docsToServantsDispatchingTable != null ) {
+            if (0 != this.docsToServantsDispatchingTable.size()) {
                 PublicServant servant =
-                        docsToServantsDispatchingTable.get(document.getClass().getName());
+                        this.docsToServantsDispatchingTable.get(document.getClass().getName());
                 servant.addDocumentToProcess(document);
             } else
                 throw new IllegalStateException(ExecutionDefaults.DOCS_DISPATCHING_TABLE_IS_EMPTY);

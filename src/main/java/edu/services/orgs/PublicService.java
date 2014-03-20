@@ -15,7 +15,7 @@ import java.util.concurrent.PriorityBlockingQueue;
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
  */
-public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment> implements Emailable {
+public class PublicService implements Emailable {
     private static long lastOrgId;
 
     private long orgId;
@@ -26,13 +26,10 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
     private String emailAddress;
     private DepartmentsTasksDispatcher departmentsTasksDispatcher;
 
-    private Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable;
-
     public PublicService(String orgName) {
         this.orgId = PublicService.lastOrgId;
         PublicService.lastOrgId++;
         setOrgName(orgName);
-        departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
     }
 
     public String getEmailAddress() {
@@ -97,31 +94,15 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
                 "\n    hierarchyLevel: " + this.getHierarchyLevel();
     }
 
-    public void addDocomentToProcess(OrganizationDocument document) {
-        departmentsTasksDispatcher.addDocumentToProcess(document);
-    }
-
-    public Map<String, PublicServiceDepartment> getDocsToDepartmentsDispatchingTable() {
-        return docsToDepartmentsDispatchingTable;
-    }
-
-    public void setDocsToDepartmentsDispatchingTable(Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable) {
-        this.docsToDepartmentsDispatchingTable = docsToDepartmentsDispatchingTable;
-    }
     public void addDocumentToProcess(OrganizationDocument document) {
-        if ( docsToDepartmentsDispatchingTable != null ) {
-            if (0 != docsToDepartmentsDispatchingTable.size()) {
-                String s = document.getClass().getName();
-                PublicServiceDepartment department = docsToDepartmentsDispatchingTable
-                        .get(s);
-                if ( department != null ) {
-                    department.addDocToProcess(document);
-                    document.setCurrentPublicServiceDepartment(department);
-                } else
-                    throw new IllegalStateException(ExecutionDefaults.DEP_IS_NULL + " s = " + s);
-            } else
-                throw new IllegalStateException(ExecutionDefaults.DEPS_DISPATCHING_TABLE_IS_EMPTY);
-        } else
-            throw new IllegalStateException(ExecutionDefaults.NO_DEPS_DISPATCHING_TABLE);
+        this.departmentsTasksDispatcher.addDocumentToProcess(document);
+    }
+
+    public DepartmentsTasksDispatcher getDepartmentsTasksDispatcher() {
+        return departmentsTasksDispatcher;
+    }
+
+    public void setDepartmentsTasksDispatcher(DepartmentsTasksDispatcher departmentsTasksDispatcher) {
+        this.departmentsTasksDispatcher = departmentsTasksDispatcher;
     }
 }

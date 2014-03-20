@@ -19,7 +19,6 @@ public class PublicServiceDepartment implements Emailable {
     private BlockingQueue<PublicServant> servants;
     private PublicService publicService;
     private String name;
-    private Map<PublicServiceDepartment,String> docsDispatchingTable;
     private String emailAddress;
     private ServantsTasksDispatcher servantsTasksDispatcher;
 
@@ -31,8 +30,8 @@ public class PublicServiceDepartment implements Emailable {
         this();
         this.publicService = publicService;
         this.name = name;
-        servants = new ArrayBlockingQueue<PublicServant>(ExecutionDefaults.MAX_SERVANTS_PER_DEP);
-        servantsTasksDispatcher = new ServantsTasksDispatcher(this);
+        this.servants = new ArrayBlockingQueue<PublicServant>(ExecutionDefaults.MAX_SERVANTS_PER_DEP);
+        //this.servantsTasksDispatcher = new ServantsTasksDispatcher(this);
     }
 
     public String getEmailAddress() {
@@ -84,6 +83,16 @@ public class PublicServiceDepartment implements Emailable {
     public int hashCode() {
         return (name.hashCode() + publicService.toString().hashCode() + ((Long) departmentId).toString().hashCode());
     }
+
+    public ServantsTasksDispatcher getServantsTasksDispatcher() {
+        return servantsTasksDispatcher;
+    }
+
+    public void setServantsTasksDispatcher(ServantsTasksDispatcher servantsTasksDispatcher) {
+        this.servantsTasksDispatcher = servantsTasksDispatcher;
+    }
+
+
 
     private static void setDepartmentId(PublicServiceDepartment department) {
         department.departmentId = nextDepartmentId;
