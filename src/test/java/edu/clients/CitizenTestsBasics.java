@@ -1,7 +1,9 @@
 package edu.clients;
 
+import edu.services.PublicServiceDemo;
 import edu.services.orgs.PublicService;
 import org.junit.Assert;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -11,12 +13,17 @@ public class CitizenTestsBasics {
     Citizen citizen;
     PublicService publicService;
 
+    @Before
+    public void initCitizenAndPublicService() {
+        citizen = (Citizen) PublicServiceDemo.createValidCitizenRequester();
+        publicService = PublicServiceDemo.createValidPublicService();
+    }
+
     @Test
     public void shouldBeNotNullCitizenWhenConstructed() {
         //given
 
         //when
-        citizen = new Citizen("surname", "name", "secondName");
 
         //then
         Assert.assertNotNull(citizen);
@@ -27,7 +34,6 @@ public class CitizenTestsBasics {
         //given
 
         //when
-        publicService = new PublicService("Improvements service");
 
         //then
         Assert.assertNotNull(publicService);

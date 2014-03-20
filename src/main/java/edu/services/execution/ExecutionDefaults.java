@@ -22,6 +22,5 @@ public class ExecutionDefaults {
         } else {
             return false;
         }
-        return true;
     }
 }

@@ -11,10 +11,8 @@ import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
 import edu.utils.PublicRequestsUtils;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
@@ -28,34 +26,29 @@ public class PublicServiceDemo {
 
         /* INITIALIZATION start */
         DocumentType infoRequestDocType = createInfoRequestDocType();
-
         DocumentType outcomingDocType = createOutcomingDocType();
 
-        Requester requester = createRequesterCitizen();
-        Address citizenAddress = createCitizenAddress();
-        requester.setAddress(citizenAddress);
+        Requester requester = createValidCitizenRequester();
 
-        PublicService publicService = createPublicService();
-        Address pubServiceAddress = createPubServiceAddress();
-        publicService.setAddress(pubServiceAddress);
+        PublicService publicService = createValidPublicService();
         /* INITIALIZATION end */
 
         /* Assume a user (Citizen wants to create s Request */
         if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester) )
             throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
 
-        InformationRequest infoRequest0 = getInformationRequest(infoRequestDocType, requester, publicService);
+        InformationRequest infoRequest0 = createInformationRequest(infoRequestDocType, requester, publicService);
 
 
         if (infoRequest0 != null) {
             requester.addRequest(infoRequest0);
-            if (infoRequest0.isValid().equals(DocDefaults.VALID)) {
+            if (infoRequest0.getValidityString().equals(DocDefaults.VALID)) {
                 System.out.println("requester: " + requester.getFullNameString());
                 System.out.println("    requesterId: " + requester.getId());
                 System.out.println("\npublicService: " + publicService.getOrgName() + "\n");
                 System.out.println(infoRequest0.toString());
             } else {
-                System.out.println(infoRequest0.isValid());
+                System.out.println(infoRequest0.getValidityString());
             }
         } else {
             System.out.println("infoRequest is NULL");
@@ -148,7 +141,21 @@ public class PublicServiceDemo {
 
     }
 
-    private static InformationRequest getInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
+    public static PublicService createValidPublicService() {
+        PublicService publicService = createPublicService();
+        Address pubServiceAddress = createPubServiceAddress();
+        publicService.setAddress(pubServiceAddress);
+        return publicService;
+    }
+
+    public static Requester createValidCitizenRequester() {
+        Requester requester = createRequesterCitizen();
+        Address requesterAddress = createCitizenAddress();
+        requester.setAddress(requesterAddress);
+        return requester;
+    }
+
+    public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
         InformationRequest infoRequest0 =
                 new InformationRequest(infoRequestDocType, requester, publicService);
         infoRequest0.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
@@ -159,7 +166,7 @@ public class PublicServiceDemo {
         return infoRequest0;
     }
 
-    private static PublicService createPublicService() {
+    public static PublicService createPublicService() {
         PublicService publicService = new PublicService("Improvements service");
         publicService.setHierarchyLevel(1);
         publicService.setParentOrgId((long)0);
@@ -168,7 +175,7 @@ public class PublicServiceDemo {
         return publicService;
     }
 
-    private static Address createPubServiceAddress() {
+    public static Address createPubServiceAddress() {
         Address pubServiceAddress = new Address();
         pubServiceAddress.setCountry("Ukraine");
         pubServiceAddress.setRegion("Kyivska obl.");
@@ -180,14 +187,14 @@ public class PublicServiceDemo {
         return pubServiceAddress;
     }
 
-    private static Requester createRequesterCitizen() {
+    public static Requester createRequesterCitizen() {
         Requester requester = new Citizen("Petrenko","Taras","Ivanovych");
         requester.setEmailAddress("citizen@gmail.com");
         requester.setOfficialId("1234567890");
         return requester;
     }
 
-    private static Address createCitizenAddress() {
+    public static Address createCitizenAddress() {
         Address citizenAddress = new Address();
         citizenAddress.setCountry("Ukraine");
         citizenAddress.setRegion("Kyivska obl.");
@@ -200,7 +207,7 @@ public class PublicServiceDemo {
         return citizenAddress;
     }
 
-    private static DocumentType createOutcomingDocType() {
+    public static DocumentType createOutcomingDocType() {
         DocumentLifecycle outcomingDocLifecycle =
                 createLinearLifecycleFinalized("Created", "Passed_for_sending", "Sent");
         DocumentType outcomingDocType = new DocumentType("Outcoming_Document", "Out_",outcomingDocLifecycle);
@@ -208,7 +215,7 @@ public class PublicServiceDemo {
         return outcomingDocType;
     }
 
-    private static DocumentType createInfoRequestDocType() {
+    public static DocumentType createInfoRequestDocType() {
         DocumentLifecycle infoRequestLifecycle =
                 createLinearLifecycleFinalized("Created", "Assigned", "Replied");
         DocumentType infoRequestDocType = new DocumentType("Information_Request", "InfoReq_",infoRequestLifecycle);
@@ -216,7 +223,7 @@ public class PublicServiceDemo {
         return infoRequestDocType;
     }
 
-    private static DocumentLifecycle createLinearLifecycleFinalized(String... orgDocStatusesStrings) {
+    public static DocumentLifecycle createLinearLifecycleFinalized(String... orgDocStatusesStrings) {
         DocumentLifecycle infoRequestLifecycle = new DocumentLifecycle(orgDocStatusesStrings);
         infoRequestLifecycle.setFinalized(true);
         return infoRequestLifecycle;

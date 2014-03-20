@@ -1,8 +1,12 @@
 package edu.clients;
+import edu.communications.Address;
+import edu.services.PublicServiceDemo;
+import edu.services.docs.DocDefaults;
 import edu.services.docs.DocumentLifecycle;
 import edu.services.docs.DocumentType;
 import edu.services.docs.IncomingDocument;
 
+import edu.services.orgs.PublicService;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,7 +27,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
 
         DocumentType infoRequestDocType = new DocumentType("Information_Request", "InfoReq_",infoRequestLifecycle);
         infoRequestDocType.setFinalized(true);
-        infoRequest = new IncomingDocument(infoRequestDocType, citizen, publicService);
+        infoRequest = PublicServiceDemo.createInformationRequest(infoRequestDocType, citizen, publicService);
     }
 
 
@@ -83,10 +87,20 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
         infoRequest.setText("1");
         citizen.addRequest(infoRequest);
 
-        //TODO check value of infoRequest.isValid()
-
         //then
         org.junit.Assert.assertFalse("Request text can not be empty string: " + citizen.getRequests().get(0).getText() + ".",citizen.getRequests().get(0).getText().equals(""));
+    }
+
+    @Test
+    public void shouldGetValidityString() throws Exception {
+        //given
+
+        //when
+        infoRequest.setText("1");
+        citizen.addRequest(infoRequest);
+
+        //then
+        org.junit.Assert.assertEquals(DocDefaults.VALID, citizen.getRequests().get(0).getValidityString());
     }
 
     @Test

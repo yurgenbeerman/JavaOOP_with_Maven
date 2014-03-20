@@ -21,8 +21,8 @@ public final class InformationRequest extends IncomingDocument {
         setDocumentName(documentType.getDocTypeName() + " #" + this.getDocumentId());
     }
 
-    public String isValid() {
-        return super.isValid();
+    public String getValidityString() {
+        return super.getValidityString();
     }
 
     public String getAddressForReply() {

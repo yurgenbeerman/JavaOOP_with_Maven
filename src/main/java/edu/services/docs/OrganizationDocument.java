@@ -53,7 +53,7 @@ public class OrganizationDocument extends Text {
         this.setDocumentAuthorId(author.getId());
     }
 
-    public String isValid() {
+    public String getValidityString() {
         if (null == documentName) {
             return DOC_NAME_IS_NULL;
         } else if (documentName.length() == 0) {

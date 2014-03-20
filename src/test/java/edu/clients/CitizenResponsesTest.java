@@ -1,5 +1,6 @@
 package edu.clients;
 
+import edu.services.docs.DocDefaults;
 import edu.services.docs.DocumentLifecycle;
 import edu.services.docs.DocumentType;
 import edu.services.docs.OutcomingDocument;
@@ -42,14 +43,24 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
     }
 
     @Test
-    public void shouldResponseText() throws Exception {
+    public void shouldGetValidityString() throws Exception {
         //given
 
         //when
         outcomingDocument.setText("1");
         citizen.addResponse(outcomingDocument);
 
-        //TODO check value of infoResponse.isValid()
+        //then
+        org.junit.Assert.assertEquals(DocDefaults.VALID, citizen.getResponses().get(0).getValidityString());
+    }
+
+    @Test
+    public void shouldResponseText() throws Exception {
+        //given
+
+        //when
+        outcomingDocument.setText("1");
+        citizen.addResponse(outcomingDocument);
 
         //then
         org.junit.Assert.assertFalse("Response text can not be empty string: " + citizen.getResponses().get(0).getText() + ".",citizen.getResponses().get(0).getText().equals(""));

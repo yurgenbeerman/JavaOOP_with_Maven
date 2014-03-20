@@ -16,8 +16,8 @@ public class IncomingDocument extends OrganizationDocument {
         super(documentType, author, publicService);
     }
 
-    public String isValid() {
-        return super.isValid();
+    public String getValidityString() {
+        return super.getValidityString();
     }
 
     public PublicServant getIncomingDocResponsible() {

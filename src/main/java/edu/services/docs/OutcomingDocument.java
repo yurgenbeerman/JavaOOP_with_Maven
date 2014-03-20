@@ -22,8 +22,8 @@ public class OutcomingDocument extends OrganizationDocument {
     private boolean isEmailed = false;
     private boolean isSentViaPost = false;
 
-    public String isValid() {
-        return super.isValid();
+    public String getValidityString() {
+        return super.getValidityString();
     }
 
     public void setDocSentEmail(Email email) {
