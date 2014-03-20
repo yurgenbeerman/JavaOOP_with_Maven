@@ -26,8 +26,14 @@ public class DepartmentsTasksDispatcher {
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
-        PublicServiceDepartment department = docsDispatchingTable.get(document.getClass().getName());
-        department.addDocToProcess(document);
+        if ( docsDispatchingTable != null ) {
+            if (0 != docsDispatchingTable.size()) {
+                PublicServiceDepartment department = docsDispatchingTable.get(document.getClass().getName());
+                department.addDocToProcess(document);
+            } else
+                throw new IllegalStateException(ExecutionDefaults.DOCS_DISPATCHING_TABLE_IS_EMPTY);
+        } else
+            throw new IllegalStateException(ExecutionDefaults.NO_DOCS_DISPATCHING_TABLE);
     }
 
 /*

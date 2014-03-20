@@ -19,6 +19,7 @@ public final class InformationRequest extends IncomingDocument {
         informationResponsible = (InformationResponsible) super.getIncomingDocResponsible();
         documentType.setDocTypeInUse(true);
         setDocumentName(documentType.getDocTypeName() + " #" + this.getDocumentId());
+        requester.addRequest(this);
     }
 
     public String getValidityString() {

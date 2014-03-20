@@ -39,17 +39,22 @@ public class Citizen implements Requester, Emailable {
     }
 
     public ArrayList<IncomingDocument> getRequests() {
-        if (0 != requests.size()) {
-            return this.requests;
-        } else {
-            return null;
-        }
+        if ( requests != null ) {
+            if (0 != requests.size()) {
+                return this.requests;
+            } else {
+                throw new IllegalStateException(ClientsDefaults.NO_REQUESTS);
+            }
+        } else
+            throw new IllegalStateException(ClientsDefaults.REQUESTS_ARRAY_IS_NULL);
     }
 
     public String getRequestsString() {
         String result = "";
-        for (int i = 0; i < getRequests().size(); i++) {
-            result = result + getRequests().get(i);
+        if ( requests != null ) {
+            for (int i = 0; i < getRequests().size(); i++) {
+                result = result + requests.get(i).toString();
+            }
         }
         return result;
     }

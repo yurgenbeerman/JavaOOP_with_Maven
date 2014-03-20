@@ -2,10 +2,10 @@ package edu.services.servants;
 
 import edu.clients.Citizen;
 import edu.services.docs.OrganizationDocument;
-import edu.services.orgs.PublicService;
+import edu.services.execution.ExecutionDefaults;
 import edu.services.orgs.PublicServiceDepartment;
 
-import java.util.concurrent.PriorityBlockingQueue;
+import java.util.concurrent.ArrayBlockingQueue;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
@@ -14,7 +14,7 @@ public class PublicServant extends Citizen {
     private static long lastPublicServantId;
     private long publicServantId;
     private PublicServiceDepartment department;
-    private PriorityBlockingQueue<OrganizationDocument> documentsToProcess;
+    private ArrayBlockingQueue<OrganizationDocument> documentsToProcess;
 
 
     public PublicServant(PublicServiceDepartment department, String surname, String name, String secondName) {
@@ -25,6 +25,8 @@ public class PublicServant extends Citizen {
 
         this.department = department;
         department.addPublicServant(this);
+
+        documentsToProcess = new ArrayBlockingQueue<OrganizationDocument>(ExecutionDefaults.MAX_SERVANTS_PER_SERVANT);
     }
 
     public String toString() {
@@ -52,6 +54,7 @@ public class PublicServant extends Citizen {
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
+
         documentsToProcess.add(document);
     }
 

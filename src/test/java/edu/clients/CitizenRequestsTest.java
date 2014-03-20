@@ -32,14 +32,14 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
 
 
     @Test
-    public void shouldBeOneRequestWhenFirstAddRequest() throws Exception {
+    public void shouldBeTwoRequestsWhenFirstAddRequestSeparatelyOfConstructor() throws Exception {
         //given
 
         //when
         citizen.addRequest(infoRequest);
 
         //then
-        org.junit.Assert.assertEquals("Size of requests array should be 1", 1, citizen.getRequests().size());
+        org.junit.Assert.assertEquals("Size of requests array should be 1", 2, citizen.getRequests().size());
     }
 
     @Test
@@ -66,17 +66,6 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
 
         //then
         org.junit.Assert.assertNotNull("After addition the first request should not be null", citizen.getRequests().get(0));
-    }
-
-    @Test
-
-    public void shouldNotFailWhenGetRequestsStringAndNoRequestsAdded() throws java.lang.IndexOutOfBoundsException {
-        //given
-
-        //when
-
-        //then
-        Assert.assertNull("citizen.getRequests() = " + citizen.getRequests(), citizen.getRequests());
     }
 
     @Test

@@ -21,6 +21,9 @@ import java.util.Map;
  */
 public class PublicServiceDemo {
     static int statusNumber = 0;
+    private static PublicServiceDepartment infoRequestsDep;
+    private static PublicServiceDepartment thanksAndClaimsDep;
+
     public static void main (String[] args) {
         System.out.println("------------- PublicServiceDemo ------------- ");
 
@@ -41,8 +44,8 @@ public class PublicServiceDemo {
 
         assert (infoRequest0.getValidityString().equals(DocDefaults.VALID));
 
-        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
-        PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
+        infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
+        thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
 
         /* The user can modify the Request data until it isReceivedByPublicService */
         infoRequest0.setReceivedByPublicService(true);
@@ -65,10 +68,7 @@ public class PublicServiceDemo {
 //        publicServant2.addDocumentToProcess(thanks0);
 //        publicServant2.addDocumentToProcess(claims0);
 
-        Map<String, PublicServiceDepartment> docsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
-        docsDispatchingTable.put("InformationRequest", infoRequestsDep);
-        docsDispatchingTable.put("Claim", thanksAndClaimsDep);
-        docsDispatchingTable.put("Thank", thanksAndClaimsDep);
+        Map<String, PublicServiceDepartment> docsDispatchingTable = createDocsDispatchingTable();
 
         //TODO dispatch all docs to all servants
         //  create executed tasks map
@@ -123,6 +123,14 @@ public class PublicServiceDemo {
 
     }
 
+    public static Map<String, PublicServiceDepartment> createDocsDispatchingTable() {
+        Map<String, PublicServiceDepartment> docsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
+        docsDispatchingTable.put("InformationRequest", infoRequestsDep);
+        docsDispatchingTable.put("Claim", thanksAndClaimsDep);
+        docsDispatchingTable.put("Thank", thanksAndClaimsDep);
+        return docsDispatchingTable;
+    }
+
     public static OutcomingDocument createOutcomingDocument(DocumentType outcomingDocType, PublicService publicService, InformationRequest infoRequest0, InformationResponsible informationResponsibleServant) {
         OutcomingDocument outcomingDocument =
                 new OutcomingDocument(outcomingDocType, informationResponsibleServant, publicService);
@@ -149,14 +157,14 @@ public class PublicServiceDemo {
     }
 
     public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
-        InformationRequest infoRequest0 =
+        InformationRequest informationRequest =
                 new InformationRequest(infoRequestDocType, requester, publicService);
-        infoRequest0.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
-        infoRequest0.setIfSendReplyToPostAddress(true);
-        infoRequest0.setAddressForReply(requester.getAddressString());
-        infoRequest0.setIfSendReplyToEmail(true);
-        infoRequest0.setEmailForReply(requester.getEmailAddress());
-        return infoRequest0;
+        informationRequest.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
+        informationRequest.setIfSendReplyToPostAddress(true);
+        informationRequest.setAddressForReply(requester.getAddressString());
+        informationRequest.setIfSendReplyToEmail(true);
+        informationRequest.setEmailForReply(requester.getEmailAddress());
+        return informationRequest;
     }
 
     public static PublicService createPublicService() {
