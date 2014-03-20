@@ -11,7 +11,6 @@ import edu.services.servants.PublicServant;
 public class IncomingDocument extends OrganizationDocument {
     private OrganizationDocument reactionDocument;
     private PublicServant incomingDocResponsible;
-    private PublicServiceDepartment publicServiceDepartment;
     private boolean isReceivedByPublicService;
 
     public IncomingDocument(DocumentType documentType, Requester author, PublicService publicService) {
@@ -20,14 +19,6 @@ public class IncomingDocument extends OrganizationDocument {
 
     public String getValidityString() {
         return super.getValidityString();
-    }
-
-    public PublicServiceDepartment getPublicServiceDepartment() {
-        return publicServiceDepartment;
-    }
-
-    public void setPublicServiceDepartment(PublicServiceDepartment publicServiceDepartment) {
-        this.publicServiceDepartment = publicServiceDepartment;
     }
 
     public PublicServant getIncomingDocResponsible() {

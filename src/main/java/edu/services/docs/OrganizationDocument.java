@@ -2,6 +2,8 @@ package edu.services.docs;
 
 import edu.clients.Requester;
 import edu.services.orgs.PublicService;
+import edu.services.orgs.PublicServiceDepartment;
+
 import static edu.services.docs.DocDefaults.*;
 
 import java.security.InvalidParameterException;
@@ -24,6 +26,7 @@ public class OrganizationDocument extends Text {
     private long orgId;
     private Requester author;
     private String text;
+    private PublicServiceDepartment currentPublicServiceDepartment;
 
     public OrganizationDocument() {
         this.documentId = OrganizationDocument.lastDocumentId;
@@ -212,5 +215,14 @@ public class OrganizationDocument extends Text {
 
     public String getAuthorName() {
         return this.getAuthor().getName();
+    }
+
+
+    public PublicServiceDepartment getCurrentPublicServiceDepartment() {
+        return currentPublicServiceDepartment;
+    }
+
+    public void setCurrentPublicServiceDepartment(PublicServiceDepartment currentPublicServiceDepartment) {
+        this.currentPublicServiceDepartment = currentPublicServiceDepartment;
     }
 }

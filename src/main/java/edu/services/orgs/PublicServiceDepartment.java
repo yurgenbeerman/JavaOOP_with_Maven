@@ -1,16 +1,13 @@
 package edu.services.orgs;
 
 import edu.communications.Emailable;
-import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.servants.PublicServant;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.PriorityBlockingQueue;
 
 /**
  * Created by yurii.pyvovarenko on 19.03.14.
@@ -53,7 +50,7 @@ public class PublicServiceDepartment implements Emailable {
 
     public void addDocToProcess(OrganizationDocument document) {
         //TODO .addDocToProcess(OrganizationDocument document);
-        ((IncomingDocument) document).setPublicServiceDepartment(this);
+        document.setCurrentPublicServiceDepartment(this);
     }
 
     public String getName() {
