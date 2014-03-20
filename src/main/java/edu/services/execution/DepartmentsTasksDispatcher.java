@@ -44,6 +44,5 @@ public class DepartmentsTasksDispatcher {
 
     public void setDocsToDepartmentsDispatchingTable(Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable) {
         this.docsToDepartmentsDispatchingTable = docsToDepartmentsDispatchingTable;
-        System.out.println("this.docsToDepartmentsDispatchingTable " + this.docsToDepartmentsDispatchingTable);
     }
 }

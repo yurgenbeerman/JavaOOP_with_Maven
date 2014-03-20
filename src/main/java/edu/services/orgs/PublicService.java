@@ -6,6 +6,7 @@ import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
 import edu.services.execution.DepartmentsTasksDispatcher;
 import edu.services.execution.ExecutionDefaults;
+import edu.services.execution.ExecutionEnvironment;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -25,11 +26,13 @@ public class PublicService implements Emailable {
     private long parentOrgId;
     private String emailAddress;
     private DepartmentsTasksDispatcher departmentsTasksDispatcher;
+    private ExecutionEnvironment environment;
 
-    public PublicService(String orgName) {
+    public PublicService(String orgName, ExecutionEnvironment environment) {
         this.orgId = PublicService.lastOrgId;
         PublicService.lastOrgId++;
         setOrgName(orgName);
+        this.environment = environment;
     }
 
     public String getEmailAddress() {
@@ -104,5 +107,9 @@ public class PublicService implements Emailable {
 
     public void setDepartmentsTasksDispatcher(DepartmentsTasksDispatcher departmentsTasksDispatcher) {
         this.departmentsTasksDispatcher = departmentsTasksDispatcher;
+    }
+
+    public ExecutionEnvironment getEnvironment() {
+        return environment;
     }
 }

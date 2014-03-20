@@ -1,8 +1,7 @@
 package edu.services.servants;
 
-import edu.services.docs.DocDefaults;
-import edu.services.docs.IncomingDocument;
-import edu.services.docs.OrganizationDocument;
+import edu.services.docs.*;
+import edu.services.execution.ExecutionDefaults;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 
@@ -51,5 +50,36 @@ public class InformationResponsible extends PublicServant {
     public void addDocumentToProcess(IncomingDocument document) {
         document.setIncomingDocResponsible(this);
         super.addDocumentToProcess(document);
+        processDocument(document);
+    }
+
+    public void processDocument(IncomingDocument document) {
+        OutcomingDocument outcomingDocument =
+                this.createOutcomingDocument(document);
+
+        outcomingDocument.publishToRequester(document.getAuthor());
+        outcomingDocument.setNextDocumentStatus();
+        document.setNextDocumentStatus();
+        document.setFinalized(true);
+
+
+
+        getDocumentsToProcess().remove(document);
+        document.setNextDocumentStatus();
+    }
+
+    private OutcomingDocument createOutcomingDocument(IncomingDocument initiatingDocument) {
+        OutcomingDocument outcomingDocument =
+                new OutcomingDocument(
+                        getEnvironment().getOutcomingDocType(),
+                        this,
+                        getDepartment().getPublicService()
+                );
+        outcomingDocument.setText(this.getInformationForReply());
+        initiatingDocument.setReactionDocument(outcomingDocument);
+        outcomingDocument.setInitiatingDocument(initiatingDocument);
+        outcomingDocument.setNextDocumentStatus();
+        outcomingDocument.setDocumentName(ExecutionDefaults.OUTCOMING_DOC_NAME);
+        return outcomingDocument;
     }
 }

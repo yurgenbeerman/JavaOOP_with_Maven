@@ -2,10 +2,12 @@ package edu.services.servants;
 
 import edu.clients.Citizen;
 import edu.services.docs.OrganizationDocument;
-import edu.services.execution.ExecutionDefaults;
+import edu.services.docs.OutcomingDocument;
+import edu.services.execution.ExecutionEnvironment;
 import edu.services.orgs.PublicServiceDepartment;
 
-import java.util.concurrent.ArrayBlockingQueue;
+import java.util.ArrayList;
+
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
@@ -14,12 +16,14 @@ public class PublicServant extends Citizen {
     private static long lastPublicServantId;
     private long publicServantId;
     private PublicServiceDepartment department;
-    private ArrayBlockingQueue<OrganizationDocument> documentsToProcess;
+    private ArrayList<OrganizationDocument> documentsToProcess;
+    private ExecutionEnvironment environment;
 
     protected PublicServant() {}
 
     public PublicServant(PublicServiceDepartment department, String surname, String name, String secondName) {
         super(surname, name, secondName);
+        this.environment = department.getEnvironment();
 
         this.publicServantId = PublicServant.lastPublicServantId;
         PublicServant.lastPublicServantId++;
@@ -27,7 +31,7 @@ public class PublicServant extends Citizen {
         this.department = department;
         department.addPublicServant(this);
 
-        documentsToProcess = new ArrayBlockingQueue<OrganizationDocument>(ExecutionDefaults.MAX_SERVANTS_PER_SERVANT);
+        documentsToProcess = new ArrayList<OrganizationDocument>(); //(ExecutionDefaults.MAX_SERVANTS_PER_SERVANT);
     }
 
     public String toString() {
@@ -54,13 +58,26 @@ public class PublicServant extends Citizen {
                 department.toString().hashCode());
     }
 
-    public void addDocumentToProcess(OrganizationDocument document) {
-        documentsToProcess.add(document);
+    public ArrayList<OrganizationDocument> getDocumentsToProcess() {
+        return documentsToProcess;
     }
 
     public int compareTo(PublicServant other) {
         if ( this.getId() == other.getId() )
             return 0;
         return ( this.getId() > other.getId() ) ? 1 : -1;
+    }
+
+    public ExecutionEnvironment getEnvironment() {
+        return environment;
+    }
+
+    public void addDocumentToProcess(OrganizationDocument document) {
+        documentsToProcess.add(document);
+        document.setNextDocumentStatus();
+    }
+
+    public PublicServiceDepartment getDepartment() {
+        return department;
     }
 }

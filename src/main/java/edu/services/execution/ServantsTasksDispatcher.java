@@ -20,11 +20,9 @@ public class ServantsTasksDispatcher {
 
     public void setDocsToServantsDispatchingTable(Map<String, PublicServant> docsToServantsDispatchingTable) {
         this.docsToServantsDispatchingTable = docsToServantsDispatchingTable;
-        System.out.println("1 " + this.docsToServantsDispatchingTable);
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
-        System.out.println("2 " + this.docsToServantsDispatchingTable);
         if ( this.docsToServantsDispatchingTable != null ) {
             if (0 != this.docsToServantsDispatchingTable.size()) {
                 PublicServant servant =

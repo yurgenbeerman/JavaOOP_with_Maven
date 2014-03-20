@@ -4,10 +4,7 @@ import edu.clients.Citizen;
 import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
-import edu.services.execution.DepartmentsTasksDispatcher;
-import edu.services.execution.ExecutionDefaults;
-import edu.services.execution.ServantsLoadBalancer;
-import edu.services.execution.ServantsTasksDispatcher;
+import edu.services.execution.*;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
@@ -16,7 +13,6 @@ import edu.services.servants.ThanksAndClaimsResponsible;
 import edu.utils.PublicRequestsUtils;
 
 import java.util.HashMap;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Map;
 
 /**
@@ -26,11 +22,14 @@ import java.util.Map;
  */
 public class PublicServiceDemo {
     static int statusNumber = 0;
+    static ExecutionEnvironment environment;
 
     public static void main (String[] args) {
         System.out.println("------------- PublicServiceDemo ------------- ");
 
         /* INITIALIZATION start */
+        environment = new ExecutionEnvironment();
+
         DocumentType infoRequestDocType = createInfoRequestDocType();
         DocumentType outcomingDocType = createOutcomingDocType();
 
@@ -92,6 +91,13 @@ public class PublicServiceDemo {
         infoRequest0.setReceivedByPublicService(true);
         publicService.addDocumentToProcess(infoRequest0);
 
+        InformationRequest infoRequest1 = createInformationRequest(infoRequestDocType, requester, publicService);
+        InformationRequest infoRequest2 = createInformationRequest(infoRequestDocType, requester, publicService);
+        InformationRequest infoRequest3 = createInformationRequest(infoRequestDocType, requester, publicService);
+        publicService.addDocumentToProcess(infoRequest1);
+        publicService.addDocumentToProcess(infoRequest2);
+        publicService.addDocumentToProcess(infoRequest3);
+
         //TODO execute all tasks by all servants =
         //  create outcoming doc
         //      and assign replies to it
@@ -102,13 +108,12 @@ public class PublicServiceDemo {
 
         printStatusAndAssignee(infoRequest0, infoRequest0.getIncomingDocResponsibleName());
 
+        OutcomingDocument outcomingDocument = createOutcomingDocument(
+                outcomingDocType, publicService, infoRequest0, publicServant0);
 
-        OutcomingDocument outcomingDocument = createOutcomingDocument(outcomingDocType, publicService, infoRequest0, publicServant0);
 
-        outcomingDocument.publishToRequester(requester);
-        outcomingDocument.setNextDocumentStatus();
-        infoRequest0.setNextDocumentStatus();
-        infoRequest0.setFinalized(true);
+        environment.setOutcomingDocType(outcomingDocType);
+
 
         printStatusAndAssignee(infoRequest0, infoRequest0.getAuthorName());
 
@@ -174,7 +179,7 @@ public class PublicServiceDemo {
     }
 
     public static PublicService createPublicService() {
-        PublicService publicService = new PublicService("Improvements service");
+        PublicService publicService = new PublicService("Improvements service", environment);
         publicService.setHierarchyLevel(1);
         publicService.setParentOrgId((long)0);
         publicService.setOrgId((long)0);

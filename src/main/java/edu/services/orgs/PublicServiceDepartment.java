@@ -3,6 +3,7 @@ package edu.services.orgs;
 import edu.communications.Emailable;
 import edu.services.docs.OrganizationDocument;
 import edu.services.execution.ExecutionDefaults;
+import edu.services.execution.ExecutionEnvironment;
 import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.servants.PublicServant;
 
@@ -21,6 +22,7 @@ public class PublicServiceDepartment implements Emailable {
     private String name;
     private String emailAddress;
     private ServantsTasksDispatcher servantsTasksDispatcher;
+    private ExecutionEnvironment environment;
 
     public PublicServiceDepartment() {
         this.setDepartmentId(this);
@@ -31,7 +33,7 @@ public class PublicServiceDepartment implements Emailable {
         this.publicService = publicService;
         this.name = name;
         this.servants = new ArrayBlockingQueue<PublicServant>(ExecutionDefaults.MAX_SERVANTS_PER_DEP);
-        //this.servantsTasksDispatcher = new ServantsTasksDispatcher(this);
+        this.environment = publicService.getEnvironment();
     }
 
     public String getEmailAddress() {
@@ -92,6 +94,17 @@ public class PublicServiceDepartment implements Emailable {
         this.servantsTasksDispatcher = servantsTasksDispatcher;
     }
 
+    public PublicService getPublicService() {
+        return publicService;
+    }
+
+    public void setPublicService(PublicService publicService) {
+        this.publicService = publicService;
+    }
+
+    public ExecutionEnvironment getEnvironment() {
+        return environment;
+    }
 
 
     private static void setDepartmentId(PublicServiceDepartment department) {
