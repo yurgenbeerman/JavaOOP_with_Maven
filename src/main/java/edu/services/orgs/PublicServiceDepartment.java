@@ -1,12 +1,15 @@
 package edu.services.orgs;
 
+import edu.communications.Address;
 import edu.communications.Emailable;
 import edu.services.docs.OrganizationDocument;
+import edu.services.docs.OutcomingDocument;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.execution.ExecutionEnvironment;
 import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.servants.PublicServant;
 
+import java.util.GregorianCalendar;
 import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
@@ -106,6 +109,9 @@ public class PublicServiceDepartment implements Emailable {
         return environment;
     }
 
+    public void sendDocumentToAddress(OutcomingDocument outcomingDocument, Address address) {
+        publicService.sendDocumentToAddress(outcomingDocument, address);
+    }
 
     private static void setDepartmentId(PublicServiceDepartment department) {
         department.departmentId = nextDepartmentId;

@@ -22,124 +22,39 @@ import java.util.Map;
  */
 public class PublicServiceDemo {
     static int statusNumber = 0;
-    static ExecutionEnvironment environment;
+    static ExecutionEnvironment testEnvironment;
 
     public static void main (String[] args) {
         System.out.println("------------- PublicServiceDemo ------------- ");
 
-        /* INITIALIZATION start */
-        environment = new ExecutionEnvironment();
-
-        DocumentType infoRequestDocType = createInfoRequestDocType();
-        DocumentType outcomingDocType = createOutcomingDocType();
-
-        Requester requester = createValidCitizenRequester();
-
-        PublicService publicService = createValidPublicService();
-        /* INITIALIZATION end */
+        testEnvironment = new ExecutionEnvironment();
+        setupEnvironment(testEnvironment);
 
         /* Assume a user (Citizen wants to create s Request */
-        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester) )
-            throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
-
-        InformationRequest infoRequest0 = createInformationRequest(infoRequestDocType, requester, publicService);
-
-        assert (infoRequest0.getValidityString().equals(DocDefaults.VALID));
-
-        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
-        PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
-
-        /*Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable =
-                createDocsToDepartmentsDispatchingTable(infoRequestsDep, thanksAndClaimsDep);
-        assert (docsToDepartmentsDispatchingTable != null); */
-        Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
-        docsToDepartmentsDispatchingTable.put("edu.services.docs.InformationRequest", infoRequestsDep);
-        docsToDepartmentsDispatchingTable.put("edu.services.docs.Claim", thanksAndClaimsDep);
-        docsToDepartmentsDispatchingTable.put("edu.services.docs.Thank", thanksAndClaimsDep);
-        DepartmentsTasksDispatcher departmentsTasksDispatcher = new DepartmentsTasksDispatcher(publicService);
-        departmentsTasksDispatcher.setDocsToDepartmentsDispatchingTable(docsToDepartmentsDispatchingTable);
-
-        ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
-        ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
-
-        InformationResponsible publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
-        InformationResponsible publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
-        publicServant0.setInformationForReply(
-                "The plan of improvements for 2014 is next... Sincerely, publicServant0."); //TODO Remove stubs
-        publicServant1.setInformationForReply(
-                "The plan of improvements for 2014 is next... Sincerely, publicServant1."); //TODO Remove stubs
-
-        ServantsLoadBalancer servantsLoadBalancer = new ServantsLoadBalancer();
-        servantsLoadBalancer.addServant(publicServant0);
-        servantsLoadBalancer.addServant(publicServant1);
-
-        ThanksAndClaimsResponsible publicServant2 = new ThanksAndClaimsResponsible(thanksAndClaimsDep, "Karpenko2", "Petro2", "Ivanovych2");
-        publicServant2.setInformationForReply(
-                "Thank you for information! Sincerely, publicServant2."); //TODO Remove stubs
-
-        Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>();
-        infoRequestsDepDispatchingTable.put("edu.services.docs.InformationRequest", servantsLoadBalancer);
-
-        infoRequestsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(infoRequestsDepDispatchingTable);
-
-        Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>();
-        thanksAndClaimsDepDispatchingTable.put("edu.services.docs.Claim", publicServant2);
-        thanksAndClaimsDepDispatchingTable.put("edu.services.docs.Thank", publicServant2);
-        thanksAndClaimsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(thanksAndClaimsDepDispatchingTable);
+        InformationRequest infoRequest0 = createTestInformationRequest();
 
         /* The user can modify the Request data until it isReceivedByPublicService */
         infoRequest0.setReceivedByPublicService(true);
-        publicService.addDocumentToProcess(infoRequest0);
+        testEnvironment.getPublicService().addDocumentToProcess(infoRequest0);
 
-        InformationRequest infoRequest1 = createInformationRequest(infoRequestDocType, requester, publicService);
-        InformationRequest infoRequest2 = createInformationRequest(infoRequestDocType, requester, publicService);
-        InformationRequest infoRequest3 = createInformationRequest(infoRequestDocType, requester, publicService);
-        publicService.addDocumentToProcess(infoRequest1);
-        publicService.addDocumentToProcess(infoRequest2);
-        publicService.addDocumentToProcess(infoRequest3);
+        /* Assume a user creates more requests */
+        InformationRequest infoRequest1 = createTestInformationRequest();
+        InformationRequest infoRequest2 = createTestInformationRequest();
+        InformationRequest infoRequest3 = createTestInformationRequest();
+        testEnvironment.getPublicService().addDocumentToProcess(infoRequest1);
+        testEnvironment.getPublicService().addDocumentToProcess(infoRequest2);
+        testEnvironment.getPublicService().addDocumentToProcess(infoRequest3);
 
-        //TODO execute all tasks by all servants =
-        //  create outcoming doc
-        //      and assign replies to it
-        //      and set dependent docsIds to incoming and outcoming docs
-        //      and publish outcoming doc
-        //      and send it via email and via post
-        //      and remove incoming doc from the unprocessedIncomingDocsQueue
+//        printStatusAndAssignee(infoRequest0, infoRequest0.getIncomingDocResponsibleName());
+//        printStatusAndAssignee(infoRequest0, infoRequest0.getAuthorName());
+//        System.out.println("\ninfoRequest statuses history: " + infoRequest0.getStatusesHistoryString());
 
-        printStatusAndAssignee(infoRequest0, infoRequest0.getIncomingDocResponsibleName());
+        //TODO ensure that informationResponsibles process their documents!
 
-        OutcomingDocument outcomingDocument = createOutcomingDocument(
-                outcomingDocType, publicService, infoRequest0, publicServant0);
-
-
-        environment.setOutcomingDocType(outcomingDocType);
-
-
-        printStatusAndAssignee(infoRequest0, infoRequest0.getAuthorName());
-
-
-        if (infoRequest0.isIfSendReplyToEmail()) {
-            Email email = new Email(publicService.getEmailAddress(), requester.getEmailAddress(),
-                    publicServant0.getInformationForReply());
-            email.sendEmail();
-            outcomingDocument.setDocSentEmail(email);
-            System.out.println("\nThe Response (Outcoming Doc) was sent to Email: " + outcomingDocument.getDocSentEmailAddress() +
-                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentEmailDate()));
-        }
-
-        if (infoRequest0.isIfSendReplyToPostAddress()) {
-            publicService.sendDocumentToAddress(outcomingDocument, requester.getAddress());
-            System.out.println("\nThe Response (Outcoming Doc) was sent to Address: " + outcomingDocument.getDocSentAddress() +
-                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentAddressDate()));
-        }
-        outcomingDocument.setNextDocumentStatus();
-        outcomingDocument.setFinalized(true);
-        //TODO: must set outcomingDocument.status to the last one "Sent" -- find out why it doesn't work!
-
-        System.out.println("\ninfoRequest statuses history: " + infoRequest0.getStatusesHistoryString());
-        System.out.println("\ncitizen sent the next requests:\n   " + requester.getRequestsString());
-        System.out.println("\ncitizen got the next responses:\n   " + requester.getResponsesString());
-
+        System.out.println("\ncitizen sent the next requests:\n   " +
+                testEnvironment.getRequester().getRequestsString());
+        System.out.println("\ncitizen got the next responses:\n   " +
+                testEnvironment.getRequester().getResponsesString());
     }
 
     public static OutcomingDocument createOutcomingDocument(DocumentType outcomingDocType, PublicService publicService, InformationRequest infoRequest0, InformationResponsible informationResponsibleServant) {
@@ -167,7 +82,17 @@ public class PublicServiceDemo {
         return requester;
     }
 
+    public static InformationRequest createTestInformationRequest() {
+        return createInformationRequest(
+            testEnvironment.getInfoRequestDocType(),
+            testEnvironment.getRequester(),
+            testEnvironment.getPublicService()
+        );
+    }
+
     public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
+        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(testEnvironment.getRequester()) )
+            throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
         InformationRequest informationRequest =
                 new InformationRequest(infoRequestDocType, requester, publicService);
         informationRequest.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
@@ -179,7 +104,7 @@ public class PublicServiceDemo {
     }
 
     public static PublicService createPublicService() {
-        PublicService publicService = new PublicService("Improvements service", environment);
+        PublicService publicService = new PublicService("Improvements service", testEnvironment);
         publicService.setHierarchyLevel(1);
         publicService.setParentOrgId((long)0);
         publicService.setOrgId((long)0);
@@ -255,4 +180,64 @@ public class PublicServiceDemo {
         statusNumber++;
     }
 
+    static void setupEnvironment(ExecutionEnvironment environment) {
+        DocumentType infoRequestDocType = createInfoRequestDocType();
+        environment.setInfoRequestDocType(infoRequestDocType);
+
+        DocumentType outcomingDocType = createOutcomingDocType();
+        environment.setOutcomingDocType(outcomingDocType);
+
+        Requester requester = createValidCitizenRequester();
+        environment.setRequester(requester);
+
+        PublicService publicService = createValidPublicService();
+        environment.setRequester(requester);
+
+
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(
+                publicService,
+                "infoRequestsDep_0"
+        );
+        PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(
+                publicService,
+                "ThanksAndClaimsDep_1"
+        );
+
+        Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
+        docsToDepartmentsDispatchingTable.put("edu.services.docs.InformationRequest", infoRequestsDep);
+        docsToDepartmentsDispatchingTable.put("edu.services.docs.Claim", thanksAndClaimsDep);
+        docsToDepartmentsDispatchingTable.put("edu.services.docs.Thank", thanksAndClaimsDep);
+        DepartmentsTasksDispatcher departmentsTasksDispatcher = new DepartmentsTasksDispatcher(publicService);
+        departmentsTasksDispatcher.setDocsToDepartmentsDispatchingTable(docsToDepartmentsDispatchingTable);
+
+        ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
+        ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
+
+        InformationResponsible publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
+        InformationResponsible publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
+        publicServant0.setInformationForReply(
+                "The plan of improvements for 2014 is next... Sincerely, publicServant0."); //TODO Remove stubs
+        publicServant1.setInformationForReply(
+                "The plan of improvements for 2014 is next... Sincerely, publicServant1."); //TODO Remove stubs
+
+        ServantsLoadBalancer servantsLoadBalancer = new ServantsLoadBalancer();
+        servantsLoadBalancer.addServant(publicServant0);
+        servantsLoadBalancer.addServant(publicServant1);
+
+        ThanksAndClaimsResponsible publicServant2 = new ThanksAndClaimsResponsible(thanksAndClaimsDep, "Karpenko2", "Petro2", "Ivanovych2");
+        publicServant2.setInformationForReply(
+                "Thank you for information! Sincerely, publicServant2."); //TODO Remove stubs
+
+        Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>();
+        infoRequestsDepDispatchingTable.put("edu.services.docs.InformationRequest", servantsLoadBalancer);
+
+        infoRequestsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(infoRequestsDepDispatchingTable);
+
+        Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>();
+        thanksAndClaimsDepDispatchingTable.put("edu.services.docs.Claim", publicServant2);
+        thanksAndClaimsDepDispatchingTable.put("edu.services.docs.Thank", publicServant2);
+        thanksAndClaimsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(thanksAndClaimsDepDispatchingTable);
+
+        environment.setOutcomingDocType(outcomingDocType);
+    }
 }

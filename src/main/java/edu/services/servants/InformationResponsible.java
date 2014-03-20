@@ -4,6 +4,7 @@ import edu.services.docs.*;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
+import edu.utils.PublicRequestsUtils;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
@@ -47,13 +48,13 @@ public class InformationResponsible extends PublicServant {
         return super.compareTo(other);
     }
 
-    public void addDocumentToProcess(IncomingDocument document) {
+    public void addDocumentToProcess(InformationRequest document) {
         document.setIncomingDocResponsible(this);
         super.addDocumentToProcess(document);
         processDocument(document);
     }
 
-    public void processDocument(IncomingDocument document) {
+    public void processDocument(InformationRequest document) {
         OutcomingDocument outcomingDocument =
                 this.createOutcomingDocument(document);
 
@@ -62,7 +63,24 @@ public class InformationResponsible extends PublicServant {
         document.setNextDocumentStatus();
         document.setFinalized(true);
 
+        if (document.isIfSendReplyToEmail()) {
+            Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
+                    this.getInformationForReply());
+            email.sendEmail();
+            outcomingDocument.setDocSentEmail(email);
+            System.out.println("\nThe Response (Outcoming Doc) was sent to Email: " + outcomingDocument.getDocSentEmailAddress() +
+                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentEmailDate()));
+        }
 
+        if (document.isIfSendReplyToPostAddress()) {
+            getDepartment().sendDocumentToAddress(outcomingDocument, document.getAuthor().getAddress());
+            System.out.println("\nThe Response (Outcoming Doc) was sent to Address: " + outcomingDocument.getDocSentAddress() +
+                    " on " + PublicRequestsUtils.toTimeAndDateString(outcomingDocument.getDocSentAddressDate()));
+        }
+
+        outcomingDocument.setNextDocumentStatus();
+        outcomingDocument.setFinalized(true);
+        //TODO: must set outcomingDocument.status to the last one "Sent" -- find out why it doesn't work!
 
         getDocumentsToProcess().remove(document);
         document.setNextDocumentStatus();
