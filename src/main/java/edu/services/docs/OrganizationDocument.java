@@ -70,8 +70,12 @@ public class OrganizationDocument extends Text {
             return DOC_CREATION_DATE_IS_NULL;
         } else if (! documentCreationDate.after(new GregorianCalendar(2014, 0, 0))) {
             return DOC_CREATION_DATE_NOT_AFTER_2014_0_0;
-        } else if (! documentCreationDate.before(new GregorianCalendar())) {
-            return DOC_CREATION_DATE_IS_NOT_BEFORE_NOW;
+        } else {
+            GregorianCalendar nowPlusMinute = new GregorianCalendar();
+            nowPlusMinute.add(GregorianCalendar.MINUTE, 10);
+            if (! documentCreationDate.before(nowPlusMinute)) {
+                return DOC_CREATION_DATE_IS_NOT_BEFORE_NOW;
+            }
         }
 
         if (null == documentType) {

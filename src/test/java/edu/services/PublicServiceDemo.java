@@ -39,20 +39,7 @@ public class PublicServiceDemo {
 
         InformationRequest infoRequest0 = createInformationRequest(infoRequestDocType, requester, publicService);
 
-
-        if (infoRequest0 != null) {
-            requester.addRequest(infoRequest0);
-            if (infoRequest0.getValidityString().equals(DocDefaults.VALID)) {
-                System.out.println("requester: " + requester.getFullNameString());
-                System.out.println("    requesterId: " + requester.getId());
-                System.out.println("\npublicService: " + publicService.getOrgName() + "\n");
-                System.out.println(infoRequest0.toString());
-            } else {
-                System.out.println(infoRequest0.getValidityString());
-            }
-        } else {
-            System.out.println("infoRequest is NULL");
-        }
+        assert (infoRequest0.getValidityString().equals(DocDefaults.VALID));
 
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
         PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
@@ -102,12 +89,7 @@ public class PublicServiceDemo {
         printStatusAndAssignee(infoRequest0, infoRequest0.getIncomingDocResponsibleName());
 
 
-        OutcomingDocument outcomingDocument =
-                new OutcomingDocument(outcomingDocType, informationResponsibleServant, publicService);
-        outcomingDocument.setText(informationResponsibleServant.getInformationForReply());
-        infoRequest0.setReactionDocument(outcomingDocument);
-        outcomingDocument.setInitiatingDocument(infoRequest0);
-        outcomingDocument.setNextDocumentStatus();
+        OutcomingDocument outcomingDocument = createOutcomingDocument(outcomingDocType, publicService, infoRequest0, informationResponsibleServant);
 
         outcomingDocument.publishToRequester(requester);
         outcomingDocument.setNextDocumentStatus();
@@ -139,6 +121,17 @@ public class PublicServiceDemo {
         System.out.println("\ncitizen sent the next requests:\n   " + requester.getRequestsString());
         System.out.println("\ncitizen got the next responses:\n   " + requester.getResponsesString());
 
+    }
+
+    public static OutcomingDocument createOutcomingDocument(DocumentType outcomingDocType, PublicService publicService, InformationRequest infoRequest0, InformationResponsible informationResponsibleServant) {
+        OutcomingDocument outcomingDocument =
+                new OutcomingDocument(outcomingDocType, informationResponsibleServant, publicService);
+        outcomingDocument.setText(informationResponsibleServant.getInformationForReply());
+        infoRequest0.setReactionDocument(outcomingDocument);
+        outcomingDocument.setInitiatingDocument(infoRequest0);
+        outcomingDocument.setNextDocumentStatus();
+        outcomingDocument.setDocumentName("Response to Information request");
+        return outcomingDocument;
     }
 
     public static PublicService createValidPublicService() {

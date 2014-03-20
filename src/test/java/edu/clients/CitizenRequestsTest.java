@@ -84,7 +84,7 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
         //given
 
         //when
-        infoRequest.setText("1");
+        infoRequest.setText("1oooooooooo");
         citizen.addRequest(infoRequest);
 
         //then
@@ -96,11 +96,12 @@ public class CitizenRequestsTest extends CitizenTestsBasics {
         //given
 
         //when
-        infoRequest.setText("1");
+        infoRequest.setText("2000000000000000");
         citizen.addRequest(infoRequest);
 
         //then
-        org.junit.Assert.assertEquals(DocDefaults.VALID, citizen.getRequests().get(0).getValidityString());
+        org.junit.Assert.assertEquals(DocDefaults.VALID,
+                citizen.getRequests().get(citizen.getRequests().size() - 1).getValidityString());
     }
 
     @Test

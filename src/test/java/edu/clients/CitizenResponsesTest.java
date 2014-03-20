@@ -1,9 +1,8 @@
 package edu.clients;
 
-import edu.services.docs.DocDefaults;
-import edu.services.docs.DocumentLifecycle;
-import edu.services.docs.DocumentType;
-import edu.services.docs.OutcomingDocument;
+import edu.services.PublicServiceDemo;
+import edu.services.docs.*;
+import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
 import org.junit.Before;
@@ -19,16 +18,15 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
     public void createInfoReqDocType_Citizen_PubService() {
         initCitizenAndPublicService();
 
-        String[] outcomingDocLifecycleString = {"Created", "Passed_for_sending", "Sent"};
-        DocumentLifecycle outcomingDocLifecycle = new DocumentLifecycle(outcomingDocLifecycleString);
-        DocumentType outcomingDocType = new DocumentType("Outcoming_Document", "Out_",outcomingDocLifecycle);
-        outcomingDocType.setFinalized(true);
+        DocumentType infoRequestDocType = PublicServiceDemo.createInfoRequestDocType();
+        DocumentType outcomingDocType = PublicServiceDemo.createOutcomingDocType();
+        InformationRequest infoRequest = PublicServiceDemo.createInformationRequest(infoRequestDocType, citizen, publicService);
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
         InformationResponsible informationResponsibleServant =
                 new InformationResponsible(infoRequestsDep, "Karpenko","Petro","Ivanovych");
+        outcomingDocument = PublicServiceDemo.createOutcomingDocument(outcomingDocType,
+                publicService, infoRequest, informationResponsibleServant);
 
-        outcomingDocument =
-                new OutcomingDocument(outcomingDocType, informationResponsibleServant, publicService);
     }
 
     @Test
@@ -45,9 +43,9 @@ public class CitizenResponsesTest extends CitizenTestsBasics {
     @Test
     public void shouldGetValidityString() throws Exception {
         //given
+        outcomingDocument.setText("10000000000000000");
 
         //when
-        outcomingDocument.setText("1");
         citizen.addResponse(outcomingDocument);
 
         //then

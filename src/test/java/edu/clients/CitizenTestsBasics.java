@@ -1,6 +1,7 @@
 package edu.clients;
 
 import edu.services.PublicServiceDemo;
+import edu.services.docs.DocumentType;
 import edu.services.orgs.PublicService;
 import org.junit.Assert;
 import org.junit.Before;
