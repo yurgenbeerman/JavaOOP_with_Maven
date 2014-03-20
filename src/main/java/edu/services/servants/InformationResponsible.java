@@ -48,11 +48,14 @@ public class InformationResponsible extends PublicServant {
         return super.compareTo(other);
     }
 
-    public void addDocumentToProcess(InformationRequest document) {
-        document.setIncomingDocResponsible(this);
-        document.setInformationResponsible(this);
+    public void addDocumentToProcess(IncomingDocument document) {
         super.addDocumentToProcess(document);
-        processDocument(document);
+        document.setIncomingDocResponsible(this);
+        document.setIncomingDocResponsible(this);
+        ((InformationRequest) document).setInformationResponsible(this);
+        //TODO? document.setNextDocumentStatus();
+
+        processDocument(((InformationRequest) document));
     }
 
     public void processDocument(InformationRequest document) {
@@ -68,7 +71,7 @@ public class InformationResponsible extends PublicServant {
 
         outcomingDocument.publishToRequester(document.getAuthor());
         outcomingDocument.setNextDocumentStatus();
-        document.setNextDocumentStatus();
+        // TODO? document.setNextDocumentStatus();
         document.setFinalized(true);
 
         if (document.isIfSendReplyToEmail()) {

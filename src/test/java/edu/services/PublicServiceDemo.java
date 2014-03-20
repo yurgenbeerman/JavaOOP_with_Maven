@@ -34,7 +34,6 @@ public class PublicServiceDemo {
         InformationRequest infoRequest0 = createTestInformationRequest();
 
         /* The user can modify the Request data until it isReceivedByPublicService */
-        infoRequest0.setReceivedByPublicService(true);
         testEnvironment.getPublicService().addDocumentToProcess(infoRequest0);
 
         /* Assume a user creates more requests */
@@ -193,12 +192,13 @@ public class PublicServiceDemo {
         PublicService publicService = createValidPublicService(environment);
         environment.setPublicService(publicService);
 
-
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(
                 publicService,
                 "infoRequestsDep_0"
         );
         environment.setInfoRequestsDepartment(infoRequestsDep);
+
+
 
         PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(
                 publicService,

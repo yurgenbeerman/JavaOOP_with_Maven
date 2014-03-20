@@ -75,8 +75,6 @@ public class PublicServant extends Citizen {
 
     public void addDocumentToProcess(IncomingDocument document) {
         documentsToProcess.add(document);
-        document.setNextDocumentStatus();
-        document.setIncomingDocResponsible(this);
     }
 
     public PublicServiceDepartment getDepartment() {

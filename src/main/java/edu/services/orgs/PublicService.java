@@ -99,6 +99,7 @@ public class PublicService implements Emailable {
     }
 
     public void addDocumentToProcess(IncomingDocument document) {
+        document.setReceivedByPublicService(true);
         this.departmentsTasksDispatcher.addDocumentToProcess(document);
     }
 
