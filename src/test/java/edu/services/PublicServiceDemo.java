@@ -5,6 +5,7 @@ import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
 import edu.services.execution.ExecutionDefaults;
+import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
@@ -21,8 +22,6 @@ import java.util.Map;
  */
 public class PublicServiceDemo {
     static int statusNumber = 0;
-    private static PublicServiceDepartment infoRequestsDep;
-    private static PublicServiceDepartment thanksAndClaimsDep;
 
     public static void main (String[] args) {
         System.out.println("------------- PublicServiceDemo ------------- ");
@@ -44,8 +43,12 @@ public class PublicServiceDemo {
 
         assert (infoRequest0.getValidityString().equals(DocDefaults.VALID));
 
-        infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
-        thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
+        PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
+        publicService.setDocsToDepartmentsDispatchingTable(
+                createDocsDispatchingTable(infoRequestsDep, thanksAndClaimsDep));
+        ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
+        ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
 
         /* The user can modify the Request data until it isReceivedByPublicService */
         infoRequest0.setReceivedByPublicService(true);
@@ -59,6 +62,18 @@ public class PublicServiceDemo {
         PublicServant publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
         PublicServant publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
         PublicServant publicServant2 = new InformationResponsible(infoRequestsDep, "Karpenko2", "Petro2", "Ivanovych2");
+        ServantsLoadBalanser servantsLoadBalanser = new ServantsLoadBalanser(publicServant0,publicServant1);
+
+        Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>;
+        infoRequestsDepDispatchingTable.put("InformationRequest", servantsLoadBalanser);
+
+        ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
+        ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
+
+        Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>;
+        thanksAndClaimsDepDispatchingTable.put("Claim", publicServant2);
+        thanksAndClaimsDepDispatchingTable.put("Thank", publicServant2);
+
 
         //TODO implement TasksDispatcher tasksDispatcher = new TaskDispatcherByType(unprocessedIncomingDocsQueue, PublicServantsList);
         publicServant0.addDocumentToProcess(infoRequest0);
@@ -68,7 +83,7 @@ public class PublicServiceDemo {
 //        publicServant2.addDocumentToProcess(thanks0);
 //        publicServant2.addDocumentToProcess(claims0);
 
-        Map<String, PublicServiceDepartment> docsDispatchingTable = createDocsDispatchingTable();
+
 
         //TODO dispatch all docs to all servants
         //  create executed tasks map
@@ -121,14 +136,6 @@ public class PublicServiceDemo {
         System.out.println("\ncitizen sent the next requests:\n   " + requester.getRequestsString());
         System.out.println("\ncitizen got the next responses:\n   " + requester.getResponsesString());
 
-    }
-
-    public static Map<String, PublicServiceDepartment> createDocsDispatchingTable() {
-        Map<String, PublicServiceDepartment> docsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
-        docsDispatchingTable.put("InformationRequest", infoRequestsDep);
-        docsDispatchingTable.put("Claim", thanksAndClaimsDep);
-        docsDispatchingTable.put("Thank", thanksAndClaimsDep);
-        return docsDispatchingTable;
     }
 
     public static OutcomingDocument createOutcomingDocument(DocumentType outcomingDocType, PublicService publicService, InformationRequest infoRequest0, InformationResponsible informationResponsibleServant) {
@@ -230,9 +237,18 @@ public class PublicServiceDemo {
         return infoRequestLifecycle;
     }
 
+    public static Map<String, PublicServiceDepartment> createDocsDispatchingTable(PublicServiceDepartment... departments) {
+        Map<String, PublicServiceDepartment> docsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
+        docsDispatchingTable.put("InformationRequest", departments[0]);
+        docsDispatchingTable.put("Claim", departments[1]);
+        docsDispatchingTable.put("Thank", departments[1]);
+        return docsDispatchingTable;
+    }
+
     static void printStatusAndAssignee(OrganizationDocument orgDocument, String assigneeName) {
         System.out.println("\n" + statusNumber + ". " + orgDocument.getDocumentTypeName() + " status set to " + orgDocument.getDocumentStatusString() +
                 " to " + assigneeName);
         statusNumber++;
     }
+
 }

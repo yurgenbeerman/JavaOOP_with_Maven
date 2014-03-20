@@ -3,6 +3,8 @@ package edu.services.execution;
 import edu.services.docs.OrganizationDocument;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
+import edu.services.servants.PublicServant;
+
 import java.util.Map;
 
 /**
@@ -15,20 +17,21 @@ public class DepartmentsTasksDispatcher {
 //    PublicServant servant;
 
     private PublicService publicService;
-    private Map<String, PublicServiceDepartment> docsDispatchingTable;
+    private Map<String, PublicServant> docsToServantsDispatchingTable;
 
     public DepartmentsTasksDispatcher(PublicService publicService) {
         this.publicService = publicService;
     }
 
-    public void setDocsDispatchingTable(Map<String, PublicServiceDepartment> docsDispatchingTable) {
-        this.docsDispatchingTable = docsDispatchingTable;
+    public void setDocsToServantsDispatchingTable(Map<String, PublicServant> docsToServantsDispatchingTable) {
+        this.docsToServantsDispatchingTable = docsToServantsDispatchingTable;
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
-        if ( docsDispatchingTable != null ) {
-            if (0 != docsDispatchingTable.size()) {
-                PublicServiceDepartment department = docsDispatchingTable.get(document.getClass().getName());
+        if ( docsToServantsDispatchingTable != null ) {
+            if (0 != docsToServantsDispatchingTable.size()) {
+                PublicServiceDepartment department =
+                        docsToServantsDispatchingTable.get(document.getClass().getName());
                 department.addDocToProcess(document);
             } else
                 throw new IllegalStateException(ExecutionDefaults.DOCS_DISPATCHING_TABLE_IS_EMPTY);
@@ -36,6 +39,9 @@ public class DepartmentsTasksDispatcher {
             throw new IllegalStateException(ExecutionDefaults.NO_DOCS_DISPATCHING_TABLE);
     }
 
+    public PublicService getPublicService() {
+        return publicService;
+    }
 /*
         this.documents = documents;
         this.servants = servants;

@@ -5,6 +5,7 @@ import edu.communications.Emailable;
 import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
 import edu.services.execution.DepartmentsTasksDispatcher;
+import edu.services.execution.ExecutionDefaults;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
@@ -24,6 +25,8 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
     private long parentOrgId;
     private String emailAddress;
     private DepartmentsTasksDispatcher departmentsTasksDispatcher;
+
+    private Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable;
 
     public PublicService(String orgName) {
         this.orgId = PublicService.lastOrgId;
@@ -96,10 +99,30 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
 
     public void createDocsDispatcher(Map<String, PublicServiceDepartment> docsDispatchingTable) {
         departmentsTasksDispatcher = new DepartmentsTasksDispatcher(this);
-        departmentsTasksDispatcher.setDocsDispatchingTable(docsDispatchingTable);
+        departmentsTasksDispatcher.setdocsToServantsDispatchingTable(docsDispatchingTable);
     }
 
     public void addDocomentToProcess(OrganizationDocument document) {
         departmentsTasksDispatcher.addDocumentToProcess(document);
+    }
+
+    public Map<String, PublicServiceDepartment> getDocsToDepartmentsDispatchingTable() {
+        return docsToDepartmentsDispatchingTable;
+    }
+
+    public void setDocsToDepartmentsDispatchingTable(Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable) {
+        this.docsToDepartmentsDispatchingTable = docsToDepartmentsDispatchingTable;
+    }
+    public void addDocumentToProcess(OrganizationDocument document) {
+        if ( docsToDepartmentsDispatchingTable != null ) {
+            if (0 != docsToDepartmentsDispatchingTable.size()) {
+                PublicServiceDepartment department = docsToDepartmentsDispatchingTable
+                        .get(document.getClass().getName());
+                department.addDocToProcess(document);
+                document.setCurrentPublicServiceDepartment(department);
+            } else
+                throw new IllegalStateException(ExecutionDefaults.DOCS_DISPATCHING_TABLE_IS_EMPTY);
+        } else
+            throw new IllegalStateException(ExecutionDefaults.NO_DOCS_DISPATCHING_TABLE);
     }
 }

@@ -16,6 +16,7 @@ public class PublicServant extends Citizen {
     private PublicServiceDepartment department;
     private ArrayBlockingQueue<OrganizationDocument> documentsToProcess;
 
+    protected PublicServant() {}
 
     public PublicServant(PublicServiceDepartment department, String surname, String name, String secondName) {
         super(surname, name, secondName);
@@ -54,7 +55,6 @@ public class PublicServant extends Citizen {
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
-
         documentsToProcess.add(document);
     }
 
