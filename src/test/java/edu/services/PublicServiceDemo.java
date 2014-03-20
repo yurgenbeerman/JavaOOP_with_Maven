@@ -11,6 +11,7 @@ import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
+import edu.services.servants.ThanksAndClaimsResponsible;
 import edu.utils.PublicRequestsUtils;
 
 import java.util.HashMap;
@@ -46,47 +47,45 @@ public class PublicServiceDemo {
 
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
         PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(publicService,"ThanksAndClaimsDep_1");
-        publicService.setDocsToDepartmentsDispatchingTable(
-                createDocsDispatchingTable(infoRequestsDep, thanksAndClaimsDep));
+
+        /*Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable =
+                createDocsToDepartmentsDispatchingTable(infoRequestsDep, thanksAndClaimsDep);
+        assert (docsToDepartmentsDispatchingTable != null); */
+        Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
+        docsToDepartmentsDispatchingTable.put("edu.services.docs.InformationRequest", infoRequestsDep);
+        docsToDepartmentsDispatchingTable.put("edu.services.docs.Claim", thanksAndClaimsDep);
+        docsToDepartmentsDispatchingTable.put("edu.services.docs.Thank", thanksAndClaimsDep);
+        publicService.setDocsToDepartmentsDispatchingTable(docsToDepartmentsDispatchingTable);
+
         ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
         ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
 
-        /* The user can modify the Request data until it isReceivedByPublicService */
-        infoRequest0.setReceivedByPublicService(true);
-        InformationResponsible informationResponsibleServant =
-                new InformationResponsible(infoRequestsDep, "Karpenko","Petro","Ivanovych");
-        informationResponsibleServant.setInformationForReply(
-                "The plan of improvements for 2014 is next... Sincerely, InformationResponsible."); //TODO Remove stubs
-
-
-
-        PublicServant publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
-        PublicServant publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
-        PublicServant publicServant2 = new InformationResponsible(infoRequestsDep, "Karpenko2", "Petro2", "Ivanovych2");
+        InformationResponsible publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
+        InformationResponsible publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
+        publicServant0.setInformationForReply(
+                "The plan of improvements for 2014 is next... Sincerely, publicServant0."); //TODO Remove stubs
+        publicServant1.setInformationForReply(
+                "The plan of improvements for 2014 is next... Sincerely, publicServant1."); //TODO Remove stubs
         ServantsLoadBalanser servantsLoadBalanser = new ServantsLoadBalanser(publicServant0,publicServant1);
 
+        ThanksAndClaimsResponsible publicServant2 = new ThanksAndClaimsResponsible(thanksAndClaimsDep, "Karpenko2", "Petro2", "Ivanovych2");
+        publicServant2.setInformationForReply(
+                "Thank you for information! Sincerely, publicServant2."); //TODO Remove stubs
+
         Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>();
-        infoRequestsDepDispatchingTable.put("InformationRequest", servantsLoadBalanser);
-        infoRequestsDepServantsTasksDispatcher.setdocsToServantsDispatchingTable(infoRequestsDepDispatchingTable);
+        infoRequestsDepDispatchingTable.put("edu.services.docs.InformationRequest", servantsLoadBalanser);
+        assert (infoRequestsDepDispatchingTable != null);
+        infoRequestsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(infoRequestsDepDispatchingTable);
 
         Map<String, PublicServant> thanksAndClaimsDepDispatchingTable = new HashMap<String, PublicServant>();
-        thanksAndClaimsDepDispatchingTable.put("Claim", publicServant2);
-        thanksAndClaimsDepDispatchingTable.put("Thank", publicServant2);
-        thanksAndClaimsDepServantsTasksDispatcher.setdocsToServantsDispatchingTable(thanksAndClaimsDepDispatchingTable);
+        thanksAndClaimsDepDispatchingTable.put("edu.services.docs.Claim", publicServant2);
+        thanksAndClaimsDepDispatchingTable.put("edu.services.docs.Thank", publicServant2);
+        thanksAndClaimsDepServantsTasksDispatcher.setDocsToServantsDispatchingTable(thanksAndClaimsDepDispatchingTable);
 
+        /* The user can modify the Request data until it isReceivedByPublicService */
+        infoRequest0.setReceivedByPublicService(true);
+        publicService.addDocumentToProcess(infoRequest0);
 
-        //TODO implement TasksDispatcher tasksDispatcher = new TaskDispatcherByType(unprocessedIncomingDocsQueue, PublicServantsList);
-        publicServant0.addDocumentToProcess(infoRequest0);
-        publicServant1.addDocumentToProcess(infoRequest0);
-        publicServant0.addDocumentToProcess(infoRequest0);
-        publicServant1.addDocumentToProcess(infoRequest0);
-//        publicServant2.addDocumentToProcess(thanks0);
-//        publicServant2.addDocumentToProcess(claims0);
-
-
-
-        //TODO dispatch all docs to all servants
-        //  create executed tasks map
         //TODO execute all tasks by all servants =
         //  create outcoming doc
         //      and assign replies to it
@@ -95,16 +94,10 @@ public class PublicServiceDemo {
         //      and send it via email and via post
         //      and remove incoming doc from the unprocessedIncomingDocsQueue
 
-
-        infoRequest0.setIncomingDocResponsible(informationResponsibleServant);
-        System.out.println("informationResponsibleServant " + informationResponsibleServant
-                + "was assigned to the infoRequest and prepared the Response: "
-                + informationResponsibleServant.getInformationForReply());
-
         printStatusAndAssignee(infoRequest0, infoRequest0.getIncomingDocResponsibleName());
 
 
-        OutcomingDocument outcomingDocument = createOutcomingDocument(outcomingDocType, publicService, infoRequest0, informationResponsibleServant);
+        OutcomingDocument outcomingDocument = createOutcomingDocument(outcomingDocType, publicService, infoRequest0, publicServant0);
 
         outcomingDocument.publishToRequester(requester);
         outcomingDocument.setNextDocumentStatus();
@@ -116,7 +109,7 @@ public class PublicServiceDemo {
 
         if (infoRequest0.isIfSendReplyToEmail()) {
             Email email = new Email(publicService.getEmailAddress(), requester.getEmailAddress(),
-                    informationResponsibleServant.getInformationForReply());
+                    publicServant0.getInformationForReply());
             email.sendEmail();
             outcomingDocument.setDocSentEmail(email);
             System.out.println("\nThe Response (Outcoming Doc) was sent to Email: " + outcomingDocument.getDocSentEmailAddress() +
@@ -237,7 +230,7 @@ public class PublicServiceDemo {
         return infoRequestLifecycle;
     }
 
-    public static Map<String, PublicServiceDepartment> createDocsDispatchingTable(PublicServiceDepartment... departments) {
+    public static Map<String, PublicServiceDepartment> createDocsToDepartmentsDispatchingTable(PublicServiceDepartment... departments) {
         Map<String, PublicServiceDepartment> docsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
         docsDispatchingTable.put("InformationRequest", departments[0]);
         docsDispatchingTable.put("Claim", departments[1]);

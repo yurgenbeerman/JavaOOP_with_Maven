@@ -111,13 +111,17 @@ public class PublicService extends PriorityBlockingQueue<PublicServiceDepartment
     public void addDocumentToProcess(OrganizationDocument document) {
         if ( docsToDepartmentsDispatchingTable != null ) {
             if (0 != docsToDepartmentsDispatchingTable.size()) {
+                String s = document.getClass().getName();
                 PublicServiceDepartment department = docsToDepartmentsDispatchingTable
-                        .get(document.getClass().getName());
-                department.addDocToProcess(document);
-                document.setCurrentPublicServiceDepartment(department);
+                        .get(s);
+                if ( department != null ) {
+                    department.addDocToProcess(document);
+                    document.setCurrentPublicServiceDepartment(department);
+                } else
+                    throw new IllegalStateException(ExecutionDefaults.DEP_IS_NULL + " s = " + s);
             } else
-                throw new IllegalStateException(ExecutionDefaults.DOCS_DISPATCHING_TABLE_IS_EMPTY);
+                throw new IllegalStateException(ExecutionDefaults.DEPS_DISPATCHING_TABLE_IS_EMPTY);
         } else
-            throw new IllegalStateException(ExecutionDefaults.NO_DOCS_DISPATCHING_TABLE);
+            throw new IllegalStateException(ExecutionDefaults.NO_DEPS_DISPATCHING_TABLE);
     }
 }

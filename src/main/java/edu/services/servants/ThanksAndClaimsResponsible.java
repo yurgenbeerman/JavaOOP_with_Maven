@@ -1,18 +1,15 @@
 package edu.services.servants;
 
-import edu.services.docs.DocDefaults;
 import edu.services.docs.IncomingDocument;
-import edu.services.docs.OrganizationDocument;
-import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
  */
-public class InformationResponsible extends PublicServant {
+public class ThanksAndClaimsResponsible extends PublicServant {
     String informationForReply;
 
-    public InformationResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
+    public ThanksAndClaimsResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
         super(department, surname, name, secondName);
     }
 
@@ -35,7 +32,7 @@ public class InformationResponsible extends PublicServant {
     public boolean equals(Object other) {
         if (other == this)
             return true;
-        if (! (other instanceof InformationResponsible) )
+        if (! (other instanceof ThanksAndClaimsResponsible) )
             return false;
         return super.equals(other);
     }

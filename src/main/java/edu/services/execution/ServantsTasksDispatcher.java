@@ -18,11 +18,13 @@ public class ServantsTasksDispatcher {
         this.department = department;
     }
 
-    public void setdocsToServantsDispatchingTable(Map<String, PublicServant> docsToServantsDispatchingTable) {
+    public void setDocsToServantsDispatchingTable(Map<String, PublicServant> docsToServantsDispatchingTable) {
         this.docsToServantsDispatchingTable = docsToServantsDispatchingTable;
+        System.out.println("1 " + docsToServantsDispatchingTable);
     }
 
     public void addDocumentToProcess(OrganizationDocument document) {
+        System.out.println("2 " + docsToServantsDispatchingTable);
         if ( docsToServantsDispatchingTable != null ) {
             if (0 != docsToServantsDispatchingTable.size()) {
                 PublicServant servant =

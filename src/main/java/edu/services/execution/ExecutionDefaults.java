@@ -13,9 +13,9 @@ public class ExecutionDefaults {
     public static final short REQUESTER_OFFICIAL_ID_LENGTH = 10;
     public static final String REQUESTER_OFFICIAL_ID_IS_INVALID = "REQUESTER_OFFICIAL_ID_IS_INVALID";
 
-    public static final String NO_DOCS_TO_DISPATCH = "NO_DOCS_TO_DISPATCH";
-    public static final String NO_SERVANTS_TO_DISPATCH = "NO_SERVANTS_TO_DISPATCH";
-    public static final String NO_SUCH_DOC_TYPE = "NO_SUCH_DOC_TYPE";
+    public static final String DEP_IS_NULL = "DEP_IS_NULL";
+    public static final String DEPS_DISPATCHING_TABLE_IS_EMPTY = "DEPS_DISPATCHING_TABLE_IS_EMPTY";
+    public static final String NO_DEPS_DISPATCHING_TABLE = "NO_DEPS_DISPATCHING_TABLE";
 
     public static boolean isRequesterOfficialIdValid(Requester requester) {
         if (( requester.getOfficialId() != null) && (requester.getOfficialId() != "")) {
