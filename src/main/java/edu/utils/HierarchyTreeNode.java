@@ -5,24 +5,24 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Created by Lena on 22.03.14.
+ * Created by yurii.pyvovarenko on 22.03.14.
  */
-public class TreeNode {
+public class HierarchyTreeNode {
     private static final int MAX_CHILDREN_COUNT = 2;
     String data;
-    TreeNode parentNode;
-    List<TreeNode> childNodes;
+    HierarchyTreeNode parentNode;
+    List<HierarchyTreeNode> childNodes;
 
-    public TreeNode(String data, TreeNode parentNode) {
+    public HierarchyTreeNode(String data, HierarchyTreeNode parentNode) {
         this.data = data;
         this.parentNode = parentNode;
-        this.childNodes = new ArrayList<TreeNode>();
+        this.childNodes = new ArrayList<HierarchyTreeNode>();
     }
 
     public void addNode(String data) {
         //TODO check to what tree branch add new node -- needs getHeight
         if (childNodes.size() < MAX_CHILDREN_COUNT) {
-            childNodes.add(new TreeNode(data, this));
+            childNodes.add(new HierarchyTreeNode(data, this));
         } else {
             int[] heights = new int[childNodes.size()];
             for (int i = 0; i < childNodes.size(); i++) {
@@ -38,7 +38,7 @@ public class TreeNode {
         for (int i = 0; i < heights.length; i++) {
             if ( heights[i] < minHeight )
                 minHeight = heights[i];
-                minHeightIndex = i;
+            minHeightIndex = i;
         }
         return minHeightIndex;
     }
@@ -46,13 +46,13 @@ public class TreeNode {
     public int getHeight() {
         int result = 1;
         if ( (childNodes != null) && (childNodes.size() > 0) ) {
-            int[] heights = getSortedHeights();
+            int[] heights = getSortedHeights(childNodes);
             result = 1 + heights[heights.length-1];
         }
         return result;
     }
 
-    public int[] getSortedHeights() {
+    public int[] getSortedHeights(List<HierarchyTreeNode> childNodes) {
         int[] heights = new int[childNodes.size()];
         for (int i = 0; i < childNodes.size(); i++) {
             heights[i] = childNodes.get(i).getHeight();
@@ -64,7 +64,7 @@ public class TreeNode {
     public int size() {
         if (childNodes != null) {
             int childNodesSize = 0;
-            for (TreeNode childNode : childNodes) {
+            for (HierarchyTreeNode childNode : childNodes) {
                 childNodesSize += childNode.size();
             }
             return 1 + childNodesSize;
