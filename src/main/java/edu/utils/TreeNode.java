@@ -8,6 +8,7 @@ import java.util.List;
  * Created by Lena on 22.03.14.
  */
 public class TreeNode {
+    private static final int MAX_CHILDREN_COUNT = 2;
     String data;
     TreeNode parentNode;
     List<TreeNode> childNodes;
@@ -20,7 +21,7 @@ public class TreeNode {
 
     public void addNode(String data) {
         //TODO check to what tree branch add new node -- needs getHeight
-        if (childNodes.size() < 2) {
+        if (childNodes.size() < MAX_CHILDREN_COUNT) {
             childNodes.add(new TreeNode(data, this));
         } else {
             int[] heights = new int[childNodes.size()];
@@ -32,11 +33,14 @@ public class TreeNode {
     }
 
     private int getShortestNodeIndex(int[] heights) {
-//        int[][] heightsIndexes = new int[heights.length][2];
-//        for (int i = 0; i < heights.length; i++) {
-//            heightsIndexes[i][]
-//        }
-        return 0;
+        int minHeight = heights[0];
+        int minHeightIndex = 0;
+        for (int i = 0; i < heights.length; i++) {
+            if ( heights[i] < minHeight )
+                minHeight = heights[i];
+                minHeightIndex = i;
+        }
+        return minHeightIndex;
     }
 
     public int getHeight() {
@@ -59,8 +63,22 @@ public class TreeNode {
 
     public int size() {
         if (childNodes != null) {
-            return 1 + childNodes.size();
+            int childNodesSize = 0;
+            for (TreeNode childNode : childNodes) {
+                childNodesSize += childNode.size();
+            }
+            return 1 + childNodesSize;
         } else
             return 1;
     }
+
+    public int getChildrenCount() {
+        return this.childNodes.size();
+    }
+
+    public int getMaxChildrenCount() {
+        return this.MAX_CHILDREN_COUNT;
+    }
+
+
 }
