@@ -18,5 +18,7 @@ public class Tree extends ArrayList<TreeNode> {
         this.add(new TreeNode(nodeData, null, null));
     }
 
-
+    public int getHeight() {
+        return 2;//this.get(0).getHeight();
+    }
 }

@@ -34,4 +34,17 @@ public class TreeTest {
         org.junit.Assert.assertTrue(tree.size() == size + 1);
 
     }
+
+    @Test
+    public void shouldGetHeight() {
+        //given
+        Tree tree = new Tree("TTT");
+        tree.addNode("QQQ");
+
+        //when
+
+        //then
+        org.junit.Assert.assertTrue(tree.getHeight() > 1);
+
+    }
 }

@@ -1,6 +1,7 @@
 package edu.utils;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -18,6 +19,20 @@ public class TreeNode {
     }
 
     public int getHeight() {
-        return 0;
+        int result = 1;
+        if ( (childNodes != null) && (childNodes.size() > 0) ){
+            int[] heights = new int[childNodes.size()];
+            for (int i = 0; i < childNodes.size(); i++) {
+                heights[i] = childNodes.get(i).getHeight();
+            }
+//            int i = 0;
+//            for (int height : heights) {
+//                height = childNodes.get(i).getHeight();
+//                i++;
+//            }
+            Arrays.sort(heights);
+            result = heights[heights.length];
+        }
+        return result;
     }
 }
