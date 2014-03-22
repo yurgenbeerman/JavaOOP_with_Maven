@@ -20,4 +20,18 @@ public class TreeTest {
         org.junit.Assert.assertFalse(tree.size() == 0);
 
     }
+
+    @Test
+    public void shouldAddNode() {
+        //given
+        Tree tree = new Tree("TTT");
+        int size = tree.size();
+
+        //when
+        tree.addNode("QQQ");
+
+        //then
+        org.junit.Assert.assertTrue(tree.size() == size + 1);
+
+    }
 }
