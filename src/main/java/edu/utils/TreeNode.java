@@ -20,20 +20,41 @@ public class TreeNode {
 
     public void addNode(String data) {
         //TODO check to what tree branch add new node -- needs getHeight
-        childNodes.add(new TreeNode(data, this));
+        if (childNodes.size() < 2) {
+            childNodes.add(new TreeNode(data, this));
+        } else {
+            int[] heights = new int[childNodes.size()];
+            for (int i = 0; i < childNodes.size(); i++) {
+                heights[i] = childNodes.get(i).getHeight();
+            }
+            childNodes.get(getShortestNodeIndex(heights)).addNode(data);
+        }
+    }
+
+    private int getShortestNodeIndex(int[] heights) {
+//        int[][] heightsIndexes = new int[heights.length][2];
+//        for (int i = 0; i < heights.length; i++) {
+//            heightsIndexes[i][]
+//        }
+        return 0;
     }
 
     public int getHeight() {
         int result = 1;
         if ( (childNodes != null) && (childNodes.size() > 0) ) {
-            int[] heights = new int[childNodes.size()];
-            for (int i = 0; i < childNodes.size(); i++) {
-                heights[i] = childNodes.get(i).getHeight();
-            }
-            Arrays.sort(heights);
+            int[] heights = getSortedHeights();
             result = 1 + heights[heights.length-1];
         }
         return result;
+    }
+
+    public int[] getSortedHeights() {
+        int[] heights = new int[childNodes.size()];
+        for (int i = 0; i < childNodes.size(); i++) {
+            heights[i] = childNodes.get(i).getHeight();
+        }
+        Arrays.sort(heights);
+        return heights;
     }
 
     public int size() {
