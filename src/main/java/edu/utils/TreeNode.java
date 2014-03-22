@@ -12,27 +12,35 @@ public class TreeNode {
     TreeNode parentNode;
     List<TreeNode> childNodes;
 
-    public TreeNode(String data, TreeNode parentNode, List<TreeNode> childNodes) {
+    public TreeNode(String data, TreeNode parentNode) {
         this.data = data;
         this.parentNode = parentNode;
-        this.childNodes = childNodes;
+        this.childNodes = new ArrayList<TreeNode>();
+    }
+
+    public void addNode(String data, TreeNode parentNode) {
+        //TODO Node constructor should take 4 parameters: parent, left, right and data
+        //TODO check to what tree branch add new node -- needs getHeight
+        childNodes.add(new TreeNode(data, null));
     }
 
     public int getHeight() {
         int result = 1;
-        if ( (childNodes != null) && (childNodes.size() > 0) ){
+        if ( (childNodes != null) && (childNodes.size() > 0) ) {
             int[] heights = new int[childNodes.size()];
             for (int i = 0; i < childNodes.size(); i++) {
                 heights[i] = childNodes.get(i).getHeight();
             }
-//            int i = 0;
-//            for (int height : heights) {
-//                height = childNodes.get(i).getHeight();
-//                i++;
-//            }
             Arrays.sort(heights);
-            result = heights[heights.length];
+            result = 1 + heights[heights.length-1];
         }
         return result;
+    }
+
+    public int size() {
+        if (childNodes != null) {
+            return 1 + childNodes.size();
+        } else
+            return 1;
     }
 }

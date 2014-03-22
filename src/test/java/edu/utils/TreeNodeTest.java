@@ -6,15 +6,15 @@ import org.junit.Test;
 /**
  * Created by Lena on 22.03.14.
  */
-public class TreeTest {
+public class TreeNodeTest {
 
     @Test
     public void shouldHaveAtLeastOneElement() {
         //given
-        Tree tree;
+        TreeNode tree;
 
         //when
-        tree = new Tree("TTT");
+        tree = new TreeNode("TTT", null);
 
         //then
         org.junit.Assert.assertFalse(tree.size() == 0);
@@ -24,11 +24,11 @@ public class TreeTest {
     @Test
     public void shouldAddNode() {
         //given
-        Tree tree = new Tree("TTT");
+        TreeNode tree = new TreeNode("TTT", null);
         int size = tree.size();
 
         //when
-        tree.addNode("QQQ");
+        tree.addNode("QQQ", null);
 
         //then
         org.junit.Assert.assertTrue(tree.size() == size + 1);
@@ -36,10 +36,10 @@ public class TreeTest {
     }
 
     @Test
-    public void shouldGetHeight() {
+    public void shouldGetTreeNodeHeight() {
         //given
-        Tree tree = new Tree("TTT");
-        tree.addNode("QQQ");
+        TreeNode tree = new TreeNode("TTT", null);
+        tree.addNode("QQQ", null);
 
         //when
 
