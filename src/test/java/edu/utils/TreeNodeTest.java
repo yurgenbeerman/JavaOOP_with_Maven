@@ -28,7 +28,7 @@ public class TreeNodeTest {
         int size = tree.size();
 
         //when
-        tree.addNode("QQQ", null);
+        tree.addNode("QQQ");
 
         //then
         org.junit.Assert.assertTrue(tree.size() == size + 1);
@@ -39,7 +39,7 @@ public class TreeNodeTest {
     public void shouldGetTreeNodeHeight() {
         //given
         TreeNode tree = new TreeNode("TTT", null);
-        tree.addNode("QQQ", null);
+        tree.addNode("QQQ");
 
         //when
 

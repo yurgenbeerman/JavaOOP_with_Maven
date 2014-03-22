@@ -18,10 +18,9 @@ public class TreeNode {
         this.childNodes = new ArrayList<TreeNode>();
     }
 
-    public void addNode(String data, TreeNode parentNode) {
-        //TODO Node constructor should take 4 parameters: parent, left, right and data
+    public void addNode(String data) {
         //TODO check to what tree branch add new node -- needs getHeight
-        childNodes.add(new TreeNode(data, null));
+        childNodes.add(new TreeNode(data, this));
     }
 
     public int getHeight() {
