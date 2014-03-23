@@ -15,24 +15,28 @@ public class BinaryTreeNode {
     int parentsCount = 0;
 
     public BinaryTreeNode(String data) {
-        if (data != null)
+        if (data != null) {
             this.data = new String(data);
-        else
+            childNodeRight = null;
+            childNodeLeft = null;
+        }
+        else {
             throw new InvalidParameterException("Parameter cannot be null");
+        }
     }
 
     public void addNode(String data) {
         if (data != null) {
             if (data.hashCode() < this.data.hashCode()) {
-                if (this.childNodeLeft == null) {
+                if (getChildNodeLeft() == null) {
                     this.childNodeLeft = new BinaryTreeNode(data);
-                    this.childNodeLeft.parentsCount = this.parentsCount + 1;
+                    this.childNodeLeft.setParentsCount(this.parentsCount + 1);
                 } else
                     this.childNodeLeft.addNode(data);
             } else {
-                if (this.childNodeRight == null) {
+                if (getChildNodeRight() == null) {
                     this.childNodeRight = new BinaryTreeNode(data);
-                    this.childNodeRight.parentsCount = this.parentsCount + 1;
+                    this.childNodeRight.setParentsCount(this.parentsCount + 1);
                 } else
                     this.childNodeRight.addNode(data);
             }
@@ -60,5 +64,17 @@ public class BinaryTreeNode {
         return indent + this.data +
                ((childNodeLeft != null) ? "\n" + childNodeLeft.toString() : "") +
                ((childNodeRight != null) ? "\n" + childNodeRight.toString() : "");
+    }
+
+    public BinaryTreeNode getChildNodeRight() {
+        return childNodeRight;
+    }
+
+    public BinaryTreeNode getChildNodeLeft() {
+        return childNodeLeft;
+    }
+
+    public void setParentsCount(int parentsCount) {
+        this.parentsCount = parentsCount;
     }
 }

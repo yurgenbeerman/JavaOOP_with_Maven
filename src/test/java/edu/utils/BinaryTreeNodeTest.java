@@ -153,4 +153,28 @@ public class BinaryTreeNodeTest {
         //then
         org.junit.Assert.assertEquals("binaryTreeNode.toString() = " + binaryTreeNode.toString(), "TTT", binaryTreeNode.toString());
     }
+
+    @Test
+    public void shouldAddLeftNode() {
+        //given
+        BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
+
+        //when
+        binaryTreeNode.addNode("QQQ");
+
+        //then
+        org.junit.Assert.assertEquals(" QQQ", binaryTreeNode.getChildNodeLeft().toString());
+    }
+
+    @Test
+    public void shouldAddRightNode() {
+        //given
+        BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
+
+        //when
+        binaryTreeNode.addNode("ZZZ");
+
+        //then
+        org.junit.Assert.assertEquals(" ZZZ", binaryTreeNode.getChildNodeRight().toString());
+    }
 }
