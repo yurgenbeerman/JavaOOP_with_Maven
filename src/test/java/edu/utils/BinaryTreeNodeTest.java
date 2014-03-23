@@ -130,11 +130,11 @@ public class BinaryTreeNodeTest {
         int initialHeight = binaryTreeNode.getHeight();
 
         //when
-        binaryTreeNode.addNode("QQQ_5");
+        binaryTreeNode.addNode("QQ5");
         binaryTreeNode.addNode("ZZZ_5");
 
-        binaryTreeNode.addNode("QQQ_1");
-        binaryTreeNode.addNode("QQQ_7");
+        binaryTreeNode.addNode("QQ1");
+        binaryTreeNode.addNode("QQ7");
 
         binaryTreeNode.addNode("ZZZ_1");
         binaryTreeNode.addNode("ZZZ_7");
