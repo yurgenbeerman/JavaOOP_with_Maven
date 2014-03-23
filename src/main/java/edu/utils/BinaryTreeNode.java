@@ -15,13 +15,25 @@ public class BinaryTreeNode {
 
     public BinaryTreeNode(String data) {
         if (data != null)
-            this.data = data;
+            this.data = new String(data);
         else
             throw new InvalidParameterException("Parameter cannot be null");
     }
 
     public void addNode(String data) {
-
+        if (data != null) {
+            if (data.hashCode() < this.data.hashCode()) {
+                if (this.childNodeLeft == null) {
+                    this.childNodeLeft = new BinaryTreeNode(data);
+                } else
+                    this.childNodeLeft.addNode(data);
+            } else {
+                if (this.childNodeRight == null) {
+                    this.childNodeRight = new BinaryTreeNode(data);
+                } else
+                    this.childNodeRight.addNode(data);
+            }
+        }
     }
 
     public int getHeight() {
