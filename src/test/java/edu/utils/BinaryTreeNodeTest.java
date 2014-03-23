@@ -142,4 +142,15 @@ public class BinaryTreeNodeTest {
         //then
         org.junit.Assert.assertTrue(initialHeight + 2 <= binaryTreeNode.getHeight()); //TODO must be EQUAL
     }
+
+    @Test
+    public void shouldGetString() {
+        //given
+        BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
+
+        //when
+
+        //then
+        org.junit.Assert.assertEquals("binaryTreeNode.toString() = " + binaryTreeNode.toString(), "TTT", binaryTreeNode.toString());
+    }
 }

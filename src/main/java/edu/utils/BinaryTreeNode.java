@@ -49,4 +49,13 @@ public class BinaryTreeNode {
                 ((childNodeLeft != null) ? childNodeLeft.size() : 0) +
                 ((childNodeRight != null) ? childNodeRight.size() : 0);
     }
+
+    public String toString() {
+        String indent = "";
+        for (int i = 0; i < this.getHeight() - 1; i++)
+            indent = indent + " ";
+        return indent + this.data +
+               ((childNodeLeft != null) ? "\n" + childNodeLeft.toString() : "") +
+               ((childNodeRight != null) ? "\n" + childNodeRight.toString() : "");
+    }
 }
