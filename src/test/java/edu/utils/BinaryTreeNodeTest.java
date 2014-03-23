@@ -105,13 +105,18 @@ public class BinaryTreeNodeTest {
     }
 
     @Test
-    public void shouldRiseHeightWhenAddedMoreThanMaxChildrenPerNode() {
+    public void shouldRiseHeightByTwoWhenAddedMoreThanTwoNodesPerChildrenNode() {
         //given
         BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
         int initialHeight = binaryTreeNode.getHeight();
 
         //when
-        binaryTreeNode.addNode("QQQ_!");
+        binaryTreeNode.addNode("QQQ_0");
+        binaryTreeNode.addNode("QQQ_1");
+        binaryTreeNode.addNode("QQQ_2");
+        binaryTreeNode.addNode("ZZZ_0");
+        binaryTreeNode.addNode("ZZZ_1");
+        binaryTreeNode.addNode("ZZZ_2");
 
         //then
         org.junit.Assert.assertTrue(initialHeight + 1 < binaryTreeNode.getHeight());

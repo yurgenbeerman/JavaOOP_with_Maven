@@ -37,7 +37,11 @@ public class BinaryTreeNode {
     }
 
     public int getHeight() {
-        return 0;
+        int leftHeight = (childNodeLeft != null) ? childNodeLeft.getHeight() : 0;
+        int maxHeight = (childNodeRight != null) ? childNodeRight.getHeight() : 0;
+        if ( leftHeight > maxHeight)
+            maxHeight = leftHeight;
+        return 1 + maxHeight;
     }
 
     public int size() {
