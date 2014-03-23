@@ -12,6 +12,7 @@ public class BinaryTreeNode {
     String data;
     BinaryTreeNode childNodeRight;
     BinaryTreeNode childNodeLeft;
+    int parentsCount = 0;
 
     public BinaryTreeNode(String data) {
         if (data != null)
@@ -25,11 +26,13 @@ public class BinaryTreeNode {
             if (data.hashCode() < this.data.hashCode()) {
                 if (this.childNodeLeft == null) {
                     this.childNodeLeft = new BinaryTreeNode(data);
+                    this.childNodeLeft.parentsCount = this.parentsCount + 1;
                 } else
                     this.childNodeLeft.addNode(data);
             } else {
                 if (this.childNodeRight == null) {
                     this.childNodeRight = new BinaryTreeNode(data);
+                    this.childNodeRight.parentsCount = this.parentsCount + 1;
                 } else
                     this.childNodeRight.addNode(data);
             }
@@ -52,7 +55,7 @@ public class BinaryTreeNode {
 
     public String toString() {
         String indent = "";
-        for (int i = 0; i < this.getHeight() - 1; i++)
+        for (int i = 0; i < this.parentsCount; i++)
             indent = indent + " ";
         return indent + this.data +
                ((childNodeLeft != null) ? "\n" + childNodeLeft.toString() : "") +

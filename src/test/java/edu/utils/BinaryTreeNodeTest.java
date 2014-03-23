@@ -140,7 +140,7 @@ public class BinaryTreeNodeTest {
         binaryTreeNode.addNode("ZZZ_7");
 
         //then
-        org.junit.Assert.assertTrue(initialHeight + 2 <= binaryTreeNode.getHeight()); //TODO must be EQUAL
+        org.junit.Assert.assertTrue("\n" + binaryTreeNode.toString(), initialHeight + 2 == binaryTreeNode.getHeight()); //TODO must be EQUAL
     }
 
     @Test
