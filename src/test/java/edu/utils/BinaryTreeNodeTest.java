@@ -46,62 +46,45 @@ public class BinaryTreeNodeTest {
     }
 
     @Test
-    public void shouldGetProperSizeAfterAddingFiveNodes() {
+    public void shouldHaveProperSizeWhenSeveralChildrenAdded() {
         //given
-        BinaryTreeNode tree = new BinaryTreeNode("TTT");
-        tree.addNode("QQQ_1");
-        tree.addNode("QQQ_2");
-        int size = tree.size();
+        BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
+        binaryTreeNode.addNode("QQQ_1");
+        binaryTreeNode.addNode("QQQ_2");
+        int size = binaryTreeNode.size();
 
         //when
-        for (int i = 0; i < 5; i++)
-            tree.addNode("QQQ" + i);
+        int childrenToAdd = 5;
+        for (int i = 0; i < childrenToAdd; i++)
+            binaryTreeNode.addNode("ZZZ" + i);
 
         //then
-        org.junit.Assert.assertEquals(tree.size(), size + 5);
+        org.junit.Assert.assertEquals("added children = " + childrenToAdd, size + childrenToAdd, binaryTreeNode.size());
     }
 
     @Test
-    public void shouldGetTreeNodeHeight() {
+    public void shouldGetTreeNodeHeightOfOneWhenNoChildren() {
         //given
         BinaryTreeNode tree = new BinaryTreeNode("TTT");
-        tree.addNode("QQQ");
 
         //when
 
         //then
-        org.junit.Assert.assertTrue(tree.getHeight() > 1);
+        org.junit.Assert.assertEquals(1, tree.getHeight());
     }
 
     @Test
-    public void shouldGetProperTreeNodeHeight() {
+    public void shouldGetProperTreeNodeHeightWhenSeveralChildrenAdded() {
         //given
         BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
         int level = 5;
-        double levelNodesCount = 1;
 
         //when
-        for (int i = 0;
-             i < levelNodesCount;
-             i++)
-            binaryTreeNode.addNode("QQQ" + i);
+        for (int i = 0; i < level; i++)
+            binaryTreeNode.addNode("ZZZ" + i);
 
         //then
-        org.junit.Assert.assertEquals("levelNodesCount = " + levelNodesCount, 1 + level, binaryTreeNode.getHeight());
-    }
-
-    @Test
-    public void shouldHaveProperNumOfChildren() {
-        //given
-        BinaryTreeNode binaryTreeNode = new BinaryTreeNode("TTT");
-
-        //when
-        binaryTreeNode.addNode("QQQ");
-        binaryTreeNode.addNode("QQQ1");
-        binaryTreeNode.addNode("QQQ2");
-
-        //then
-
+        org.junit.Assert.assertEquals("added levels = " + level, 1 + level, binaryTreeNode.getHeight());
     }
 
     @Test
@@ -111,15 +94,15 @@ public class BinaryTreeNodeTest {
         int initialHeight = binaryTreeNode.getHeight();
 
         //when
-        binaryTreeNode.addNode("QQQ_0");
         binaryTreeNode.addNode("QQQ_1");
+        binaryTreeNode.addNode("QQQ_0");
         binaryTreeNode.addNode("QQQ_2");
-        binaryTreeNode.addNode("ZZZ_0");
         binaryTreeNode.addNode("ZZZ_1");
+        binaryTreeNode.addNode("ZZZ_0");
         binaryTreeNode.addNode("ZZZ_2");
 
         //then
-        org.junit.Assert.assertTrue(initialHeight + 1 < binaryTreeNode.getHeight());
+        org.junit.Assert.assertTrue(initialHeight + 2 <= binaryTreeNode.getHeight());
     }
 
     @Test
