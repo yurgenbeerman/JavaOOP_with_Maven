@@ -39,7 +39,10 @@ public class BinaryTreeNode {
     public int getHeight() {
         return 0;
     }
+
     public int size() {
-        return 0;
+        return 1 +
+                ((childNodeLeft != null) ? childNodeLeft.size() : 0) +
+                ((childNodeRight != null) ? childNodeRight.size() : 0);
     }
 }
