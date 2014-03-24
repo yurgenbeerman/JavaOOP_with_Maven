@@ -42,6 +42,10 @@
             <artifactId>jacoco-maven-plugin</artifactId>
             <version>0.6.5.201403032054</version>
         </dependency>
-
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-all</artifactId>
+            <version>1.9.5</version>
+        </dependency>
     </dependencies>
 </project>

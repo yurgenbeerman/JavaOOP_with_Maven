@@ -5,8 +5,10 @@ import edu.clients.Requester;
 import edu.communications.Address;
 import edu.services.docs.*;
 import edu.services.execution.*;
+import edu.services.orgs.OfficialIDsHolder;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
+import edu.services.orgs.StubOfficialIDsHolder;
 import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
 import edu.services.servants.ThanksAndClaimsResponsible;
@@ -89,7 +91,8 @@ public class PublicServiceDemo {
     }
 
     public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
-        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester) )
+        OfficialIDsHolder officialIDsHolder = new StubOfficialIDsHolder();
+        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester, officialIDsHolder) )
             throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
         InformationRequest informationRequest =
                 new InformationRequest(infoRequestDocType, requester, publicService);
