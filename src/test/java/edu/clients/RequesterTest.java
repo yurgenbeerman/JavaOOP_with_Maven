@@ -1,6 +1,11 @@
 package edu.clients;
 
+import edu.services.docs.DocumentLifecycle;
+import edu.services.docs.DocumentType;
+import edu.services.docs.IncomingDocument;
+import edu.services.docs.InformationRequest;
 import edu.services.orgs.OfficialIDsHolder;
+import edu.services.orgs.PublicService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -20,12 +25,6 @@ public class RequesterTest {
 
     @InjectMocks
     Requester requester = new Citizen("ivanenko", "petro", "ivanovych");
-    //            requester.isRequesterOfficialIdValid(officialIDsHolder);
-
-    @Test
-    public void testIsRequesterOfficialIdValid() throws Exception {
-
-    }
 
     @Test
     public void shouldReturnTrue_WhenInvokedIsRequesterOfficialIdValid() throws Exception {
@@ -36,6 +35,8 @@ public class RequesterTest {
         when(officialIDsHolder.ifOfficialIDExists("1234567890")).thenReturn(true);
 
         //then
+        org.junit.Assert.assertTrue(requester.isRequesterOfficialIdValid(officialIDsHolder));
         verify(officialIDsHolder).ifOfficialIDExists("1234567890");
+
     }
 }
