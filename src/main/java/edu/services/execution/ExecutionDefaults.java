@@ -1,6 +1,7 @@
 package edu.services.execution;
 
 import edu.clients.Requester;
+import edu.services.docs.Email;
 import edu.services.orgs.OfficialIDsHolder;
 
 /**
@@ -21,4 +22,7 @@ public class ExecutionDefaults {
 
     public static final String ENVIRONMENT_IS_NULL = "ENVIRONMENT_IS_NULL";
     public static final String DEPARTMENT_IS_NULL = "DEPARTMENT_IS_NULL";
+
+    public static final String EMAIL_WAS_NOT_SENT = "EMAIL_WAS_NOT_SENT";
+    public static final String EMAIL_SENDER_IS_NOT_SET = "EMAIL_SENDER_IS_NOT_SET";
 }

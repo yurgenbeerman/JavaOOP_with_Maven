@@ -1,5 +1,10 @@
 package edu.services.docs;
 
+import edu.services.execution.EmailSender;
+import edu.services.execution.ExecutionDefaults;
+import edu.services.execution.ExecutionEnvironment;
+
+import javax.naming.OperationNotSupportedException;
 import java.util.Date;
 import java.util.GregorianCalendar;
 
@@ -14,6 +19,7 @@ public final class Email extends Text {
     private String emailCCAddresses;
     private String emailBCCAddresses;
     private GregorianCalendar emailSentDate;
+    private EmailSender emailSender;
 
     public Email(String emailFromAddress, String emailToAddress, String emailText) {
         /* TODO validate passed parameters:
@@ -32,8 +38,16 @@ public final class Email extends Text {
 
     public void sendEmail() {
         //TODO implement email sending
-        this.emailSentDate = new GregorianCalendar();
-        this.isFinalized = true;
+        if (emailSender != null) {
+            if (emailSender.sendEmail(this)) {
+                this.emailSentDate = new GregorianCalendar();
+                this.isFinalized = true;
+            } else {
+                throw new UnsupportedOperationException(ExecutionDefaults.EMAIL_WAS_NOT_SENT);
+            }
+        } else {
+            throw new UnsupportedOperationException(ExecutionDefaults.EMAIL_SENDER_IS_NOT_SET);
+        }
     }
 
     public String getEmailFromAddress() {

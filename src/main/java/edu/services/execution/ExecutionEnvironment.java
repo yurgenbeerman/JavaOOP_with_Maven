@@ -14,6 +14,15 @@ public class ExecutionEnvironment {
     private Requester requester;
     PublicService publicService;
     PublicServiceDepartment infoRequestsDepartment;
+    private EmailSender emailSender;
+
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
+    }
 
     public DocumentType getInfoRequestDocType() {
         return infoRequestDocType;
@@ -54,4 +63,5 @@ public class ExecutionEnvironment {
     public void setInfoRequestsDepartment(PublicServiceDepartment infoRequestsDepartment) {
         this.infoRequestsDepartment = infoRequestsDepartment;
     }
+
 }

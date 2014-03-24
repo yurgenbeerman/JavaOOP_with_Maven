@@ -194,6 +194,9 @@ public class PublicServiceDemo {
         PublicService publicService = createValidPublicService(environment);
         environment.setPublicService(publicService);
 
+        EmailSender stubEmailSender = new StubEmailSender();
+        environment.setEmailSender(stubEmailSender);
+
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(
                 publicService,
                 "infoRequestsDep_0"
