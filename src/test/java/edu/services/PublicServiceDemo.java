@@ -92,7 +92,7 @@ public class PublicServiceDemo {
 
     public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
         OfficialIDsHolder officialIDsHolder = new StubOfficialIDsHolder();
-        if ( ! ExecutionDefaults.isRequesterOfficialIdValid(requester, officialIDsHolder) )
+        if ( ! requester.isRequesterOfficialIdValid(officialIDsHolder) )
             throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
         InformationRequest informationRequest =
                 new InformationRequest(infoRequestDocType, requester, publicService);

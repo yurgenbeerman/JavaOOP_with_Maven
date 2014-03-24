@@ -4,6 +4,7 @@ import edu.communications.Address;
 import edu.communications.Emailable;
 import edu.services.docs.IncomingDocument;
 import edu.services.docs.OutcomingDocument;
+import edu.services.orgs.OfficialIDsHolder;
 
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
@@ -26,5 +27,7 @@ public interface Requester extends Emailable{
     public Address getAddress();
     public String getAddressString();
     public void setAddress(Address requesterAddress);
+
+    public boolean isRequesterOfficialIdValid(OfficialIDsHolder officialIDsHolder);
 }
 

@@ -13,6 +13,7 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" name="org.jacoco:jacoco-maven-plugin:0.6.5.201403032054" level="application" />
     <orderEntry type="library" name="junit-4.10" level="application" />
+    <orderEntry type="library" name="mockito-all-1.9.5" level="application" />
   </component>
 </module>
 

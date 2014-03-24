@@ -4,6 +4,8 @@ import edu.communications.Address;
 import edu.communications.Emailable;
 import edu.services.docs.IncomingDocument;
 import edu.services.docs.OutcomingDocument;
+import edu.services.execution.ExecutionDefaults;
+import edu.services.orgs.OfficialIDsHolder;
 
 import java.util.ArrayList;
 
@@ -170,5 +172,17 @@ public class Citizen implements Requester, Emailable {
         if ( this.getCitizenId() == other.getCitizenId() )
             return 0;
         return ( this.getCitizenId() > other.getCitizenId() ) ? 1 : -1;
+    }
+
+    public boolean isRequesterOfficialIdValid(OfficialIDsHolder officialIDsHolder) {
+        Requester requester = this;
+        if (( requester.getOfficialId() != null) && (requester.getOfficialId() != "")) {
+            if ( requester.getOfficialId().length() != ExecutionDefaults.REQUESTER_OFFICIAL_ID_LENGTH ) {
+                return false;
+            }
+            return officialIDsHolder.ifOfficialIDExists(requester.getOfficialId());
+        } else {
+            return false;
+        }
     }
 }

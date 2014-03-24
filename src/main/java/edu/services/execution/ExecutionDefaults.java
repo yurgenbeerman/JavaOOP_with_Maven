@@ -21,15 +21,4 @@ public class ExecutionDefaults {
 
     public static final String ENVIRONMENT_IS_NULL = "ENVIRONMENT_IS_NULL";
     public static final String DEPARTMENT_IS_NULL = "DEPARTMENT_IS_NULL";
-
-    public static boolean isRequesterOfficialIdValid(Requester requester, OfficialIDsHolder officialIDsHolder) {
-        if (( requester.getOfficialId() != null) && (requester.getOfficialId() != "")) {
-            if ( requester.getOfficialId().length() != ExecutionDefaults.REQUESTER_OFFICIAL_ID_LENGTH ) {
-                return false;
-            }
-            return officialIDsHolder.ifOfficialIDExists(requester.getOfficialId());
-        } else {
-            return false;
-        }
-    }
 }
