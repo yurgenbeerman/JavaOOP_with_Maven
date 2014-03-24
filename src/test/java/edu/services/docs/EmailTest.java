@@ -13,7 +13,7 @@ public class EmailTest {
     Email email;
 
     @Before
-    public void setUp() {
+    public void createEmail() {
         email = new Email("to@address", "from@address", "email text");
     }
 
@@ -28,7 +28,7 @@ public class EmailTest {
         //then
         org.junit.Assert.assertNotNull(email.getEmailSentDate());
 
-        /* the next expression fails the test:
+        /* TODO the next expression fails the test -- find solution in the code (I've solved it already by adding 1 minute):
         org.junit.Assert.assertTrue( ( ( email.getEmailSentDate().before(new GregorianCalendar()) ) &&
                 ( email.getEmailSentDate().after(dateBeforeSending) ) ) ) ;
         */
@@ -73,7 +73,7 @@ public class EmailTest {
     }
 
     @Test
-    public void testSetFinalized() throws Exception {
+    public void shouldSetFinalized() throws Exception {
         //when
         email.setFinalized(true);
 
@@ -83,7 +83,19 @@ public class EmailTest {
 
 
     @Test
-    public void testGetEmailFromAddressWhenSetFinalized() throws Exception {
+    public void shouldGetEmailFromAddressWhenSetFinalized() throws Exception {
+        //given
+        email.setEmailFromAddress("fromFROM");
+
+        //when
+        email.setFinalized(true);
+
+        //then
+        org.junit.Assert.assertEquals("fromFROM", email.getEmailFromAddress());
+    }
+
+    @Test
+    public void shouldSendEmailThrougEmailService() throws Exception {
         //given
         email.setEmailFromAddress("fromFROM");
 

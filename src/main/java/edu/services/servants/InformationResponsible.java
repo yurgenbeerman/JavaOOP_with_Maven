@@ -3,7 +3,6 @@ package edu.services.servants;
 import edu.services.docs.*;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.orgs.PublicServiceDepartment;
-import edu.utils.PublicRequestsUtils;
 
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
@@ -52,22 +51,15 @@ public class InformationResponsible extends PublicServant {
         document.setIncomingDocResponsible(this);
         document.setIncomingDocResponsible(this);
         ((InformationRequest) document).setInformationResponsible(this);
-
+        //TODO remove the next call out of this method
         processDocument(((InformationRequest) document));
     }
 
     public void processDocument(InformationRequest document) {
-        OutcomingDocument outcomingDocument =
-                this.createOutcomingDocument(document);
-        document.setReactionDocument(outcomingDocument);
-        document.setFinalized(true);
-        outcomingDocument.setNextDocumentStatus();
+        OutcomingDocument outcomingDocument = createOutcomingDocBasedOnInfoRequest(document);
 
         if (document.isToSendReplyToEmail()) {
-            Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
-                    this.getInformationForReply());
-            email.sendEmail();
-            outcomingDocument.setDocSentEmail(email);
+            replyByEmail(document, outcomingDocument);
         }
         if (document.isToSendReplyToPostAddress()) {
             getDepartment().sendDocumentToAddress(outcomingDocument, document.getAuthor().getAddress());
@@ -76,6 +68,22 @@ public class InformationResponsible extends PublicServant {
 
         outcomingDocument.publishToRequester(document.getAuthor());
         getDocumentsToProcess().remove(document);
+    }
+
+    public void replyByEmail(InformationRequest document, OutcomingDocument outcomingDocument) {
+        Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
+                this.getInformationForReply());
+        email.sendEmail();
+        outcomingDocument.setDocSentEmail(email);
+    }
+
+    public OutcomingDocument createOutcomingDocBasedOnInfoRequest(InformationRequest document) {
+        OutcomingDocument outcomingDocument =
+                this.createOutcomingDocument(document);
+        document.setReactionDocument(outcomingDocument);
+        document.setFinalized(true);
+        outcomingDocument.setNextDocumentStatus();
+        return outcomingDocument;
     }
 
     private OutcomingDocument createOutcomingDocument(IncomingDocument initiatingDocument) {
