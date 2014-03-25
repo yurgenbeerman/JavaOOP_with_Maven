@@ -1,6 +1,7 @@
 package edu.services.docs;
 
-import junit.framework.TestCase;
+import edu.services.execution.StubEmailSender;
+import edu.utils.PublicRequestsUtils;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -21,6 +22,7 @@ public class EmailTest {
     public void shouldEmailSentDateWhenSendEmail() throws Exception {
         //given
         GregorianCalendar dateBeforeSending = new GregorianCalendar();
+        email.setEmailSender(new StubEmailSender());
 
         //when
         email.sendEmail();
@@ -28,15 +30,17 @@ public class EmailTest {
         //then
         org.junit.Assert.assertNotNull(email.getEmailSentDate());
 
-        /* TODO the next expression fails the test -- find solution in the code (I've solved it already by adding 1 minute):
-        org.junit.Assert.assertTrue( ( ( email.getEmailSentDate().before(new GregorianCalendar()) ) &&
-                ( email.getEmailSentDate().after(dateBeforeSending) ) ) ) ;
-        */
+        /* TODO the next expression fails the test -- find solution in the code (I've solved it already by adding 1 minute): */
+        org.junit.Assert.assertTrue(
+                ( email.getEmailSentDate().before(PublicRequestsUtils.nowPlusTenMinutes()) ) &&
+                ( email.getEmailSentDate().after(PublicRequestsUtils.nowMinusTenMinutes()) ) )  ;
+
     }
 
     @Test
     public void shouldIsFinalizedWhenSendEmail() throws Exception {
         //given
+        email.setEmailSender(new StubEmailSender());
 
         //when
         email.sendEmail();
@@ -65,6 +69,9 @@ public class EmailTest {
 
     @Test
     public void shouldGetEmailSentDateAfterSending() throws Exception {
+        //given
+        email.setEmailSender(new StubEmailSender());
+
         //when
         email.sendEmail();
 

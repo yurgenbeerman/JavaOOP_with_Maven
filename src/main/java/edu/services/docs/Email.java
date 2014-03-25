@@ -21,6 +21,7 @@ public final class Email extends Text {
     private GregorianCalendar emailSentDate;
     private EmailSender emailSender;
 
+
     public Email(String emailFromAddress, String emailToAddress, String emailText) {
         /* TODO validate passed parameters:
          *   areEmailAddressesValid(emailFromAddress)
@@ -102,5 +103,13 @@ public final class Email extends Text {
 
     public GregorianCalendar getEmailSentDate() {
         return emailSentDate;
+    }
+
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
     }
 }

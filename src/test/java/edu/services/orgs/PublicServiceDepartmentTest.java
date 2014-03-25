@@ -6,6 +6,7 @@ import edu.services.docs.DocumentType;
 import edu.services.docs.InformationRequest;
 import edu.services.execution.ExecutionEnvironment;
 import edu.services.execution.ServantsTasksDispatcher;
+import edu.services.execution.StubEmailSender;
 import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
 import org.junit.Assert;
@@ -76,6 +77,8 @@ public class PublicServiceDepartmentTest {
         InformationRequest infoRequest = PublicServiceDemo.createInformationRequest(
                 testEnvironment.getInfoRequestDocType(),
                 testEnvironment.getRequester(), publicService);
+
+        infoRequestsDep.setEmailSender(new StubEmailSender());
 
         /*
         InformationRequest infoRequest = PublicServiceDemo.createInformationRequest(infoRequestDocType, requester, publicService);

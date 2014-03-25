@@ -5,6 +5,7 @@ import edu.communications.Emailable;
 import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
+import edu.services.execution.EmailSender;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.execution.ExecutionEnvironment;
 import edu.services.execution.ServantsTasksDispatcher;
@@ -27,6 +28,7 @@ public class PublicServiceDepartment implements Emailable {
     private String emailAddress;
     private ServantsTasksDispatcher servantsTasksDispatcher;
     private ExecutionEnvironment environment;
+    private EmailSender emailSender;
 
     public PublicServiceDepartment() {
         this.setDepartmentId(this);
@@ -117,5 +119,13 @@ public class PublicServiceDepartment implements Emailable {
     private static void setDepartmentId(PublicServiceDepartment department) {
         department.departmentId = nextDepartmentId;
         nextDepartmentId++;
+    }
+
+    public EmailSender getEmailSender() {
+        return emailSender;
+    }
+
+    public void setEmailSender(EmailSender emailSender) {
+        this.emailSender = emailSender;
     }
 }

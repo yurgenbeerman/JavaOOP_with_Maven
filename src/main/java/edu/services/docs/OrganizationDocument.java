@@ -3,6 +3,7 @@ package edu.services.docs;
 import edu.clients.Requester;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
+import edu.utils.PublicRequestsUtils;
 
 import static edu.services.docs.DocDefaults.*;
 
@@ -74,9 +75,7 @@ public class OrganizationDocument extends Text {
         } else if (! documentCreationDate.after(new GregorianCalendar(2014, 0, 0))) {
             return DOC_CREATION_DATE_NOT_AFTER_2014_0_0;
         } else {
-            GregorianCalendar nowPlusMinute = new GregorianCalendar();
-            nowPlusMinute.add(GregorianCalendar.MINUTE, 10);
-            if (! documentCreationDate.before(nowPlusMinute)) {
+            if (! documentCreationDate.before(PublicRequestsUtils.nowPlusTenMinutes())) {
                 return DOC_CREATION_DATE_IS_NOT_BEFORE_NOW;
             }
         }

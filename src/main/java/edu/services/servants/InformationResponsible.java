@@ -73,6 +73,7 @@ public class InformationResponsible extends PublicServant {
     public void replyByEmail(InformationRequest document, OutcomingDocument outcomingDocument) {
         Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
                 this.getInformationForReply());
+        email.setEmailSender(this.getDepartment().getEmailSender());
         email.sendEmail();
         outcomingDocument.setDocSentEmail(email);
     }

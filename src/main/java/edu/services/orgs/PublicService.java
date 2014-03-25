@@ -29,9 +29,17 @@ public class PublicService implements Emailable {
     private DepartmentsTasksDispatcher departmentsTasksDispatcher;
     private ExecutionEnvironment environment;
 
-    public PublicService(String orgName, ExecutionEnvironment environment) {
+    public PublicService() {
+        setOrgId();
+    }
+
+    public void setOrgId() {
         this.orgId = PublicService.lastOrgId;
         PublicService.lastOrgId++;
+    }
+
+    public PublicService(String orgName, ExecutionEnvironment environment) {
+        setOrgId();
         setOrgName(orgName);
         this.environment = environment;
     }

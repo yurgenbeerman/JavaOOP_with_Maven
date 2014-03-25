@@ -16,4 +16,17 @@ public class PublicRequestsUtils {
                 calendar.get(Calendar.YEAR);
         return date;
     }
+
+    public static GregorianCalendar nowPlusTenMinutes() {
+        GregorianCalendar nowPlusMinute = new GregorianCalendar();
+        nowPlusMinute.add(GregorianCalendar.MINUTE, 10);
+        return nowPlusMinute;
+    }
+
+    public static GregorianCalendar nowMinusTenMinutes() {
+        GregorianCalendar nowPlusMinute = new GregorianCalendar();
+        nowPlusMinute.add(GregorianCalendar.MINUTE, -10);
+        return nowPlusMinute;
+    }
+
 }
