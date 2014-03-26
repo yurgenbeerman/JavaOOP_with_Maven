@@ -1,8 +1,9 @@
 package edu.services;
 
 import edu.clients.Citizen;
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
 import edu.communications.Address;
+import edu.communications.EmailSender;
 import edu.services.docs.*;
 import edu.services.execution.*;
 import edu.services.orgs.OfficialIDsHolder;
@@ -52,9 +53,9 @@ public class PublicServiceDemo {
         //TODO ensure that informationResponsibles process their documents!
 
         System.out.println("\ncitizen sent the next requests:\n   " +
-                testEnvironment.getRequester().getRequestsString());
+                testEnvironment.getDocumentCreator().getRequestsString());
         System.out.println("\ncitizen got the next responses:\n   " +
-                testEnvironment.getRequester().getResponsesString());
+                testEnvironment.getDocumentCreator().getResponsesString());
     }
 
     public static OutcomingDocument createOutcomingDocument(DocumentType outcomingDocType, PublicService publicService, InformationRequest infoRequest0, InformationResponsible informationResponsibleServant) {
@@ -75,32 +76,32 @@ public class PublicServiceDemo {
         return publicService;
     }
 
-    public static Requester createValidCitizenRequester() {
-        Requester requester = createRequesterCitizen();
+    public static DocumentCreator createValidCitizenRequester() {
+        DocumentCreator documentCreator = createRequesterCitizen();
         Address requesterAddress = createCitizenAddress();
-        requester.setAddress(requesterAddress);
-        return requester;
+        documentCreator.setAddress(requesterAddress);
+        return documentCreator;
     }
 
     public static InformationRequest createTestInformationRequest() {
         return createInformationRequest(
             testEnvironment.getInfoRequestDocType(),
-            testEnvironment.getRequester(),
+            testEnvironment.getDocumentCreator(),
             testEnvironment.getPublicService()
         );
     }
 
-    public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, Requester requester, PublicService publicService) {
+    public static InformationRequest createInformationRequest(DocumentType infoRequestDocType, DocumentCreator documentCreator, PublicService publicService) {
         OfficialIDsHolder officialIDsHolder = new StubOfficialIDsHolder();
-        if ( ! requester.isRequesterOfficialIdValid(officialIDsHolder) )
+        if ( ! documentCreator.isRequesterOfficialIdValid(officialIDsHolder) )
             throw new IllegalStateException(ExecutionDefaults.REQUESTER_OFFICIAL_ID_IS_INVALID);
         InformationRequest informationRequest =
-                new InformationRequest(infoRequestDocType, requester, publicService);
+                new InformationRequest(infoRequestDocType, documentCreator, publicService);
         informationRequest.setText("What parks and streets improvements are planned for 2014 in Kyiv?");
         informationRequest.setToSendReplyToPostAddress(true);
-        informationRequest.setAddressForReply(requester.getAddressString());
+        informationRequest.setAddressForReply(documentCreator.getAddressString());
         informationRequest.setToSendReplyToEmail(true);
-        informationRequest.setEmailForReply(requester.getEmailAddress());
+        informationRequest.setEmailForReply(documentCreator.getEmailAddress());
         return informationRequest;
     }
 
@@ -125,11 +126,11 @@ public class PublicServiceDemo {
         return pubServiceAddress;
     }
 
-    public static Requester createRequesterCitizen() {
-        Requester requester = new Citizen("Petrenko","Taras","Ivanovych");
-        requester.setEmailAddress("citizen@gmail.com");
-        requester.setOfficialId("1234567890");
-        return requester;
+    public static DocumentCreator createRequesterCitizen() {
+        DocumentCreator documentCreator = new Citizen("Petrenko","Taras","Ivanovych");
+        documentCreator.setEmailAddress("citizen@gmail.com");
+        documentCreator.setOfficialId("1234567890");
+        return documentCreator;
     }
 
     public static Address createCitizenAddress() {
@@ -188,8 +189,8 @@ public class PublicServiceDemo {
         DocumentType outcomingDocType = createOutcomingDocType();
         environment.setOutcomingDocType(outcomingDocType);
 
-        Requester requester = createValidCitizenRequester();
-        environment.setRequester(requester);
+        DocumentCreator documentCreator = createValidCitizenRequester();
+        environment.setDocumentCreator(documentCreator);
 
         PublicService publicService = createValidPublicService(environment);
         environment.setPublicService(publicService);

@@ -1,20 +1,13 @@
 package edu.services.orgs;
 
-import edu.clients.Requester;
 import edu.services.PublicServiceDemo;
-import edu.services.docs.DocumentType;
 import edu.services.docs.InformationRequest;
 import edu.services.execution.ExecutionEnvironment;
-import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.execution.StubEmailSender;
 import edu.services.servants.InformationResponsible;
-import edu.services.servants.PublicServant;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
-
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  * Created by Lena on 20.03.14.
@@ -76,7 +69,7 @@ public class PublicServiceDepartmentTest {
         infoRequestsDep = testEnvironment.getInfoRequestsDepartment();
         InformationRequest infoRequest = PublicServiceDemo.createInformationRequest(
                 testEnvironment.getInfoRequestDocType(),
-                testEnvironment.getRequester(), publicService);
+                testEnvironment.getDocumentCreator(), publicService);
 
         infoRequestsDep.setEmailSender(new StubEmailSender());
 

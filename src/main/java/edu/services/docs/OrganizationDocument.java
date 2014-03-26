@@ -1,6 +1,6 @@
 package edu.services.docs;
 
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.utils.PublicRequestsUtils;
@@ -20,12 +20,12 @@ public class OrganizationDocument extends Text {
     private long documentId;
     private String documentName;
     private long documentAuthorId;
+    private DocumentCreator author;
     private GregorianCalendar documentCreationDate;
     private DocumentType documentType;
     private String documentNumber;
     private DocumentStatus documentStatus;
     private long orgId;
-    private Requester author;
     private String text;
     private PublicServiceDepartment currentPublicServiceDepartment;
 
@@ -34,7 +34,7 @@ public class OrganizationDocument extends Text {
         OrganizationDocument.lastDocumentId++;
     }
 
-    public OrganizationDocument(DocumentType documentType, Requester author, PublicService publicService) {
+    public OrganizationDocument(DocumentType documentType, DocumentCreator author, PublicService publicService) {
         this();
         if (documentType != null) {
             this.documentType = documentType;
@@ -186,10 +186,6 @@ public class OrganizationDocument extends Text {
         return orgId;
     }
 
-    public Requester getAuthor() {
-        return author;
-    }
-
     public String getText() {
         return text;
     }
@@ -213,10 +209,13 @@ public class OrganizationDocument extends Text {
         return this.documentType.getDocTypeName();
     }
 
+    public DocumentCreator getAuthor() {
+        return author;
+    }
+
     public String getAuthorName() {
         return this.getAuthor().getName();
     }
-
 
     public PublicServiceDepartment getCurrentPublicServiceDepartment() {
         return currentPublicServiceDepartment;

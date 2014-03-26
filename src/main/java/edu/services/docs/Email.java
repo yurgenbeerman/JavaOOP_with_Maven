@@ -1,11 +1,8 @@
 package edu.services.docs;
 
-import edu.services.execution.EmailSender;
+import edu.communications.EmailSender;
 import edu.services.execution.ExecutionDefaults;
-import edu.services.execution.ExecutionEnvironment;
 
-import javax.naming.OperationNotSupportedException;
-import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**

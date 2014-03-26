@@ -3,16 +3,13 @@ package edu.services.orgs;
 import edu.communications.Address;
 import edu.communications.Emailable;
 import edu.services.docs.IncomingDocument;
-import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
-import edu.services.execution.EmailSender;
+import edu.communications.EmailSender;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.execution.ExecutionEnvironment;
 import edu.services.execution.ServantsTasksDispatcher;
 import edu.services.servants.PublicServant;
 
-import java.util.GregorianCalendar;
-import java.util.Map;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 

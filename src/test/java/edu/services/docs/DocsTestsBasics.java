@@ -1,26 +1,25 @@
 package edu.services.docs;
 
 import edu.clients.Citizen;
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
 import edu.services.execution.ExecutionEnvironment;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.InformationResponsible;
-import org.junit.Before;
 import org.junit.Test;
 
 /**
  * Created by yurii.pyvovarenko on 19.03.14.
  */
 public class DocsTestsBasics {
-    Requester requester;
+    DocumentCreator documentCreator;
     DocumentType infoRequestDocType;
     PublicService publicService;
     PublicServiceDepartment infoRequestsDep;
     InformationResponsible informationResponsibleServant;
 
     public DocsTestsBasics() {
-        requester = new Citizen("Petrenko","Taras","Ivanovych");
+        documentCreator = new Citizen("Petrenko","Taras","Ivanovych");
         DocumentLifecycle infoRequestLifecycle = new DocumentLifecycle(new String[] {"Created"});
         infoRequestDocType = new DocumentType("Information_Request", "InfoReq_",infoRequestLifecycle);
 

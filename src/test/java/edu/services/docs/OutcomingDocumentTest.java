@@ -1,9 +1,5 @@
 package edu.services.docs;
 
-import edu.clients.Citizen;
-import edu.clients.Requester;
-import edu.services.orgs.PublicService;
-import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -18,7 +14,7 @@ public class OutcomingDocumentTest extends DocsTestsBasics {
 
     @Before
     public void createDocsForTests() {
-        incomingDoc = new InformationRequest(infoRequestDocType,requester,publicService);
+        incomingDoc = new InformationRequest(infoRequestDocType, documentCreator,publicService);
         outcomingDoc = new OutcomingDocument(infoRequestDocType,informationResponsibleServant,publicService);
     }
 

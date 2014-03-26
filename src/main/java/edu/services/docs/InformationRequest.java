@@ -1,6 +1,6 @@
 package edu.services.docs;
 
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
 import edu.services.orgs.PublicService;
 import edu.services.servants.InformationResponsible;
 
@@ -14,11 +14,11 @@ public final class InformationRequest extends IncomingDocument {
     private boolean ifSendReplyToEmail;
     private InformationResponsible informationResponsible;
 
-    public InformationRequest(DocumentType documentType, Requester requester, PublicService publicService) {
-        super(documentType, requester, publicService);
+    public InformationRequest(DocumentType documentType, DocumentCreator documentCreator, PublicService publicService) {
+        super(documentType, documentCreator, publicService);
         documentType.setDocTypeInUse(true);
         setDocumentName(documentType.getDocTypeName() + " #" + this.getDocumentId());
-        requester.addRequest(this);
+        documentCreator.addRequest(this);
     }
 
     public String getValidityString() {

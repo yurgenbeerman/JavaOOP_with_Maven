@@ -15,7 +15,7 @@ import java.util.ArrayList;
  * Citizen objects contain information on Requests (IncomingDocs of Organization) and Responses (OutcomingDocs of Organization).
  * Also it has data to approve to Organization, that this is real citizen (officialId field = INN).
  */
-public class Citizen implements Requester, Emailable {
+public class Citizen implements DocumentCreator, Emailable {
     private long citizenId;
     private FullName fullName;
     private String emailAddress;
@@ -175,12 +175,12 @@ public class Citizen implements Requester, Emailable {
     }
 
     public boolean isRequesterOfficialIdValid(OfficialIDsHolder officialIDsHolder) {
-        Requester requester = this;
-        if (( requester.getOfficialId() != null) && (requester.getOfficialId() != "")) {
-            if ( requester.getOfficialId().length() != ExecutionDefaults.REQUESTER_OFFICIAL_ID_LENGTH ) {
+        DocumentCreator documentCreator = this;
+        if (( documentCreator.getOfficialId() != null) && (documentCreator.getOfficialId() != "")) {
+            if ( documentCreator.getOfficialId().length() != ExecutionDefaults.REQUESTER_OFFICIAL_ID_LENGTH ) {
                 return false;
             }
-            return officialIDsHolder.ifOfficialIDExists(requester.getOfficialId());
+            return officialIDsHolder.ifOfficialIDExists(documentCreator.getOfficialId());
         } else {
             return false;
         }

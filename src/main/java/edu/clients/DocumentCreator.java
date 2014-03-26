@@ -9,7 +9,7 @@ import edu.services.orgs.OfficialIDsHolder;
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
  */
-public interface Requester extends Emailable{
+public interface DocumentCreator extends Emailable{
     public long getId();
 
     public void setOfficialId(String officialId);

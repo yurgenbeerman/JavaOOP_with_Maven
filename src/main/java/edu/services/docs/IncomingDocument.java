@@ -1,8 +1,7 @@
 package edu.services.docs;
 
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
 import edu.services.orgs.PublicService;
-import edu.services.orgs.PublicServiceDepartment;
 import edu.services.servants.PublicServant;
 
 /**
@@ -13,7 +12,7 @@ public class IncomingDocument extends OrganizationDocument {
     private PublicServant incomingDocResponsible;
     private boolean isReceivedByPublicService;
 
-    public IncomingDocument(DocumentType documentType, Requester author, PublicService publicService) {
+    public IncomingDocument(DocumentType documentType, DocumentCreator author, PublicService publicService) {
         super(documentType, author, publicService);
     }
 

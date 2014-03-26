@@ -1,6 +1,7 @@
 package edu.services.execution;
 
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
+import edu.communications.EmailSender;
 import edu.services.docs.DocumentType;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
@@ -11,7 +12,7 @@ import edu.services.orgs.PublicServiceDepartment;
 public class ExecutionEnvironment {
     private DocumentType outcomingDocType;
     private DocumentType infoRequestDocType;
-    private Requester requester;
+    private DocumentCreator documentCreator;
     PublicService publicService;
     PublicServiceDepartment infoRequestsDepartment;
     private EmailSender emailSender;
@@ -32,12 +33,12 @@ public class ExecutionEnvironment {
         this.infoRequestDocType = infoRequestDocType;
     }
 
-    public Requester getRequester() {
-        return requester;
+    public DocumentCreator getDocumentCreator() {
+        return documentCreator;
     }
 
-    public void setRequester(Requester requester) {
-        this.requester = requester;
+    public void setDocumentCreator(DocumentCreator documentCreator) {
+        this.documentCreator = documentCreator;
     }
 
     public PublicService getPublicService() {

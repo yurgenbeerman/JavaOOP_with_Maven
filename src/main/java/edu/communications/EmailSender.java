@@ -1,4 +1,4 @@
-package edu.services.execution;
+package edu.communications;
 
 import edu.services.docs.Email;
 

@@ -1,7 +1,7 @@
 package edu.services.execution;
 
 import edu.services.docs.Email;
-import edu.services.execution.EmailSender;
+import edu.communications.EmailSender;
 
 /**
  * Created by Lena on 24.03.14.

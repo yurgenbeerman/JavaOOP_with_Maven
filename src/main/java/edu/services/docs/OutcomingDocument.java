@@ -1,6 +1,6 @@
 package edu.services.docs;
 
-import edu.clients.Requester;
+import edu.clients.DocumentCreator;
 import edu.communications.Address;
 import edu.services.orgs.PublicService;
 import edu.services.servants.PublicServant;
@@ -67,8 +67,8 @@ public class OutcomingDocument extends OrganizationDocument {
         super(documentType, publicServant, publicService);
     }
 
-    public void publishToRequester(Requester requester) {
-        requester.addResponse(this);
+    public void publishToRequester(DocumentCreator documentCreator) {
+        documentCreator.addResponse(this);
         this.isFinalized = true;
     }
 
