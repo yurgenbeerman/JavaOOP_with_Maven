@@ -8,7 +8,7 @@ import edu.services.orgs.PublicServiceDepartment;
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
  */
-public class InformationResponsible extends PublicServant {
+public class InformationResponsible extends IncomingDocServant {
     String informationForReply;
 
     public InformationResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
@@ -27,28 +27,32 @@ public class InformationResponsible extends PublicServant {
         this.informationForReply = new String(info);
     }
 
-    public String getInformationResponsibleName() {
-        return super.toString();
+    public OutcomingDocument createOutcomingDocument(IncomingDocument initiatingDocument) {
+        if (getEnvironment() != null ) {
+            if (getDepartment() != null ) {
+                OutcomingDocument outcomingDocument =
+                        new OutcomingDocument(
+                                getEnvironment().getOutcomingDocType(),
+                                this,
+                                getDepartment().getPublicService()
+                        );
+                outcomingDocument.setText(this.getInformationForReply());
+                initiatingDocument.setReactionDocument(outcomingDocument);
+                outcomingDocument.setInitiatingDocument(initiatingDocument);
+                outcomingDocument.setDocumentName(ExecutionDefaults.OUTCOMING_DOC_NAME);
+                return outcomingDocument;
+            } else
+                throw new IllegalStateException(ExecutionDefaults.DEPARTMENT_IS_NULL);
+        } else
+                throw new IllegalStateException(ExecutionDefaults.ENVIRONMENT_IS_NULL);
     }
 
-    public String toString() {
-        return super.toString();
-    }
-
-    public boolean equals(Object other) {
-        if (other == this)
-            return true;
-        if (! (other instanceof InformationResponsible) )
-            return false;
-        return super.equals(other);
-    }
-
-    public int hashCode() {
-        return super.hashCode();
-    }
-
-    public int compareTo(PublicServant other) {
-        return super.compareTo(other);
+    public void replyByEmail(InformationRequest document, OutcomingDocument outcomingDocument) {
+        Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
+                this.getInformationForReply());
+        email.setEmailSender(this.getDepartment().getEmailSender());
+        email.sendEmail();
+        outcomingDocument.setDocSentEmail(email);
     }
 
     public void addDocumentToProcess(IncomingDocument document) {
@@ -75,14 +79,6 @@ public class InformationResponsible extends PublicServant {
         getDocumentsToProcess().remove(document);
     }
 
-    public void replyByEmail(InformationRequest document, OutcomingDocument outcomingDocument) {
-        Email email = new Email(getDepartment().getEmailAddress(), document.getAuthor().getEmailAddress(),
-                this.getInformationForReply());
-        email.setEmailSender(this.getDepartment().getEmailSender());
-        email.sendEmail();
-        outcomingDocument.setDocSentEmail(email);
-    }
-
     public OutcomingDocument createOutcomingDocBasedOnInfoRequest(InformationRequest document) {
         OutcomingDocument outcomingDocument =
                 this.createOutcomingDocument(document);
@@ -90,25 +86,5 @@ public class InformationResponsible extends PublicServant {
         document.setFinalized(true);
         outcomingDocument.setNextDocumentStatus();
         return outcomingDocument;
-    }
-
-    private OutcomingDocument createOutcomingDocument(IncomingDocument initiatingDocument) {
-        if (getEnvironment() != null ) {
-            if (getDepartment() != null ) {
-                OutcomingDocument outcomingDocument =
-                        new OutcomingDocument(
-                                getEnvironment().getOutcomingDocType(),
-                                this,
-                                getDepartment().getPublicService()
-                        );
-                outcomingDocument.setText(this.getInformationForReply());
-                initiatingDocument.setReactionDocument(outcomingDocument);
-                outcomingDocument.setInitiatingDocument(initiatingDocument);
-                outcomingDocument.setDocumentName(ExecutionDefaults.OUTCOMING_DOC_NAME);
-                return outcomingDocument;
-            } else
-                throw new IllegalStateException(ExecutionDefaults.DEPARTMENT_IS_NULL);
-        } else
-            throw new IllegalStateException(ExecutionDefaults.ENVIRONMENT_IS_NULL);
     }
 }
