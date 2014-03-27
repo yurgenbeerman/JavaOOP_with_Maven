@@ -59,7 +59,6 @@ public class InformationResponsible extends IncomingDocServant {
         super.addDocumentToProcess(document);
         document.setIncomingDocResponsible(this);
         document.setIncomingDocResponsible(this);
-        ((InformationRequest) document).setInformationResponsible(this);
         //TODO remove the next call out of this method
         processDocument(((InformationRequest) document));
     }

@@ -2,6 +2,8 @@ package edu.services.docs;
 
 import edu.clients.DocumentCreator;
 import edu.services.orgs.PublicService;
+import edu.services.servants.IncomingDocServant;
+import edu.services.servants.InformationResponsible;
 import edu.services.servants.PublicServant;
 
 /**
@@ -11,6 +13,7 @@ public class IncomingDocument extends OrganizationDocument {
     private OrganizationDocument reactionDocument;
     private PublicServant incomingDocResponsible;
     private boolean isReceivedByPublicService;
+
 
     public IncomingDocument(DocumentType documentType, DocumentCreator author, PublicService publicService) {
         super(documentType, author, publicService);
@@ -77,5 +80,4 @@ public class IncomingDocument extends OrganizationDocument {
                 "\n    reactionDocument Number: " + getReactionDocumentNumber();
         return super.toString() + result;
     }
-
 }

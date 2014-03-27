@@ -2,7 +2,6 @@ package edu.services.docs;
 
 import edu.clients.DocumentCreator;
 import edu.services.orgs.PublicService;
-import edu.services.servants.InformationResponsible;
 
 /**
  * Created by yurii.pyvovarenko on 05.03.14.
@@ -12,7 +11,6 @@ public final class InformationRequest extends IncomingDocument {
     private String emailForReply;
     private boolean ifSendReplyToPostAddress;
     private boolean ifSendReplyToEmail;
-    private InformationResponsible informationResponsible;
 
     public InformationRequest(DocumentType documentType, DocumentCreator documentCreator, PublicService publicService) {
         super(documentType, documentCreator, publicService);
@@ -45,14 +43,6 @@ public final class InformationRequest extends IncomingDocument {
         }
     }
 
-    public InformationResponsible getInformationResponsible() {
-        return informationResponsible;
-    }
-
-    public void setInformationResponsible(InformationResponsible informationResponsible) {
-        this.informationResponsible = informationResponsible;
-    }
-
     public boolean isToSendReplyToPostAddress() {
         return ifSendReplyToPostAddress;
     }
@@ -69,19 +59,10 @@ public final class InformationRequest extends IncomingDocument {
         this.ifSendReplyToEmail = ifSendReplyToEmail;
     }
 
-    public String getInformationResponsibleName() {
-        if (null != informationResponsible){
-          return this.informationResponsible.getInformationResponsibleName();
-        } else {
-            return DocDefaults.NONE;
-        }
-    }
-
     public String toString() {
         String result =
                 "\n    addressForReply: " + this.getAddressForReply() +
-                "\n    emailForReply: " + this.getEmailForReply() +
-                "\n    InformationResponsible: " + this.getInformationResponsibleName();
+                "\n    emailForReply: " + this.getEmailForReply();
         return super.toString() + result;
     }
 }
