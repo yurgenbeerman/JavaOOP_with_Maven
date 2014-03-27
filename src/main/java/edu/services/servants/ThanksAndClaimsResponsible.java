@@ -7,18 +7,27 @@ import edu.services.orgs.PublicServiceDepartment;
  * Created by yurii.pyvovarenko on 3/4/14.
  */
 public class ThanksAndClaimsResponsible extends PublicServant {
-    String informationForReply;
+    String replyToThank;
+    String replyToClaim;
 
     public ThanksAndClaimsResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
         super(department, surname, name, secondName);
     }
 
-    public String getInformationForReply() {
-        return informationForReply;
+    public String getReplyToThank() {
+        return replyToThank;
     }
 
-    public void setInformationForReply(String info) {
-        this.informationForReply = new String(info);
+    public void setReplyToThank(String replyToThank) {
+        this.replyToThank = replyToThank;
+    }
+
+    public String getReplyToClaim() {
+        return replyToClaim;
+    }
+
+    public void setReplyToClaim(String replyToClaim) {
+        this.replyToClaim = replyToClaim;
     }
 
     public String getInformationResponsibleName() {

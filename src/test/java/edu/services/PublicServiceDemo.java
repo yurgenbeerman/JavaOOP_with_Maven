@@ -233,7 +233,7 @@ public class PublicServiceDemo {
         servantsLoadBalancer.addServant(publicServant1);
 
         ThanksAndClaimsResponsible publicServant2 = new ThanksAndClaimsResponsible(thanksAndClaimsDep, "Karpenko2", "Petro2", "Ivanovych2");
-        publicServant2.setInformationForReply(
+        publicServant2.setReplyToThank(
                 "Thank you for information! Sincerely, publicServant2."); //TODO Remove stubs
 
         Map<String, PublicServant> infoRequestsDepDispatchingTable = new HashMap<String, PublicServant>();

@@ -1,5 +1,6 @@
 package edu.services.servants;
 
+import edu.clients.FullName;
 import edu.services.docs.*;
 import edu.services.execution.ExecutionDefaults;
 import edu.services.orgs.PublicServiceDepartment;
@@ -12,6 +13,10 @@ public class InformationResponsible extends PublicServant {
 
     public InformationResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
         super(department, surname, name, secondName);
+    }
+
+    public InformationResponsible(PublicServiceDepartment department, FullName fullName) {
+        super(department, fullName);
     }
 
     public String getInformationForReply() {

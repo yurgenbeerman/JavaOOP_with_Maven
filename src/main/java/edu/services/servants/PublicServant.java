@@ -1,6 +1,7 @@
 package edu.services.servants;
 
 import edu.clients.Citizen;
+import edu.clients.FullName;
 import edu.services.docs.IncomingDocument;
 import edu.services.docs.OrganizationDocument;
 import edu.services.docs.OutcomingDocument;
@@ -22,8 +23,8 @@ public class PublicServant extends Citizen {
 
     protected PublicServant() {}
 
-    public PublicServant(PublicServiceDepartment department, String surname, String name, String secondName) {
-        super(surname, name, secondName);
+    public PublicServant(PublicServiceDepartment department, FullName fullName) {
+        super(fullName);
         this.environment = department.getEnvironment();
 
         this.publicServantId = PublicServant.lastPublicServantId;
@@ -33,6 +34,10 @@ public class PublicServant extends Citizen {
         department.addPublicServant(this);
 
         documentsToProcess = new ArrayList<OrganizationDocument>(); //(ExecutionDefaults.MAX_SERVANTS_PER_SERVANT);
+    }
+
+    public PublicServant(PublicServiceDepartment department, String surname, String name, String secondName) {
+        this(department, new FullName(surname, name, secondName));
     }
 
     public String toString() {

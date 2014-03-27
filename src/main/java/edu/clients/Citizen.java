@@ -30,10 +30,14 @@ public class Citizen implements DocumentCreator, Emailable {
         setCitizenId(this);
     }
 
-    public Citizen(String surname, String name, String secondName) {
-        this.fullName = new FullName(surname, name, secondName);
+    public Citizen(FullName fullName) {
+        this.fullName = fullName;
         setCitizenId(this);
         this.requests = new ArrayList<IncomingDocument>();
+    }
+
+    public Citizen(String surname, String name, String secondName) {
+        this(new FullName(surname, name, secondName));
     }
 
     public void addRequest(IncomingDocument request) {
