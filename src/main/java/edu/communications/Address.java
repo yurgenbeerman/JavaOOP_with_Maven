@@ -67,6 +67,8 @@ public class Address {
     public boolean equals(Object other) {
         if (other == this)
             return true;
+        if (other == null)
+            return false;
         if (! (other instanceof Address) )
             return false;
         Address otherAddress = (Address) other;

@@ -3,12 +3,14 @@ package edu.sandbox;
 import edu.communications.Address;
 
 /**
- * Created by Lena on 16.04.14.
+ * Created by yurij.pyvovarenko on 16.04.14.
  */
 public class EqualsAndHashCode {
     int intVal;
     String stringVal;
     Address address;
+
+    public EqualsAndHashCode() {}
 
     public EqualsAndHashCode(
             int intVal,
@@ -20,10 +22,47 @@ public class EqualsAndHashCode {
     }
 
     public int hashCode() {
-        return intVal*33 + stringVal.hashCode() + address.hashCode();
+        return intVal*31 + stringVal.hashCode() + address.hashCode();
     }
 
-    public boolean equals(Object other) {
+    public boolean equals(Object otherObject) {
+        if (otherObject == this)
+            return true;
+        if (otherObject == null)
+            return false;
 
+        //if (! (otherObject instanceof EqualsAndHashCode)) return false;
+        if (getClass() != otherObject.getClass()) return false;
+
+        EqualsAndHashCode other = (EqualsAndHashCode) otherObject;
+
+        return (other.intVal == intVal)
+                && (stringVal.equals(other.stringVal))
+                && (address.equals(other.address));
+            //&& super.equals(other)
+    }
+
+    public int getIntVal() {
+        return intVal;
+    }
+
+    public void setIntVal(int intVal) {
+        this.intVal = intVal;
+    }
+
+    public String getStringVal() {
+        return stringVal;
+    }
+
+    public void setStringVal(String stringVal) {
+        this.stringVal = stringVal;
+    }
+
+    public Address getAddress() {
+        return address;
+    }
+
+    public void setAddress(Address address) {
+        this.address = address;
     }
 }
