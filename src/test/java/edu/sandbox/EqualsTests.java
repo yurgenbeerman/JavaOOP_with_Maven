@@ -66,8 +66,24 @@ public class EqualsTests {
     }
 
     @Test
-    public void shouldBeConsistent() {
+    public synchronized void shouldBeConsistent() throws InterruptedException {
+        //when
+        instance.setIntVal(3);
+        equalInstance.setIntVal(4);
+        wait(1000);
+        instance.setIntVal(5);
+        equalInstance.setIntVal(5);
 
+        //then
+        org.junit.Assert.assertTrue(instance.equals(equalInstance));
+    }
+
+    @Test
+    public void shouldBeFalseWhenNull() {
+        //when
+
+        //then
+        org.junit.Assert.assertFalse(instance.equals(null));
     }
 
     @Test
