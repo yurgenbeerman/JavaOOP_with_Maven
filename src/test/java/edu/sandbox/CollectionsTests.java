@@ -13,6 +13,7 @@ public class CollectionsTests {
     static long lFinishTime;
     static SynchroHTML synchroHTMLFile;
     final static String outHTMLFilePath = "E:\\Юра\\java(!)\\_Books and info\\synchroHTMLFile.html";
+    public static final int MAX_ITERATIONS = 15;
 
     public static void main(String[] args) {
         /*
@@ -25,24 +26,47 @@ public class CollectionsTests {
             synchroHTMLFile = new SynchroHTML(outHTMLFilePath);
             addHeaderToHTMLFile(synchroHTMLFile);
 
+
             synchroHTMLFile.writingHTML("Current thread: " + Thread.currentThread().getName(), 0);
 //            ArrayStack arrayStack = new ArrayStack();
 //            Thread t1 = startThread(1, arrayStack);
 //            Thread t2 = startThread(2, arrayStack);
 //            Thread t3 = startThread(3, arrayStack);
 
+            for (int i = 0; i < 10; i++) {
+                HTMLArrayStack arrayStack = new HTMLArrayStack();
+                Thread t1 = new HTMLThread(1, arrayStack, synchroHTMLFile);
+                Thread t2 = new HTMLThread(2, arrayStack, synchroHTMLFile);
+                Thread t3 = new HTMLThread(3, arrayStack, synchroHTMLFile);
+                t1.setPriority(10);
+                t2.setPriority(5);
+                t2.setPriority(1);
+                synchroHTMLFile.writingHTML("\n<br/>",-1);
+                synchroHTMLFile.writingHTML("Priority = " + t1.getPriority(),1);
+                synchroHTMLFile.writingHTML("\n<br/>",-1);
+                synchroHTMLFile.writingHTML("Priority = " + t2.getPriority(),2);
+                synchroHTMLFile.writingHTML("\n<br/>",-1);
+                synchroHTMLFile.writingHTML("Priority = " + t3.getPriority(),3);
+                t1.start();
+                t2.start();
+                t3.start();
 
-            HTMLArrayStack arrayStack = new HTMLArrayStack();
-            Thread t1 = startHTMLThread(1, arrayStack, synchroHTMLFile);
-/*            Thread t2 = startHTMLThread(2, arrayStack, synchroHTMLFile);
-            Thread t3 = startHTMLThread(3, arrayStack, synchroHTMLFile);
-            t1.setPriority(1);
-            t2.setPriority(10);
-            interruptThread(t1);
-            interruptThread(t2);
-            interruptThread(t3);
-*/
+    /*            Thread t2 = startHTMLThread(2, arrayStack, synchroHTMLFile);
+                Thread t3 = startHTMLThread(3, arrayStack, synchroHTMLFile);
 
+                interruptThread(t1);
+                interruptThread(t2);
+                interruptThread(t3);
+    */
+                try {
+                    t3.join();
+                    t2.join();
+                    t1.join();
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+
+        }
             /*
             http://habrahabr.ru/post/164487/
              bool isInterrupted() объекта потока,
@@ -412,7 +436,7 @@ public class CollectionsTests {
     }
 
     static class ArrayStack implements Stack{
-        private final int MAX_ELEMENTS = 25;
+        private final int MAX_ELEMENTS = 30;
         private final int EMPTY_VAL = -99;
         private int[] stack;
         private int index;
@@ -479,26 +503,6 @@ public class CollectionsTests {
         }
     }
 
-    public static class SynchroHTML extends Synchro {
-        public SynchroHTML(String HTMLFilePath) throws IOException {
-            super(HTMLFilePath);
-        }
-        public synchronized void writingHTML(String str, int threadNumber) {
-            try {
-                if (threadNumber != -1) {
-                    System.out.print(str);
-                    super.fileWriter.append(HTMLString(str,threadNumber));
-                } else {
-                    System.out.print("Writing Header or Footer to the HTML file.");
-                    super.fileWriter.append(str);
-                }
-            } catch (IOException e) {
-                System.err.print("ошибка файла");
-                e.printStackTrace();
-            }
-        }
-    }
-
     static void arrayStackTests(int t, ArrayStack arrayStack) {
         System.out.println("TREAD " + t + " ---- Example 11-2. A non-thread-safe" +
                 " stack implementation was improved by adding 'synchronized'" +
@@ -520,8 +524,30 @@ public class CollectionsTests {
                 "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML Experimental//EN\">\n" +
                 "<html>\n" +
                 "  <head>\n" +
+                "\t<style>\n" +
+
+                "\t\tbody {\n" +
+                "\t\t\tfont-weight:bold;\n" +
+                "\t\t\tfont-size:10px;\n" +
+                "\t\t\tfont-family: Verdana, Tahoma, Arial;\n" +
+                "\t\t}\n" +
+                "\t\t.thread0 {\n" +
+                "\t\t\tfont-weight:normal;\n" +
+                "\t\t\tcolor:#dddddd;\n" +
+                "\t\t}\n" +
+                "\t\t.thread1 {\n" +
+                "\t\t\tcolor:red;\n" +
+                "\t\t}\n" +
+                "\t\t.thread2 {\n" +
+                "\t\t\tcolor:green;\n" +
+                "\t\t}\n" +
+                "\t\t.thread3 {\n" +
+                "\t\t\tcolor:blue;\n" +
+                "\t\t}" +
+
+                "\t</style>" +
                 "  </head>\n" +
-                "  <body>"
+                "  <body>\n"
                 ,-1
         );
     }
@@ -535,11 +561,6 @@ public class CollectionsTests {
         );
     }
 
-    static synchronized String HTMLString(String str, int threadNumber) {
-        return "<span class='thread" +
-                        threadNumber + "'>" + str + "</span>";
-    }
-
     interface HTMLStack {
         public void push(String elt);
         public String pop();
@@ -547,8 +568,8 @@ public class CollectionsTests {
     }
 
     static class HTMLArrayStack implements HTMLStack{
-        private final int MAX_ELEMENTS = 25;
-        private final String EMPTY_VAL = HTMLString("000",0);
+        private final int MAX_ELEMENTS = MAX_ITERATIONS * 3;
+        private final String EMPTY_VAL = HTMLString("00",0);
         private String[] stack;
         private int index;
 
@@ -581,19 +602,6 @@ public class CollectionsTests {
         public synchronized String toString () { return Arrays.toString(stack); }
     }
 
-    static void HTMLArrayStackTests(int t, HTMLArrayStack arrayStack, SynchroHTML synchroHTMLFile) {
-        synchroHTMLFile.writingHTML("---- THREAD " + t + " STARTED ----", t);
-        for (int i = 0; i<9; i++) {
-            arrayStack.push("" + i);
-            synchroHTMLFile.writingHTML("Tread " + t + ". push(" + i + "). Index = " + arrayStack.getIndex() + " Stack: " + arrayStack, t);
-            for (int j = 0; j<1; j++) {}
-        }
-        for (int i = 0; i<9; i++) {
-            synchroHTMLFile.writingHTML("Tread " + t + ". pop(): " + arrayStack.pop() + ". Index = " + arrayStack.getIndex() + " Stack: " + arrayStack, t);
-            for (int j = 0; j<100000; j++) {}
-        }
-    }
-
     static Thread startHTMLThread(final int i, final HTMLArrayStack arrayStack, final SynchroHTML synchroHTMLFile) {
         System.out.println("Thread: " + i);
         Thread t = new Thread(
@@ -605,5 +613,57 @@ public class CollectionsTests {
         );
         t.start();
         return t;
+    }
+
+    //public static class HTMLThread implements Runnable {
+    public static class HTMLThread extends Thread {
+        private SynchroHTML synchroHTML;
+        HTMLArrayStack arrayStack;
+        int threadNumber;
+
+        public HTMLThread(int threadNumber, HTMLArrayStack arrayStack, SynchroHTML synchroHTML) {
+            super("T" + threadNumber);
+            this.synchroHTML = synchroHTML;
+            this.threadNumber = threadNumber;
+            this.arrayStack = arrayStack;
+        }
+        public void run() {
+            HTMLArrayStackTests(threadNumber, arrayStack, synchroHTML);
+        }
+    }
+
+    static synchronized String HTMLString(String str, int threadNumber) {
+        return "<span class='thread" +
+                threadNumber + "'>" + str + "</span>";
+    }
+
+    static void HTMLArrayStackTests(int threadNumber, HTMLArrayStack arrayStack, SynchroHTML synchroHTMLFile) {
+        //synchroHTMLFile.writingHTML("<br/>---- THREAD " + threadNumber + " STARTED ----", threadNumber);
+        for (int i = 0; i < MAX_ITERATIONS; i++) {
+
+            synchronized (arrayStack) {
+                arrayStack.push(HTMLString("" + i, threadNumber));
+                synchroHTMLFile.writingHTML("\n<br/>", -1);
+                synchroHTMLFile.writingHTML("Tread " + threadNumber + ". push(" + i + "). Index = "
+                        + arrayStack.getIndex()
+                        , threadNumber);
+                synchroHTMLFile.writingHTML(" Stack: " + arrayStack.toString(),-1);
+            }
+            for (int j = 0; j<1000000; j++) {}
+        }
+        String poppedValue = new String();
+        for (int i = 0; i < MAX_ITERATIONS; i++) {
+
+            synchronized (arrayStack) {
+                poppedValue = arrayStack.pop();
+                synchroHTMLFile.writingHTML("\n<br/>",-1);
+                synchroHTMLFile.writingHTML("Tread " + threadNumber + ". pop(): "
+                        + poppedValue + ". Index = "
+                        + arrayStack.getIndex()
+                        , threadNumber);
+                synchroHTMLFile.writingHTML(" Stack: " + arrayStack.toString(),-1);
+            }
+            for (int j = 0; j<100000; j++) {}
+        }
     }
 }
