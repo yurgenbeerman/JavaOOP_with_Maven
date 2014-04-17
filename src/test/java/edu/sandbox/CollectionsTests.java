@@ -26,10 +26,15 @@ public class CollectionsTests {
             addHeaderToHTMLFile(synchroHTMLFile);
 
             synchroHTMLFile.writingHTML("Current thread: " + Thread.currentThread().getName(), 0);
-            ArrayStack arrayStack = new ArrayStack();
-            Thread t1 = startThread(1, arrayStack);
-            Thread t2 = startThread(2, arrayStack);
-            Thread t3 = startThread(3, arrayStack);
+//            ArrayStack arrayStack = new ArrayStack();
+//            Thread t1 = startThread(1, arrayStack);
+//            Thread t2 = startThread(2, arrayStack);
+//            Thread t3 = startThread(3, arrayStack);
+
+            HTMLArrayStack arrayStack = new HTMLArrayStack();
+            Thread t1 = startHTMLThread(1, arrayStack, synchroHTMLFile);
+            Thread t2 = startHTMLThread(2, arrayStack, synchroHTMLFile);
+            Thread t3 = startHTMLThread(3, arrayStack, synchroHTMLFile);
             t1.setPriority(1);
             t2.setPriority(10);
             interruptThread(t1);
@@ -569,5 +574,18 @@ public class CollectionsTests {
             synchroHTMLFile.writingHTML("Tread " + t + ". pop(): " + arrayStack.pop() + ". Index = " + arrayStack.getIndex() + " Stack: " + arrayStack, t);
             for (int j = 0; j<100000; j++) {}
         }
+    }
+
+    static Thread startHTMLThread(final int i, final HTMLArrayStack arrayStack, final SynchroHTML synchroHTMLFile) {
+        System.out.println("Thread: " + i);
+        Thread t = new Thread(
+                new Runnable() {
+                    public void run() {
+                        HTMLArrayStackTests(i, arrayStack, synchroHTMLFile);
+                    }
+                }
+        );
+        t.start();
+        return t;
     }
 }
