@@ -76,6 +76,6 @@ public class Address {
     }
 
     public int hashCode() {
-        return toString().hashCode();
+        return 7 * toString().hashCode();
     }
 }

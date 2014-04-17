@@ -25,6 +25,7 @@ public class EqualsAndHashCode {
         return intVal*31 + stringVal.hashCode() + address.hashCode();
     }
 
+    @Override
     public boolean equals(Object otherObject) {
         if (otherObject == this)
             return true;
@@ -36,10 +37,12 @@ public class EqualsAndHashCode {
 
         EqualsAndHashCode other = (EqualsAndHashCode) otherObject;
 
-        return (other.intVal == intVal)
+        return
+                //super.equals(other) &&
+                (other.intVal == intVal)
                 && (stringVal.equals(other.stringVal))
                 && (address.equals(other.address));
-            //&& super.equals(other)
+
     }
 
     public int getIntVal() {
