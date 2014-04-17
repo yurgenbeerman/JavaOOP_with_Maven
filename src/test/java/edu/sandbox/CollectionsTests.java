@@ -31,15 +31,28 @@ public class CollectionsTests {
 //            Thread t2 = startThread(2, arrayStack);
 //            Thread t3 = startThread(3, arrayStack);
 
+
             HTMLArrayStack arrayStack = new HTMLArrayStack();
             Thread t1 = startHTMLThread(1, arrayStack, synchroHTMLFile);
-            Thread t2 = startHTMLThread(2, arrayStack, synchroHTMLFile);
+/*            Thread t2 = startHTMLThread(2, arrayStack, synchroHTMLFile);
             Thread t3 = startHTMLThread(3, arrayStack, synchroHTMLFile);
             t1.setPriority(1);
             t2.setPriority(10);
             interruptThread(t1);
             interruptThread(t2);
             interruptThread(t3);
+*/
+
+            /*
+            http://habrahabr.ru/post/164487/
+             bool isInterrupted() объекта потока,
+              второй — вызвать статический метод bool Thread.interrupted().
+               Первый метод возвращает состояние флага прерывания и оставляет этот флаг нетронутым.
+                Второй метод возвращает состояние флага и сбрасывает его.
+                 Заметьте что Thread.interrupted() — статический метод класса Thread,
+                  и его вызов возвращает значение флага прерывания того потока, из которого он был вызван.
+                   Поэтому этот метод вызывается только изнутри потока и позволяет потоку проверить своё состояние прерывания.
+             */
 
             addFooterToHTMLFile(synchroHTMLFile);
             synchroHTMLFile.close();
@@ -440,7 +453,7 @@ public class CollectionsTests {
         private FileWriter fileWriter;
 
         public Synchro(String file) throws IOException {
-            fileWriter = new FileWriter(file, true);
+            fileWriter = new FileWriter(file, false);
         }
         public void close() {
             try {
@@ -504,16 +517,21 @@ public class CollectionsTests {
     //html header and styles
     static void addHeaderToHTMLFile(SynchroHTML synchroHTML) {
         synchroHTML.writingHTML(
-                ""
-                ,0
+                "<!DOCTYPE html PUBLIC \"-//W3C//DTD HTML Experimental//EN\">\n" +
+                "<html>\n" +
+                "  <head>\n" +
+                "  </head>\n" +
+                "  <body>"
+                ,-1
         );
     }
 
     //html footer
     static void addFooterToHTMLFile(SynchroHTML synchroHTML) {
         synchroHTML.writingHTML(
-                ""
-                ,0
+                "\n  </body>\n" +
+                "</html>"
+                ,-1
         );
     }
 
