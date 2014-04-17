@@ -11,7 +11,8 @@ public class CollectionsTests {
     static final int COUNT = 10000;
     static long lStartTime;
     static long lFinishTime;
-    static Synchro synchroFile;
+    static SynchroHTML synchroHTMLFile;
+    final static String outHTMLFilePath = "E:\\Юра\\java(!)\\_Books and info\\synchroHTMLFile.html";
 
     public static void main(String[] args) {
         /*
@@ -21,17 +22,10 @@ public class CollectionsTests {
 
 
         try {
-            synchroFile = new Synchro("E:\\Юра\\java(!)\\_Books and info\\synchroFile.html");
+            synchroHTMLFile = new SynchroHTML(outHTMLFilePath);
+            addHeaderToHTMLFile(synchroHTMLFile);
 
-            MyThread t1 = new MyThread("First", s);
-            MyThread t2 = new MyThread("Second", s);
-            t1.start();
-            t2.start();
-            t1.join();
-            t2.join();
-
-            //arrayStackTests();
-            System.out.println("Current thread: " + Thread.currentThread().getName());
+            synchroHTMLFile.writingHTML("Current thread: " + Thread.currentThread().getName(), 0);
             ArrayStack arrayStack = new ArrayStack();
             Thread t1 = startThread(1, arrayStack);
             Thread t2 = startThread(2, arrayStack);
@@ -42,14 +36,16 @@ public class CollectionsTests {
             interruptThread(t2);
             interruptThread(t3);
 
-            synchroFile.close();
+            addFooterToHTMLFile(synchroHTMLFile);
+            synchroHTMLFile.close();
         } catch (IOException e) {
             System.err.print("ошибка файла");
             e.printStackTrace();
-        } catch (InterruptedException e) {
+        }
+        /*catch (InterruptedException e) {
             System.err.print("ошибка потока");
             e.printStackTrace();
-        }
+        } */
     }
 
     static Thread startThread(final int i, final ArrayStack arrayStack) {
@@ -432,7 +428,10 @@ public class CollectionsTests {
     }
 
 
-    public class Synchro {
+    /* Java. Промышленное программирование
+    пример # 8 : синхронизация записи информации в файл : MyThread.java :
+    Synchro.java : SynchroThreads.java */
+    public static class Synchro {
         private FileWriter fileWriter;
 
         public Synchro(String file) throws IOException {
@@ -462,6 +461,25 @@ public class CollectionsTests {
         }
     }
 
+    public static class SynchroHTML extends Synchro {
+        public SynchroHTML(String HTMLFilePath) throws IOException {
+            super(HTMLFilePath);
+        }
+        public synchronized void writingHTML(String str, int threadNumber) {
+            try {
+                if (threadNumber != -1) {
+                    System.out.print(str);
+                    super.fileWriter.append(HTMLString(str,threadNumber));
+                } else {
+                    System.out.print("Writing Header or Footer to the HTML file.");
+                    super.fileWriter.append(str);
+                }
+            } catch (IOException e) {
+                System.err.print("ошибка файла");
+                e.printStackTrace();
+            }
+        }
+    }
 
     static void arrayStackTests(int t, ArrayStack arrayStack) {
         System.out.println("TREAD " + t + " ---- Example 11-2. A non-thread-safe" +
@@ -478,5 +496,78 @@ public class CollectionsTests {
         }
     }
 
+    //html header and styles
+    static void addHeaderToHTMLFile(SynchroHTML synchroHTML) {
+        synchroHTML.writingHTML(
+                ""
+                ,0
+        );
+    }
 
+    //html footer
+    static void addFooterToHTMLFile(SynchroHTML synchroHTML) {
+        synchroHTML.writingHTML(
+                ""
+                ,0
+        );
+    }
+
+    static synchronized String HTMLString(String str, int threadNumber) {
+        return "<span class='thread" +
+                        threadNumber + "'>" + str + "</span>";
+    }
+
+    interface HTMLStack {
+        public void push(String elt);
+        public String pop();
+        public boolean isEmpty();
+    }
+
+    static class HTMLArrayStack implements HTMLStack{
+        private final int MAX_ELEMENTS = 25;
+        private final String EMPTY_VAL = HTMLString("000",0);
+        private String[] stack;
+        private int index;
+
+        public HTMLArrayStack() {
+            stack = new String[MAX_ELEMENTS];
+            Arrays.fill(stack, EMPTY_VAL);
+            index = -1;
+        }
+        public synchronized void push(String elt) {
+            if (index != stack.length - 1) {
+                index++;                                        //1
+                stack[index] = elt;                             //2
+            } else {
+                throw new IllegalStateException("stack overflow");
+            }
+        }
+
+        public synchronized String pop() {
+            if (index != -1) {
+                index--;
+                String value = stack[index+1];
+                stack[index+1] = EMPTY_VAL;
+                return value;
+            } else {
+                throw new IllegalStateException("stack underflow");
+            }
+        }
+        public synchronized boolean isEmpty() { return index == -1; }
+        public synchronized int getIndex() { return index; }
+        public synchronized String toString () { return Arrays.toString(stack); }
+    }
+
+    static void HTMLArrayStackTests(int t, HTMLArrayStack arrayStack, SynchroHTML synchroHTMLFile) {
+        synchroHTMLFile.writingHTML("---- THREAD " + t + " STARTED ----", t);
+        for (int i = 0; i<9; i++) {
+            arrayStack.push("" + i);
+            synchroHTMLFile.writingHTML("Tread " + t + ". push(" + i + "). Index = " + arrayStack.getIndex() + " Stack: " + arrayStack, t);
+            for (int j = 0; j<1; j++) {}
+        }
+        for (int i = 0; i<9; i++) {
+            synchroHTMLFile.writingHTML("Tread " + t + ". pop(): " + arrayStack.pop() + ". Index = " + arrayStack.getIndex() + " Stack: " + arrayStack, t);
+            for (int j = 0; j<100000; j++) {}
+        }
+    }
 }
