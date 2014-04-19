@@ -569,7 +569,7 @@ public class CollectionsTests {
 
     static class HTMLArrayStack implements HTMLStack{
         private final int MAX_ELEMENTS = MAX_ITERATIONS * 3;
-        private final String EMPTY_VAL = HTMLString("00",0);
+        private final String EMPTY_VAL = HTMLString("00", "thread" + 0);
         private String[] stack;
         private int index;
 
@@ -632,9 +632,9 @@ public class CollectionsTests {
         }
     }
 
-    static synchronized String HTMLString(String str, int threadNumber) {
-        return "<span class='thread" +
-                threadNumber + "'>" + str + "</span>";
+    static synchronized String HTMLString(String str, String cssClass) {
+        return "<span class='" +
+                cssClass + "'>" + str + "</span>";
     }
 
     static void HTMLArrayStackTests(int threadNumber, HTMLArrayStack arrayStack, SynchroHTML synchroHTMLFile) {
@@ -642,7 +642,7 @@ public class CollectionsTests {
         for (int i = 0; i < MAX_ITERATIONS; i++) {
 
             synchronized (arrayStack) {
-                arrayStack.push(HTMLString("" + i, threadNumber));
+                arrayStack.push(HTMLString("" + i, "thread" + threadNumber));
                 synchroHTMLFile.writingHTML("\n<br/>", -1);
                 synchroHTMLFile.writingHTML("Tread " + threadNumber + ". push(" + i + "). Index = "
                         + arrayStack.getIndex()
