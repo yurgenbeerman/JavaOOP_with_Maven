@@ -5,6 +5,8 @@ package edu.sandbox;
  */
 public class PeopleCooperationApp {
     /*
+    Testcase1
+        Let Vasia find Petya who has same hobbies (renewables)
     *** Methods ***
     FindPotentialCooperators
         All
