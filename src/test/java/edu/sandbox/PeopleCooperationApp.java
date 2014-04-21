@@ -30,6 +30,7 @@ public class PeopleCooperationApp {
     Give tools to start and maintain cooperation
         Doodle
         Project management
+        Google tools
         BestPractices
 
     *** Entities ***
