@@ -40,6 +40,18 @@ public final class ImmutableObject implements Cloneable {
         return (ArrayList<String>) strings.clone();
     }
 
+//    private void setAnInt(int anInt) {
+//        this.anInt = anInt;
+//    }
+//
+//    private void setStrings(ArrayList<String> strings) {
+//        this.strings = strings;
+//    }
+//
+//    private void setStringBuffers(ArrayList<StringBuffer> stringBuffers) {
+//        this.stringBuffers = stringBuffers;
+//    }
+
     public final ArrayList<StringBuffer> getStringBuffers() {
         return deepSBCopy(stringBuffers);
         //return (ArrayList<StringBuffer>) stringBuffers.clone();
@@ -47,10 +59,15 @@ public final class ImmutableObject implements Cloneable {
 
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return (Object) clone();
+//        ImmutableObject cloned = (ImmutableObject) super.clone();
+//        cloned.anInt = getAnInt();
+//        cloned.setStrings( (ArrayList<String>) getStrings().clone() );
+//        cloned.setStringBuffers( deepSBCopy(getStringBuffers()) );
+//        return cloned;
+        return (Object) deepCopy();
     }
 
-    public ImmutableObject deepClone() throws CloneNotSupportedException {
+    public ImmutableObject deepCopy() throws CloneNotSupportedException {
         return new ImmutableObject(
                 anInt,
                 strings, //(ArrayList<String>) strings.clone(),
@@ -80,13 +97,15 @@ public final class ImmutableObject implements Cloneable {
             System.out.println("\tequals(): anInt != that.anInt");
             return false;
         }
+
         if (stringBuffers != null ? !stringBuffers.toString().equals(that.stringBuffers.toString()) : that.stringBuffers != null) {
-            System.out.println("\tequals(): stringBuffers != null ? !stringBuffers.equals(that.stringBuffers) : that.stringBuffers != null");
-            System.out.println("\tequals(): stringBuffers = " + stringBuffers);
-            System.out.println("\tequals(): that.stringBuffers = " + that.stringBuffers);
-            System.out.println("\tequals(): stringBuffers.equals(that.stringBuffers) = " + stringBuffers.equals(that.stringBuffers));
+//            System.out.println("\tequals(): stringBuffers != null ? !stringBuffers.equals(that.stringBuffers) : that.stringBuffers != null");
+//            System.out.println("\tequals(): stringBuffers = " + stringBuffers);
+//            System.out.println("\tequals(): that.stringBuffers = " + that.stringBuffers);
+//            System.out.println("\tequals(): stringBuffers.equals(that.stringBuffers) = " + stringBuffers.equals(that.stringBuffers));
             return false;
         }
+
         if (strings != null ? !strings.equals(that.strings) : that.strings != null) {
             System.out.println("\tequals(): strings != null ? !strings.equals(that.strings) : that.strings != null");
             return false;
@@ -129,7 +148,7 @@ public final class ImmutableObject implements Cloneable {
 
         ImmutableObject clonedImmutableObject = null;
         try {
-            clonedImmutableObject = anImmutableObject.deepClone();
+            clonedImmutableObject = anImmutableObject.deepCopy();
         } catch (CloneNotSupportedException e) {
             e.printStackTrace();
         }
