@@ -5,6 +5,32 @@ package edu.sandbox;
  */
 public class PeopleCooperationApp {
     /*
+    *** Methods ***
+    FindPotentialCooperators
+        All
+        By Place
+            Nearest
+
+        By Info
+            _MeTheyFilter_
+
+        By Activity
+            _MeTheyFilter_
+
+        By resources
+            _MeTheyFilter_
+
+        MeTheyFilter
+            Who can help to me
+            Who needs same as me
+
+    *** Tools ***
+    Give tools to start and maintain cooperation
+        Doodle
+        Project management
+        BestPractices
+
+    *** Entities ***
     Human
         _SocialInfo_
         wants to help with

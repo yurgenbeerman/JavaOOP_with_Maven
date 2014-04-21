@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import edu.sandbox.CollectionsTests;
 /**
- * Created by yurij.pyvovarenko on 17.04.14.
+* Created by yurij.pyvovarenko on 17.04.14.
  */
 public class SynchroHTML {
     private FileWriter fileWriter;
