@@ -1,8 +1,8 @@
-package edu.sandbox;
+package edu.sandbox.collectionsandthreads;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import edu.sandbox.CollectionsTests;
+import edu.sandbox.collectionsandthreads.CollectionsTests;
 /**
 * Created by yurij.pyvovarenko on 17.04.14.
  */

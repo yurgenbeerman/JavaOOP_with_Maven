@@ -1,4 +1,4 @@
-package edu.sandbox;
+package edu.sandbox.collectionsandthreads;
 //9-16
 /**
  * Created by yurij.pyvovarenko on 16.04.14.
@@ -16,6 +16,20 @@ public class CollectionsTests {
     public static final int MAX_ITERATIONS = 15;
 
     public static void main(String[] args) {
+        /*
+        collectionsAddGetRemoveTests();
+        equalsTests();
+        */
+        treeTreadsToStackHTMLDemo();
+
+    }
+
+    static void hashMapTests() {
+        String[] strArr = {"a","b","c","d","e"};
+        Map hashMap = new HashMap(Arrays<String>.asList(strArr));
+    }
+
+    static void treeTreadsToStackHTMLDemo() {
         /*
         collectionsAddGetRemoveTests();
         equalsTests();
@@ -66,7 +80,7 @@ public class CollectionsTests {
                     e.printStackTrace();
                 }
 
-        }
+            }
             /*
             http://habrahabr.ru/post/164487/
              bool isInterrupted() объекта потока,
@@ -187,7 +201,7 @@ public class CollectionsTests {
         System.out.println("       aTreeSet<String>: " + (lFinishTime - lStartTime) + " milisec.");
 
 
-        //--------------- Get form a collection tests -------------------------
+        //--------------- Get form packageInt collection tests -------------------------
         System.out.println("--- get() tests ---");
 
         lStartTime = System.nanoTime();
@@ -230,7 +244,7 @@ public class CollectionsTests {
         System.out.println("aTreeSet<String>:       " + (lFinishTime - lStartTime) + " milisec.");
 
 
-        //--------------- Remove form a collection tests -------------------------
+        //--------------- Remove form packageInt collection tests -------------------------
         System.out.println("--- remove(value) tests ---");
         lStartTime = System.nanoTime();
         for (int i = COUNT-1; i >= 0; i--) {

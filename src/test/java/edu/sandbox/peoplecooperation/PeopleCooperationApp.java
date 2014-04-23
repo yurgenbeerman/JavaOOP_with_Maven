@@ -1,4 +1,4 @@
-package edu.sandbox;
+package edu.sandbox.peoplecooperation;
 
 /**
  * Created by yurij.pyvovarenko on 21.04.14.
