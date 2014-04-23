@@ -4,6 +4,8 @@ package edu.sandbox.collectionsandthreads;
  * Created by yurij.pyvovarenko on 16.04.14.
  */
 
+import edu.sandbox.accessmodifiers.ParentClass;
+
 import java.util.*;
 import java.io.*;
 
@@ -19,14 +21,42 @@ public class CollectionsTests {
         /*
         collectionsAddGetRemoveTests();
         equalsTests();
-        */
         treeTreadsToStackHTMLDemo();
+        */
+        hashMapTests();
 
     }
 
     static void hashMapTests() {
-        String[] strArr = {"a","b","c","d","e"};
-        Map hashMap = new HashMap(Arrays<String>.asList(strArr));
+        //String[] strArr = {"a","b","c","d","e"};
+        ParentClass[] parArr = new ParentClass[50];
+        Map<ParentClass,String> hashMap = new HashMap();
+        int i = 0;
+        char c = 'a';
+        //for (String s : strArr ) {
+        while (i<49) {
+            ParentClass p = new ParentClass();
+            p.publicInt = i;
+            parArr[i] = p;
+            i++;
+            c++;
+            hashMap.put(p,(new Character(c).toString()));
+        }
+        //System.out.println(hashMap);
+        i--;
+        do {
+            System.out.println("index " + i + " - " + hashMap.get(parArr[i]));
+            i--;
+        } while (i >= 0);
+        i=47;
+        System.out.println("BEFORE: index " + i + " - " + hashMap.get(parArr[i]));
+        parArr[i].publicInt = 1000;
+        System.out.println("AFTER: index " + i + " - " + hashMap.get(parArr[i]));
+//        i=0;
+//        do {
+//            System.out.println("index " + i + " - " + hashMap.get(parArr[i]));
+//            i++;
+//        } while (i < 49);
     }
 
     static void treeTreadsToStackHTMLDemo() {

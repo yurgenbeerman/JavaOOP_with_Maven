@@ -27,4 +27,23 @@ public class ParentClass {
         + "\nprotectedInt = " + protectedInt
         + "\npublicInt = " + publicInt;
     }
+
+    public int hashCode() {
+        return publicInt * 7; // for hashCode tests in collectionsandthreads.CollectionsTests
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ParentClass that = (ParentClass) o;
+
+        if (packageInt != that.packageInt) return false;
+        if (privateInt != that.privateInt) return false;
+        if (protectedInt != that.protectedInt) return false;
+        if (publicInt != that.publicInt) return false;
+
+        return true;
+    }
 }
