@@ -11,7 +11,11 @@ import edu.services.orgs.PublicServiceDepartment;
 public class InformationResponsible extends IncomingDocServant {
     String informationForReply;
 
-    public InformationResponsible(PublicServiceDepartment department, String surname, String name, String secondName) {
+    public InformationResponsible(PublicServiceDepartment department,
+                                  String surname,
+                                  String name,
+                                  String secondName) {
+
         super(department, surname, name, secondName);
     }
 

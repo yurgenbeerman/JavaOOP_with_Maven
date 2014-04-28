@@ -23,6 +23,17 @@ public class PublicServant extends Citizen {
 
     protected PublicServant() {}
 
+//    public abstract void doMainResponsibility();
+//
+//    public abstract void doBonusedResponsibility();
+    public void doMainResponsibility(){
+
+    }
+
+    public void doBonusedResponsibility(){
+
+    }
+
     public PublicServant(PublicServiceDepartment department, FullName fullName) {
         super(fullName);
         this.environment = department.getEnvironment();
