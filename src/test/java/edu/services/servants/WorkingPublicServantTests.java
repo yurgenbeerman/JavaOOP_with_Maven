@@ -1,28 +1,26 @@
 package edu.services.servants;
 
+/**
+ * Created by yurii.pyvovarenko on 01.05.14.
+ */
 import edu.services.execution.ExecutionEnvironment;
 import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
-import junit.framework.TestCase;
-import org.omg.CORBA.Environment;
 import org.junit.Test;
 
-/**
- * Created by yurii.pyvovarenko on 14.03.14.
- */
-public class PublicServantTest {
+public class WorkingPublicServantTests {
     @Test
-    public void testToString() throws Exception {
+    public void MustCreateInstanceOfWorkingPublicServant() {
         //given
         ExecutionEnvironment environment = new ExecutionEnvironment();
         PublicService publicService = new PublicService("Improvements service", environment);
         PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
 
         //when
-        PublicServant publicServant =
-                new PublicServant(infoRequestsDep, "Karpenko","Petro","Ivanovych");
+        PublicServant workingPublicServant =
+                new WorkingPublicServant(infoRequestsDep, "Karpenko","Petro","Ivanovych");
 
         //then
-        org.junit.Assert.assertEquals("Karpenko Petro Ivanovych", publicServant.toString());
+        org.junit.Assert.assertEquals("Karpenko Petro Ivanovych", workingPublicServant.toString());
     }
 }

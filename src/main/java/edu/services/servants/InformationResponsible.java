@@ -8,6 +8,8 @@ import edu.services.orgs.PublicServiceDepartment;
 /**
  * Created by yurii.pyvovarenko on 3/4/14.
  */
+// I want to move this functionality to ProcessInfoRequests,
+// the concrete decorator of WorkingPublicServant concrete component.
 public class InformationResponsible extends IncomingDocServant {
     String informationForReply;
 
