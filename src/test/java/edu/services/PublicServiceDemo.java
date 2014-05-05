@@ -203,13 +203,13 @@ public class PublicServiceDemo {
                 "infoRequestsDep_0"
         );
         environment.setInfoRequestsDepartment(infoRequestsDep);
-
-
+        infoRequestsDep.setEmailSender(stubEmailSender);
 
         PublicServiceDepartment thanksAndClaimsDep = new PublicServiceDepartment(
                 publicService,
                 "ThanksAndClaimsDep_1"
         );
+        thanksAndClaimsDep.setEmailSender(stubEmailSender);
 
         Map<String, PublicServiceDepartment> docsToDepartmentsDispatchingTable = new HashMap<String, PublicServiceDepartment>();
         docsToDepartmentsDispatchingTable.put("edu.services.docs.InformationRequest", infoRequestsDep);
