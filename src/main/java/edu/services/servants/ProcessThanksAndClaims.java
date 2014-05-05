@@ -17,6 +17,8 @@ public class ProcessThanksAndClaims extends PublicServantResponsibilities {
     private PublicServant decoratedPublicServant;
     private LinkedList<IncomingDocument> ThanksQueue;
     private LinkedList<IncomingDocument> ClaimsQueue;
+    String replyToThank;
+    String replyToClaim;
 
     public ProcessThanksAndClaims(PublicServant decoratedPublicServant) {
         this.decoratedPublicServant = decoratedPublicServant;
@@ -29,4 +31,21 @@ public class ProcessThanksAndClaims extends PublicServantResponsibilities {
     public void doBonusedResponsibility(){
 
     }
+
+    public String getReplyToThank() {
+        return replyToThank;
+    }
+
+    public void setReplyToThank(String replyToThank) {
+        this.replyToThank = replyToThank;
+    }
+
+    public String getReplyToClaim() {
+        return replyToClaim;
+    }
+
+    public void setReplyToClaim(String replyToClaim) {
+        this.replyToClaim = replyToClaim;
+    }
+
 }

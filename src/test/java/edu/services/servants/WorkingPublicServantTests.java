@@ -23,4 +23,67 @@ public class WorkingPublicServantTests {
         //then
         org.junit.Assert.assertEquals("Karpenko Petro Ivanovych", workingPublicServant.toString());
     }
+
+    @Test
+    public void MustDecorateWorkingPublicServantWithResponsibility() {
+        //given
+        ExecutionEnvironment environment = new ExecutionEnvironment();
+        PublicService publicService = new PublicService("Improvements service", environment);
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
+        PublicServant workingPublicServant =
+                new WorkingPublicServant(infoRequestsDep, "Karpenko","Petro","Ivanovych");
+
+        //when
+        PublicServant infoRequestsPublicServant =
+                new ProcessInfoRequests(workingPublicServant);
+        ((ProcessInfoRequests)infoRequestsPublicServant).setInformationForReply("test info for reply");
+
+        //then
+        org.junit.Assert.assertEquals("test info for reply"
+                , ((ProcessInfoRequests) infoRequestsPublicServant).getInformationForReply());
+    }
+
+    @Test
+    public void MustSetReplyForThankWnenDecoratedTwice() {
+        //given
+        ExecutionEnvironment environment = new ExecutionEnvironment();
+        PublicService publicService = new PublicService("Improvements service", environment);
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
+        PublicServant workingPublicServant =
+                new WorkingPublicServant(infoRequestsDep, "Karpenko","Petro","Ivanovych");
+        PublicServant infoRequestsPublicServant =
+                new ProcessInfoRequests(workingPublicServant);
+        ((ProcessInfoRequests)infoRequestsPublicServant).setInformationForReply("test info for reply");
+
+        //when
+        PublicServant infoRequestsAndThanksPublicServant =
+                new ProcessThanksAndClaims(infoRequestsPublicServant);
+        ((ProcessThanksAndClaims)infoRequestsAndThanksPublicServant).setReplyToThank("test info for reply");
+
+        //then
+        org.junit.Assert.assertEquals("test info for reply"
+                , ((ProcessThanksAndClaims)infoRequestsAndThanksPublicServant).getReplyToThank());
+    }
+
+    @Test
+    public void MustSetReplyForClaimWnenDecoratedTwice() {
+        //given
+        ExecutionEnvironment environment = new ExecutionEnvironment();
+        PublicService publicService = new PublicService("Improvements service", environment);
+        PublicServiceDepartment infoRequestsDep = new PublicServiceDepartment(publicService,"infoRequestsDep_0");
+        PublicServant workingPublicServant =
+                new WorkingPublicServant(infoRequestsDep, "Karpenko","Petro","Ivanovych");
+        PublicServant infoRequestsPublicServant =
+                new ProcessInfoRequests(workingPublicServant);
+        ((ProcessInfoRequests)infoRequestsPublicServant).setInformationForReply("test info for reply");
+
+        //when
+        PublicServant infoRequestsAndThanksPublicServant =
+                new ProcessThanksAndClaims(infoRequestsPublicServant);
+        ((ProcessThanksAndClaims)infoRequestsAndThanksPublicServant).setReplyToClaim("test info for reply");
+
+        //then
+        org.junit.Assert.assertEquals("test info for reply"
+                , ((ProcessThanksAndClaims)infoRequestsAndThanksPublicServant).getReplyToClaim());
+    }
 }
