@@ -11,6 +11,7 @@ import edu.services.orgs.PublicService;
 import edu.services.orgs.PublicServiceDepartment;
 import edu.services.orgs.StubOfficialIDsHolder;
 import edu.services.servants.InformationResponsible;
+import edu.services.servants.ProcessInfoRequests;
 import edu.services.servants.PublicServant;
 import edu.services.servants.ThanksAndClaimsResponsible;
 
@@ -221,10 +222,15 @@ public class PublicServiceDemo {
         ServantsTasksDispatcher infoRequestsDepServantsTasksDispatcher = new ServantsTasksDispatcher(infoRequestsDep);
         ServantsTasksDispatcher thanksAndClaimsDepServantsTasksDispatcher = new ServantsTasksDispatcher(thanksAndClaimsDep);
 
-        InformationResponsible publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
-        InformationResponsible publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
-        publicServant0.setInformationForReply(
+        //InformationResponsible publicServant0 = new InformationResponsible(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0");
+        PublicServant publicServant0 =
+                new ProcessInfoRequests(
+                    new PublicServant(infoRequestsDep, "Karpenko0","Petro0","Ivanovych0")
+                );
+        ((ProcessInfoRequests)publicServant0).setInformationForReply(
                 "The plan of improvements for 2014 is next... Sincerely, publicServant0."); //TODO Remove stubs
+
+        InformationResponsible publicServant1 = new InformationResponsible(infoRequestsDep, "Karpenko1", "Petro1", "Ivanovych1");
         publicServant1.setInformationForReply(
                 "The plan of improvements for 2014 is next... Sincerely, publicServant1."); //TODO Remove stubs
 

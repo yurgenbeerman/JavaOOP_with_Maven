@@ -1,9 +1,42 @@
 package edu.sandbox.peoplecooperation;
 
+import edu.clients.Citizen;
+import org.junit.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * Created by yurij.pyvovarenko on 21.04.14.
  */
 public class PeopleCooperationApp {
+
+    /*
+    Testcase1
+    Let Vasia find Petya who has same hobbies (renewables)
+    */
+    @Test
+    public void MustFindPersonWithSameHobbie() {
+        //given
+        Citizen citizenVasia = new Citizen("Petrenko","Vasia","Ivanovych");
+        Citizen citizenPetya = new Citizen("Oleskiv","Petro","Mykolayovych");
+        Citizen citizenKolya = new Citizen("Golovach","Mykola","Lvovych");
+
+
+        //when
+        citizenVasia.setHobbies("renewables, painting, eco, екологія, мандрівки, футбол");
+        citizenPetya.setHobbies("renewables, football, photography");
+        citizenKolya.setHobbies("painting, skiing");
+        List<Citizen> citizens =
+                Collections.unmodifiableList(Arrays.asList(
+                        citizenKolya,citizenPetya,citizenVasia));
+        SearchEngine searchEngine = new HobbieSearchEngine(citizens);
+
+        //then
+        org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).contains(citizenPetya));
+        System.out.println(searchEngine.findByHobbie(citizenVasia));
+    }
     /*
     Testcase1
         Let Vasia find Petya who has same hobbies (renewables)

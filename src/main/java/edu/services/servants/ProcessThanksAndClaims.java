@@ -21,7 +21,7 @@ public class ProcessThanksAndClaims extends PublicServantResponsibilities {
     String replyToClaim;
 
     public ProcessThanksAndClaims(PublicServant decoratedPublicServant) {
-        this.decoratedPublicServant = decoratedPublicServant;
+        super(decoratedPublicServant);
     }
 
     public void doMainResponsibility(){

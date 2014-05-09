@@ -1,5 +1,7 @@
 package edu.services.servants;
 
+import edu.services.orgs.PublicServiceDepartment;
+
 /**
  * Created by yurii.pyvovarenko on 28.04.14.
  */
@@ -10,5 +12,12 @@ package edu.services.servants;
 //      a) ProcessInfoRequests
 //      b) ProcessThanksAndClaims
 public class PublicServantResponsibilities extends PublicServant {
+    protected PublicServant decoratedPublicServant;
 
+    public PublicServantResponsibilities(PublicServant decoratedPublicServant) {
+        super(decoratedPublicServant.getDepartment(),
+                decoratedPublicServant.getFullName());
+        this.decoratedPublicServant = decoratedPublicServant;
+        //super(department, surname, name, secondName);
+    }
 }

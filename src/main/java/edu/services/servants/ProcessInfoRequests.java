@@ -18,12 +18,11 @@ import java.util.LinkedList;
 //      a) ProcessInfoRequests
 //      b) ProcessThanksAndClaims
 public class ProcessInfoRequests extends PublicServantResponsibilities {
-    private PublicServant decoratedPublicServant;
     private LinkedList<IncomingDocument> IfoRequstsQueue;
     String informationForReply;
 
     public ProcessInfoRequests(PublicServant decoratedPublicServant) {
-        this.decoratedPublicServant = decoratedPublicServant;
+        super(decoratedPublicServant);
     }
 
     public void doMainResponsibility(){
