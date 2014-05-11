@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.StringTokenizer;
 
 /**
- * Created by Lena on 05.05.14.
+ * Created by yurij.pyvovarenko on 05.05.14.
  */
 public class HobbieSearchEngine extends SearchEngine {
     private final String delimiters = " ,:;-.\n\t";

@@ -3,12 +3,10 @@ package edu.sandbox.peoplecooperation;
 import edu.clients.SearchableCitizen;
 import edu.services.execution.ServantsTasksDispatcher;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
- * Created by Lena on 11.05.14.
+ * Created by yurij.pyvovarenko on 11.05.14.
  */
 public class SearchResults {
     private List<SearchResultItem> searchResultsItems;
@@ -45,6 +43,18 @@ public class SearchResults {
     }
 
     public void sortByHobbiesCount() {
-        //TODO
+        Collections.sort(searchResultsItems, new SortedByHobbiesCount());
+    }
+
+    public static class SortedByHobbiesCount implements Comparator<SearchResultItem> {
+        public int compare(SearchResultItem searchResultItem1, SearchResultItem searchResultItem2) {
+            if (searchResultItem1.getSameHobbiesCount() > searchResultItem2.getSameHobbiesCount()) {
+                return -1;
+            } else if (searchResultItem1.getSameHobbiesCount() < searchResultItem2.getSameHobbiesCount()) {
+                return 1;
+            } else {
+                return 0;
+            }
+        }
     }
 }

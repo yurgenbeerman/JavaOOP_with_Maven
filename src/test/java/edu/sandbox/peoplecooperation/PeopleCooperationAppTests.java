@@ -18,6 +18,27 @@ public class PeopleCooperationAppTests {
     Let Vasia find Petya who has same hobbies (renewables)
     */
     @Test
+    public void SearchResultsMustExcludeTheSearchedCitizen() {
+        //given
+        SearchableCitizen citizenVasia = new SearchableCitizen("Petrenko","Vasia","Ivanovych");
+        SearchableCitizen citizenPetya = new SearchableCitizen("Oleskiv","Petro","Mykolayovych");
+        SearchableCitizen citizenKolya = new SearchableCitizen("Golovach","Mykola","Lvovych");
+
+
+        //when
+        citizenVasia.setHobbies("renewables, eco, екологія, мандрівки, футбол"); //painting,
+        citizenPetya.setHobbies("renewables, football, photography");
+        citizenKolya.setHobbies("painting, skiing");
+        List<SearchableCitizen> citizens =
+                Collections.unmodifiableList(Arrays.asList(
+                        citizenKolya,citizenPetya,citizenVasia));
+        SearchEngine searchEngine = new HobbieSearchEngine(citizens);
+
+        //then
+        org.junit.Assert.assertFalse(searchEngine.findByHobbie(citizenVasia).containsCitizen(citizenVasia));
+    }
+
+    @Test
     public void MustFindPersonWithSameHobbie() {
         //given
         SearchableCitizen citizenVasia = new SearchableCitizen("Petrenko","Vasia","Ivanovych");
@@ -81,7 +102,6 @@ public class PeopleCooperationAppTests {
         org.junit.Assert.assertFalse(searchEngine.findByHobbie(citizenVasia).containsCitizen(citizenKolya));
     }
 
-    //TODO: add rating to search results: more same hobbies make higher rating for result
     @Test
     public void MustRateSearchResultsInRightWay() {
         //given
@@ -105,26 +125,7 @@ public class PeopleCooperationAppTests {
         org.junit.Assert.assertEquals(searchEngine.findByHobbie(citizenVasia).get(1).getSameHobbiesCount(), 1);
     }
 
-    @Test
-    public void SearchResultsMustExcludeTheSearchedCitizen() {
-        //given
-        SearchableCitizen citizenVasia = new SearchableCitizen("Petrenko","Vasia","Ivanovych");
-        SearchableCitizen citizenPetya = new SearchableCitizen("Oleskiv","Petro","Mykolayovych");
-        SearchableCitizen citizenKolya = new SearchableCitizen("Golovach","Mykola","Lvovych");
-
-
-        //when
-        citizenVasia.setHobbies("renewables, eco, екологія, мандрівки, футбол"); //painting,
-        citizenPetya.setHobbies("renewables, football, photography");
-        citizenKolya.setHobbies("painting, skiing");
-        List<SearchableCitizen> citizens =
-                Collections.unmodifiableList(Arrays.asList(
-                        citizenKolya,citizenPetya,citizenVasia));
-        SearchEngine searchEngine = new HobbieSearchEngine(citizens);
-
-        //then
-        org.junit.Assert.assertFalse(searchEngine.findByHobbie(citizenVasia).containsCitizen(citizenVasia));
-    }
+    //TODO must treat as same "футбол" and "football", "photo" and "photography", "AI" and "ai" and "Artificial Intelligence"
 
     /*
     Testcase1

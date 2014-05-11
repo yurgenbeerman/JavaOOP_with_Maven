@@ -3,7 +3,7 @@ package edu.sandbox.peoplecooperation;
 import edu.clients.SearchableCitizen;
 
 /**
- * Created by Lena on 11.05.14.
+ * Created by yurij.pyvovarenko on 11.05.14.
  */
 public class SearchResultItem {
     private SearchableCitizen foundCitizen;
