@@ -69,7 +69,7 @@ public class PeopleCooperationApp {
 
 
         //when
-        citizenVasia.setHobbies("renewables, painting, eco, екологія, мандрівки, футбол");
+        citizenVasia.setHobbies("renewables, eco, екологія, мандрівки, футбол"); //painting,
         citizenPetya.setHobbies("renewables, football, photography");
         citizenKolya.setHobbies("painting, skiing");
         List<SearchableCitizen> citizens =

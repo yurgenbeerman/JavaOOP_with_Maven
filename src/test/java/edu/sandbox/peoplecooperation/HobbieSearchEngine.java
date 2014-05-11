@@ -23,6 +23,7 @@ public class HobbieSearchEngine extends SearchEngine {
         StringTokenizer stringTokenizer = new StringTokenizer(citizen.getHobbies(), delimiters);
         while (stringTokenizer.hasMoreTokens()) {
             String hobbie = stringTokenizer.nextToken();
+            System.out.println(hobbie + ", ");
             for (SearchableCitizen aCitizen : citizensToSearch) {
                 if (aCitizen.getHobbies().contains(hobbie)) {
                     result.add(aCitizen);
