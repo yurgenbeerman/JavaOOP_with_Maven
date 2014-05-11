@@ -1,28 +1,35 @@
 package edu.sandbox.peoplecooperation;
 
-import edu.clients.Citizen;
+import edu.clients.SearchableCitizen;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.StringTokenizer;
 
 /**
  * Created by Lena on 05.05.14.
  */
 public class HobbieSearchEngine extends SearchEngine {
-    List<Citizen> citizensToSearch;
+    private final String delimiters = " ,:;-.\n\t";
+    List<SearchableCitizen> citizensToSearch;
 
-    public HobbieSearchEngine(List<Citizen> citizensToSearch) {
+    public HobbieSearchEngine(List<SearchableCitizen> citizensToSearch) {
         this.citizensToSearch = citizensToSearch;
     }
 
-    public List<Citizen> findByHobbie(Citizen citizen) {
-        List<Citizen> result = new ArrayList<Citizen>();
-        for (Citizen aCitizen : citizensToSearch) {
-            if (aCitizen.getHobbie().equals(citizen.getHobbie())) {
-                result.add(aCitizen);
+    public List<SearchableCitizen> findByHobbie(SearchableCitizen citizen) {
+        List<SearchableCitizen> result = new ArrayList<SearchableCitizen>();
+        StringTokenizer stringTokenizer = new StringTokenizer(citizen.getHobbies(), delimiters);
+        while (stringTokenizer.hasMoreTokens()) {
+            String hobbie = stringTokenizer.nextToken();
+            for (SearchableCitizen aCitizen : citizensToSearch) {
+                if (aCitizen.getHobbies().contains(hobbie)) {
+                    result.add(aCitizen);
+                }
             }
         }
+
         return Collections.unmodifiableList(result);
     }
 }

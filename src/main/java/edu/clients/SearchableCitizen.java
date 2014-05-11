@@ -9,6 +9,9 @@ public class SearchableCitizen extends Citizen {
     private String hobbies;
     private HashSet<String> hobbiesNormalized;
 
+    public SearchableCitizen(String surname, String name, String secondName) {
+        super(surname, name, secondName);
+    }
 
     public String getHobbies() {
         return hobbies;

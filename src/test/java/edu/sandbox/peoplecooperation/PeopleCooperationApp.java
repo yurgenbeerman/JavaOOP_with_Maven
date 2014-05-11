@@ -1,6 +1,7 @@
 package edu.sandbox.peoplecooperation;
 
 import edu.clients.Citizen;
+import edu.clients.SearchableCitizen;
 import org.junit.Test;
 
 import java.util.Arrays;
@@ -19,23 +20,66 @@ public class PeopleCooperationApp {
     @Test
     public void MustFindPersonWithSameHobbie() {
         //given
-        Citizen citizenVasia = new Citizen("Petrenko","Vasia","Ivanovych");
-        Citizen citizenPetya = new Citizen("Oleskiv","Petro","Mykolayovych");
-        Citizen citizenKolya = new Citizen("Golovach","Mykola","Lvovych");
+        SearchableCitizen citizenVasia = new SearchableCitizen("Petrenko","Vasia","Ivanovych");
+        SearchableCitizen citizenPetya = new SearchableCitizen("Oleskiv","Petro","Mykolayovych");
+        SearchableCitizen citizenKolya = new SearchableCitizen("Golovach","Mykola","Lvovych");
 
 
         //when
-        citizenVasia.setHobbies("renewables, painting, eco, екологія, мандрівки, футбол");
-        citizenPetya.setHobbies("renewables, football, photography");
+        citizenVasia.setHobbies("renewables");//, painting, eco, екологія, мандрівки, футбол");
+        citizenPetya.setHobbies("renewables");//, football, photography");
         citizenKolya.setHobbies("painting, skiing");
-        List<Citizen> citizens =
+        List<SearchableCitizen> citizens =
                 Collections.unmodifiableList(Arrays.asList(
                         citizenKolya,citizenPetya,citizenVasia));
         SearchEngine searchEngine = new HobbieSearchEngine(citizens);
 
         //then
         org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).contains(citizenPetya));
+
+    }
+
+    @Test
+    public void MustFindPersonWithSameOneOfSeveralHobbies() {
+        //given
+        SearchableCitizen citizenVasia = new SearchableCitizen("Petrenko","Vasia","Ivanovych");
+        SearchableCitizen citizenPetya = new SearchableCitizen("Oleskiv","Petro","Mykolayovych");
+        SearchableCitizen citizenKolya = new SearchableCitizen("Golovach","Mykola","Lvovych");
+
+
+        //when
+        citizenVasia.setHobbies("renewables, painting, eco, екологія, мандрівки, футбол");
+        citizenPetya.setHobbies("renewables, football, photography");
+        citizenKolya.setHobbies("painting, skiing");
+        List<SearchableCitizen> citizens =
+                Collections.unmodifiableList(Arrays.asList(
+                        citizenKolya,citizenPetya,citizenVasia));
+        SearchEngine searchEngine = new HobbieSearchEngine(citizens);
+
+        //then
+        org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).contains(citizenPetya));
+    }
+
+    @Test
+    public void MustNotFindPersonWithNoSameOneOfSeveralHobbies() {
+        //given
+        SearchableCitizen citizenVasia = new SearchableCitizen("Petrenko","Vasia","Ivanovych");
+        SearchableCitizen citizenPetya = new SearchableCitizen("Oleskiv","Petro","Mykolayovych");
+        SearchableCitizen citizenKolya = new SearchableCitizen("Golovach","Mykola","Lvovych");
+
+
+        //when
+        citizenVasia.setHobbies("renewables, painting, eco, екологія, мандрівки, футбол");
+        citizenPetya.setHobbies("renewables, football, photography");
+        citizenKolya.setHobbies("painting, skiing");
+        List<SearchableCitizen> citizens =
+                Collections.unmodifiableList(Arrays.asList(
+                        citizenKolya,citizenPetya,citizenVasia));
+        SearchEngine searchEngine = new HobbieSearchEngine(citizens);
+
+        //then
         System.out.println(searchEngine.findByHobbie(citizenVasia));
+        org.junit.Assert.assertFalse(searchEngine.findByHobbie(citizenVasia).contains(citizenKolya));
     }
     /*
     Testcase1
