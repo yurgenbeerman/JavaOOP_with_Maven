@@ -36,12 +36,14 @@ public class HobbieSearchEngine extends SearchEngine {
             searchResultItem = new SearchResultItem();
             for (int i = 0; i < hobbiesCount; i++) {
                 if (aCitizen.getHobbies().contains(hobbiesNames[i])) {
-                    if (!hasSameHobby) {
-                        searchResultItem.setSameHobbiesCount(1);
-                        searchResultItem.setFoundCitizen(aCitizen);
-                        hasSameHobby = true;
-                    } else {
-                        searchResultItem.setSameHobbiesCount(searchResultItem.getSameHobbiesCount()+1);
+                    if (!aCitizen.equals(citizen)) {
+                        if (!hasSameHobby) {
+                            searchResultItem.setSameHobbiesCount(1);
+                            searchResultItem.setFoundCitizen(aCitizen);
+                            hasSameHobby = true;
+                        } else {
+                            searchResultItem.setSameHobbiesCount(searchResultItem.getSameHobbiesCount()+1);
+                        }
                     }
                 }
             }
@@ -49,6 +51,7 @@ public class HobbieSearchEngine extends SearchEngine {
                 searchResults.add(searchResultItem);
             }
         }
+        searchResults.sortByHobbiesCount();
         searchResults.setFinalized();
         return searchResults;
 

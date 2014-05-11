@@ -7,7 +7,7 @@ import edu.clients.SearchableCitizen;
  */
 public class SearchResultItem {
     private SearchableCitizen foundCitizen;
-    private Integer sameHobbiesCount;
+    private int sameHobbiesCount;
 
     public SearchableCitizen getFoundCitizen() {
         return foundCitizen;
@@ -17,11 +17,11 @@ public class SearchResultItem {
         this.foundCitizen = foundCitizen;
     }
 
-    public Integer getSameHobbiesCount() {
+    public int getSameHobbiesCount() {
         return sameHobbiesCount;
     }
 
-    public void setSameHobbiesCount(Integer sameHobbiesCount) {
+    public void setSameHobbiesCount(int sameHobbiesCount) {
         this.sameHobbiesCount = sameHobbiesCount;
     }
 

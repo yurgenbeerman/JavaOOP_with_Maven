@@ -1,6 +1,7 @@
 package edu.sandbox.peoplecooperation;
 
 import edu.clients.SearchableCitizen;
+import edu.services.execution.ServantsTasksDispatcher;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -37,5 +38,13 @@ public class SearchResults {
 
     public String toString() {
         return searchResultsItems.toString();
+    }
+
+    public SearchResultItem get(int index) {
+        return searchResultsItems.get(index);
+    }
+
+    public void sortByHobbiesCount() {
+        //TODO
     }
 }
