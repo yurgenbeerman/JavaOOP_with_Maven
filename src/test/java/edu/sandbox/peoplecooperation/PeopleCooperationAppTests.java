@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by yurij.pyvovarenko on 21.04.14.
  */
-public class PeopleCooperationApp {
+public class PeopleCooperationAppTests {
 
     /*
     Testcase1
@@ -35,7 +35,7 @@ public class PeopleCooperationApp {
         SearchEngine searchEngine = new HobbieSearchEngine(citizens);
 
         //then
-        org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).contains(citizenPetya));
+        org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).containsCitizen(citizenPetya));
 
     }
 
@@ -57,7 +57,7 @@ public class PeopleCooperationApp {
         SearchEngine searchEngine = new HobbieSearchEngine(citizens);
 
         //then
-        org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).contains(citizenPetya));
+        org.junit.Assert.assertTrue(searchEngine.findByHobbie(citizenVasia).containsCitizen(citizenPetya));
     }
 
     @Test
@@ -79,8 +79,11 @@ public class PeopleCooperationApp {
 
         //then
         System.out.println(searchEngine.findByHobbie(citizenVasia));
-        org.junit.Assert.assertFalse(searchEngine.findByHobbie(citizenVasia).contains(citizenKolya));
+        org.junit.Assert.assertFalse(searchEngine.findByHobbie(citizenVasia).containsCitizen(citizenKolya));
     }
+
+    //TODO: add rating to search results: more same hobbies make higher rating for result
+
     /*
     Testcase1
         Let Vasia find Petya who has same hobbies (renewables)
